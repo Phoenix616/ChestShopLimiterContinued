@@ -1,0 +1,95 @@
+# Lang file, please only edit the text. Do not edit anything more!
+# if you don't understand what is the message mean and when it fill fired. Please read carefully!
+
+normal:
+  # Fired when config file reloaded
+  config-reloaded: 'Reloaded the config.yml file!'
+  # Fired when the lag file reloaded
+  lang-reloaded: 'Reloaded the lang file!'
+  # Fired, when player has no permission on executing csl command
+  no-permission: '&cYou don''t have the right perms to do this!'
+  # Fired when console trying to access the player command
+  player-only: 'Player command only!'
+  # Fired when the player uses to much args on any csl command
+  too-much-args: '&cToo much args!'
+  # Fired when the shop created
+  shop-created: 'Successfully created a shop!. Usage left : &a%created &f/ &c%max'
+  # Fired when the player removed his / her shop!. Also it will only fire if RefundOnShopRemove is set to true on config.yml
+  shop-removed: 'Successfully removed a shop!. Usage left : &a%created &f/ &c%max'
+  # Fired when the player tried to run console command
+  console-only: 'Console command only!. Please use &6/csl &finstead!'
+  # Fired when using the reset command
+  shop-created-reset: 'You''ve set %player''s shop created value into 0'
+  # Fired when the player got his shop created reset ed. Executor could be a player or a console
+  shop-created-reset-other: '%executor , has set your shop created value into 0'
+  # Fired when player successfully saved the specified player's data
+  data-save-success: 'Data for player with the name of &c%player &fhas been saved!'
+  # For console command.
+  console-prefix: '&7[ &6CONSOLE &7]&f '
+
+misc:
+  # Fired when the teleport button (button on chat) is used.
+  teleport-button-text: '&7[ &aTeleport &7]'
+  # Fired when hovering the teleport button text (it will shows text)
+  teleport-button-hover-text: '&cClick me to teleport!'
+error:
+  # For invalid command usage only!
+  usage:
+    # Fired when the command usage is invalid at /csl check command
+    command-check: 'Invalid usage!. Please use /csl check <name>'
+    # Fired when the player use an unknown command!
+    command-unknown: 'Unknown command!. Please use &6/csl help! &for help!'
+    # Fired when the command usage is invalid at /csl reload <type>
+    command-reload: 'Invalid usage!. Please use /csl reload <type>'
+    # Fired when the command usage is invalid at /csl reset <name>
+    command-reset: 'Invalid usage!. Please use /csl reset <name>'
+    # Fired when the command usage is invalid at /csl save-data <name>
+    command-save-data: 'Invalid usage!. Please use /csl save-data <name>'
+    # Fired when the command usage is invalid at /csl status
+    command-status: 'Invalid usage!. Please use /csl status'
+  # Fired when LuckPerms cannot load user data
+  cannot-load-data: 'There''s an error with luckperms!. Please contact server admin for help!'
+  # Fired when the targeted player is never player on the server
+  player-never-played: 'That player is never played on this server!. Please enter the name correctly!'
+  # Fired then the shop limit has been reached by the player
+  limit-reached: 'Shop limit reached!. Please upgrade your rank to create more shops!. Usage left : &a%created &f/ &c%max'
+  # When the command sender send invalid reload type
+  invalid-reload-type: 'Invalid reload type!, Available type is : config and lang!'
+list:
+  help-message:
+    - '&7[&c&l!&7]&e___________o0o &7[ &aChestShopLimiter &7] &eo0o___________&7[&c&l!&7]'
+    - ''
+    - '  &f➟ &6/csl check <name>  &f| Check the player''s info'
+    - '  &f➟ &6/csl reload <type> &f| Reload specified file / modules'
+    - '  &f➟ &6/csl reset <name>  &f| Reset the player data back to default'
+    - '  &f➟ &6/csl status        &f| Check your current status'
+    - ''
+    - '&7[&c&l!&7]&e___________o0o &7[ &aChestShopLimiter &7] &eo0o___________&7[&c&l!&7]'
+    - ''
+
+  #Available placeholder
+  #- %shopcreated
+  #- %shoplimit
+  #- %lastshop
+  check-format:
+    - '&7[&c&l!&7]&e___________o0o &7[ &a%player''s Info &7] &eo0o___________&7[&c&l!&7]'
+    - '&r'
+    - '&6➟ &fPlayer UUID : &a%uuid'
+    - '&6➟ &fShop Created Amount : &c%shopcreated'
+    - '&6➟ &fShop Limit Amount : &c%shoplimit'
+    - '&6➟ &fLatest Shop Created : &c%lastshop'
+    - '&r'
+    - '&7[&c&l!&7]&e___________o0o &7[ &a%player''s Info &7] &eo0o___________&7[&c&l!&7]'
+
+  #Available placeholder
+  #- %shopcreated
+  #- %shoplimit
+  player-status:
+    - '&7[&c&l!&7]&e___________o0o &7[ &aYour Status &7] &eo0o___________&7[&c&l!&7]'
+    - '&r'
+    - '&6➟ &fShop Created Amount : &c%shopcreated'
+    - '&6➟ &fShop Limit Amount : &c%shoplimit'
+    - '&r'
+    - '&7[&c&l!&7]&e___________o0o &7[ &aYour Status &7] &eo0o___________&7[&c&l!&7]'
+    - '&r'
+    - '&6TIPS : &fBuy a new rank if you want to increase your shop limit!'

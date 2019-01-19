@@ -1,0 +1,5 @@
+name: ChestShopLimiter
+version: ${project.version}
+main: me.droreo002.cslimit.ChestShopLimiter
+api-version: 1.13
+depend: [ChestShop, SQLiteLib]
