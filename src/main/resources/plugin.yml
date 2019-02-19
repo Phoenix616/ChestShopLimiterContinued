@@ -1,5 +1,9 @@
 name: ChestShopLimiter
-version: ${project.version}
+version: 1.0
 main: me.droreo002.cslimit.ChestShopLimiter
 api-version: 1.13
-depend: [ChestShop, SQLiteLib]
+depend: [ChestShop, OreoCore]
+
+commands:
+  chestshoplimiter:
+    aliases: [csl]

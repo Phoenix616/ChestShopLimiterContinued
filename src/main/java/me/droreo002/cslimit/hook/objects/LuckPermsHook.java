@@ -1,10 +1,21 @@
 package me.droreo002.cslimit.hook.objects;
 
+import me.droreo002.cslimit.ChestShopLimiter;
+import me.droreo002.cslimit.config.ConfigManager;
+import me.droreo002.cslimit.database.DatabaseWrapper;
+import me.droreo002.cslimit.database.PlayerData;
 import me.droreo002.cslimit.hook.ChestShopHook;
 import me.droreo002.cslimit.manager.Debug;
 import me.lucko.luckperms.LuckPerms;
 import me.lucko.luckperms.api.LuckPermsApi;
+import me.lucko.luckperms.api.User;
+import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
+
+import java.util.List;
+import java.util.UUID;
 
 public class LuckPermsHook implements ChestShopHook {
 
@@ -44,45 +55,36 @@ public class LuckPermsHook implements ChestShopHook {
         return luckPerms;
     }
 
-//    public void setupShopLimitValue(PlayerData data, Player player, ChestShopLimiter main) {
-//        ConfigurationSection cs = main.getConfigManager().getConfig().getConfigurationSection("ShopLimitLuckperms");
-//        User user = getLuckPerms().getUser(player.getUniqueId());
-//        if (user == null) {
-//            player.sendMessage(main.getPrefix() + main.getLangManager().getMessage(MessageType.ERROR_CANNOT_LOAD_DATA));
-//            return;
-//        }
-//        if (data.isSet("Info.normalPlayerPermission")) {
-//            data.set("Info.normalPlayerPermission", null);
-//        }
-//        if (!data.isSet("Info.LuckPermsPlayerPermission")) {
-//            data.set("Info.LuckPermsPlayerPermission", "firstTime");
-//        }
-//        data.save();
-//        String currPermission = data.getString("Info.LuckPermsPlayerPermission");
-//        for (String s : cs.getKeys(false)) {
-//            if (s.equalsIgnoreCase(user.getPrimaryGroup())) {
-//                if (currPermission.equalsIgnoreCase(s)) {
-//                        /*
-//                        Make a checker so it wont be laggy
-//                         */
-//                    if (data.isSet("Info.shopLimit")) {
-//                        int shopLimit = main.getConfigManager().getConfig().getInt("ShopLimitLuckperms." + s + ".limit");
-//                        int shopLimitPlayer = data.getInt("Info.shopLimit");
-//                            /*
-//                            That mean the shop limit is different than the default one
-//                             */
-//                        if (shopLimit != shopLimitPlayer) {
-//                            data.set("Info.shopLimit", shopLimit);
-//                            data.save();
-//                        }
-//                    }
-//                    return;
-//                }
-//                data.set("Info.shopLimit", main.getConfigManager().getConfig().getInt("ShopLimitLuckperms." + s + ".limit"));
-//                data.set("Info.LuckPermsPlayerPermission", s);
-//                break;
-//            }
-//        }
-//        data.save();
-//    }
+    public void setupData(UUID uuid, FileConfiguration config, boolean firstSetup) {
+        final User user = getLuckPerms().getUser(uuid);
+        final ChestShopLimiter plugin = ChestShopLimiter.getInstance();
+        ConfigManager.Memory memory = plugin.getConfigManager().getMemory();
+        ConfigurationSection lpLimit = memory.getShopLimitLuckPerms();
+        DatabaseWrapper database = plugin.getDatabase().getWrapper();
+        Validate.notNull(user, "LuckPerms user cannot be null!");
+        String currGroup = user.getPrimaryGroup();
+
+        if (firstSetup) {
+            config.set("Data.lastRank", currGroup);
+            config.set("Data.maxShop", lpLimit.getInt(currGroup + ".limit"));
+        } else {
+            PlayerData playerData = PlayerData.fromYaml(config);
+            Validate.notNull(playerData, "Failed to retrieve player data!");
+            String lastGroup = playerData.getLastRank();
+            if (!lastGroup.equalsIgnoreCase(currGroup)) {
+                // Not found. Setup using the default-value value
+                if (!lpLimit.contains(currGroup)) {
+                    playerData.setMaxShop(lpLimit.getInt("default-value.limit"));
+                    plugin.getDatabase().getWrapper().updatePlayerData(playerData);
+                } else {
+                    // New group. Add then
+                    if (!lastGroup.equalsIgnoreCase(currGroup)) {
+                        playerData.setLastRank(currGroup);
+                        playerData.setMaxShop(lpLimit.getInt(currGroup + ".limit"));
+                        plugin.getDatabase().getWrapper().updatePlayerData(playerData);
+                    }
+                }
+            }
+        }
+    }
 }

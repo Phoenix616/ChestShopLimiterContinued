@@ -9,6 +9,8 @@ import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
+// TODO : Lib is done, now we continue this :D
+
 public class EssentialsHook implements ChestShopHook {
 
     private Essentials essentials;

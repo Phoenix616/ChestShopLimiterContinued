@@ -1,8 +1,9 @@
 package me.droreo002.cslimit.hook;
 
+import lombok.Getter;
+import lombok.Setter;
 import me.droreo002.cslimit.ChestShopLimiter;
 import me.droreo002.cslimit.config.ConfigManager;
-import me.droreo002.cslimit.config.ConfigMemory;
 import me.droreo002.cslimit.hook.objects.CMIHook;
 import me.droreo002.cslimit.hook.objects.EssentialsHook;
 import me.droreo002.cslimit.hook.objects.LuckPermsHook;
@@ -16,15 +17,26 @@ import java.util.logging.Logger;
 
 public class HookManager {
 
+    @Getter
     private final ChestShopLimiter plugin = ChestShopLimiter.getInstance();
 
-    private boolean isLuckPerms;
-    private boolean isPlaceHolderAPI;
-    private boolean isEssentials;
-    private boolean isCMI;
-    private Logger logger = Bukkit.getLogger();
+    @Getter
+    private final Map<String, ChestShopHook> hookMap = new HashMap<>();
 
-    private Map<String, ChestShopHook> hookMap = new HashMap<>();
+    @Getter
+    @Setter
+    private boolean isLuckPerms;
+    @Getter
+    @Setter
+    private boolean isPlaceHolderAPI;
+    @Getter
+    @Setter
+    private boolean isEssentials;
+    @Getter
+    @Setter
+    private boolean isCMI;
+    @Getter
+    private Logger logger = Bukkit.getLogger();
 
     public HookManager() {
         // Setup hook here
@@ -32,7 +44,7 @@ public class HookManager {
             throw new IllegalStateException("Cannot create a new hook manager instance anymore!. Please get this instance on the ChestShopLimiter's main class!");
         }
         // Setup all hooks here
-        ConfigMemory mem = plugin.getConfigManager().getMemory();
+        ConfigManager.Memory mem = plugin.getConfigManager().getMemory();
         if (mem.isEnableEssentialsHook()) {
             Debug.log(" &fTrying to hook into &cEssentials", false);
             if (registerHook("Essentials", new EssentialsHook())) {
@@ -82,49 +94,4 @@ public class HookManager {
         }
         return false;
     }
-
-    public Map<String, ChestShopHook> getHookMap() {
-        return hookMap;
-    }
-
-    private Logger getLogger() {
-        return logger;
-    }
-
-    public boolean isLuckPermsHooked() {
-        return isLuckPerms;
-    }
-
-    public boolean isLuckPerms() {
-        return isLuckPerms;
-    }
-
-    public boolean isPlaceHolderAPI() {
-        return isPlaceHolderAPI;
-    }
-
-    public boolean isEssentials() {
-        return isEssentials;
-    }
-
-    public boolean isCMI() {
-        return isCMI;
-    }
-
-    public void setLuckPerms(boolean luckPerms) {
-        isLuckPerms = luckPerms;
-    }
-
-    public void setPlaceHolderAPI(boolean placeHolderAPI) {
-        isPlaceHolderAPI = placeHolderAPI;
-    }
-
-    public void setEssentials(boolean essentials) {
-        isEssentials = essentials;
-    }
-
-    public void setCMI(boolean CMI) {
-        isCMI = CMI;
-    }
-
 }

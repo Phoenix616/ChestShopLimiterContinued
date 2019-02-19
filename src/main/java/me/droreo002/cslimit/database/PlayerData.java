@@ -1,78 +1,57 @@
 package me.droreo002.cslimit.database;
 
+import lombok.Getter;
+import lombok.Setter;
+import org.apache.commons.lang.Validate;
+import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 public class PlayerData {
 
-    private static final Map<UUID, PlayerData> DATA = new HashMap<>();
+    @Getter
+    private final UUID playerUUID;
+    @Getter
+    private String playerName;
+    @Getter
+    @Setter
+    private int maxShop;
+    @Getter
+    @Setter
+    private int shopCreated;
+    @Getter
+    @Setter
+    private String lastPermission;
+    @Getter
+    @Setter
+    private String lastRank;
 
-    private DataObject dataObject;
-
-    private PlayerData(UUID uuid) {
-
+    public PlayerData(UUID playerUUID, String playerName, int maxShop, int shopCreated, String lastPermission, String lastRank) {
+        this.playerUUID = playerUUID;
+        this.playerName = playerName;
+        this.maxShop = maxShop;
+        this.shopCreated = shopCreated;
+        this.lastPermission = lastPermission;
+        this.lastRank = lastRank;
     }
 
-    /**
-     * Setup the data for that UUID. Will create it there's no key with that uuid
-     *
-     * @param uuid : The player's uuid
-     */
-    public static void setupData(UUID uuid) {
-        // TODO : Check if its exist
+
+    public static PlayerData fromYaml(FileConfiguration config) {
+        Validate.notNull(config, "Config cannot be null!");
+        UUID uuid = UUID.fromString(config.getString("Data.uuid"));
+        String playerName = config.getString("Data.playerName");
+        int maxShop = config.getInt("Data.maxShop");
+        int shopCreated = config.getInt("Data.shopCreated");
+        String lastPermission = (config.getString("Data.lastPermission") == null) ? "empty" : config.getString("Data.lastPermission");
+        String lastRank = (config.getString("Data.lastRank") == null) ? "empty" : config.getString("Data.lastRank");
+        Validate.notNull(playerName, "Invalid config value!");
+        return new PlayerData(uuid, playerName, maxShop, shopCreated, lastPermission, lastRank);
     }
 
-    /**
-     * Get the player data for that UUID
-     *
-     * @param uuid : The player's uuid
-     * @return PlayerData if there's any. Null otherwise
-     */
-    public static PlayerData getData(UUID uuid) {
-        return DATA.get(uuid);
-    }
-
-    public void update() {
-        // TODO : Execute update statement
-    }
-
-    private class DataObject {
-
-        private String playerName;
-        private int maxShopCount;
-        private int shopCreated;
-
-        public DataObject(String playerName, int maxShopCount, int shopCreated) {
-            this.playerName = playerName;
-            this.maxShopCount = maxShopCount;
-            this.shopCreated = shopCreated;
-        }
-
-        public void setPlayerName(String playerName) {
-            this.playerName = playerName;
-        }
-
-        public void setMaxShopCount(int maxShopCount) {
-            this.maxShopCount = maxShopCount;
-        }
-
-        public void setShopCreated(int shopCreated) {
-            this.shopCreated = shopCreated;
-        }
-
-        public String getPlayerName() {
-            return playerName;
-        }
-
-        public int getMaxShopCount() {
-            return maxShopCount;
-        }
-
-        public int getShopCreated() {
-            return shopCreated;
-        }
+    public static PlayerData fromSql() {
+        // TODO : Continue
+        return null;
     }
 }

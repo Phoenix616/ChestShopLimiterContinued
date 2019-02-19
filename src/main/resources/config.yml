@@ -1,11 +1,14 @@
 # Plugin prefix!
 Prefix: '&7[ &bChestShopLimiter &7]&f '
 
+# Migrate the old data? (Non Premium Version)
+MigrateOldData: false
+
 # Which lang file that you want to use, you can name it whatever you want to. Btw
 # make sure To make one just copy and paste the whole lang.yml file and
 # rename it, make sure you don't edit any of the config keys, by default it will make a EN_lang file if no lang file found
 # WARNING it will throw an error and disabled the plugin if the <name>.yml file is not found!
-Language: 'EN_lang' # + yml
+Language: 'en_lang' # + yml
 
 # Set this to true if you want to decrease the shopCreated value on player's data on ShopRemove. The refunded value will always be 1
 RefundOnShopRemove: true
@@ -38,7 +41,6 @@ CommandSound:
     pitch: 1
     sound: ENTITY_BLAZE_DEATH
 
-# If this enabled
 # Now'll explain you how the limit works. Sorry 4 my bad english
 # Shop limit will be needed if the player that is checked didn't have the csl.limit.unlimited permission.
 ShopLimit:
@@ -57,32 +59,50 @@ ShopLimit:
 # Will be used if you have Dependency.LuckPerms enabled!.
 # WARNING PLEASE READ ALL OF THE COMMENT BELOW IF YOU WANT TO USE LuckPerms SUPPORT!
 ShopLimitLuckPerms:
-  # Please name it exactly the SAME name on the luckperms group!
+  # Please name it exactly the SAME name on the luckperms group! (Case sensitive!)
   # You can rename this, I use iron, gold, diamond because that is the group that I use for my test server
   # so you may ask how this thing work. Well its simple, it just check what group that the player is on. And then set the limit for it,
   # simple as that. You don't need other permission things for this
+  # This is different from the default-value. This is basically a group that is generated automatically by LuckPerms. And what I know is
+  # you cannot remove or rename this group
+  default:
+    limit: 5
   iron:
     limit: 10
   gold:
     limit: 20
   diamond:
     limit: 30
+  # If the player's group didn't get specified above. Then the plugin will get this default value
+  default-value:
+    limit: 5
 
 # The database setting for the plugin
 Database:
-  DatabaseType: 'SQLite'
-  # Available type is 'SQLite' and 'MySql'
+  DatabaseType: 'FLAT_FILE'
+  # Available type is 'SQL' 'MYSQL' 'FLAT_FILE'
 
+  # For FLAT_FILE only
+  FlatFile:
+    # The save location for the database. Please only change this once. This will be ChestShopLimiter/database/<yaml_file_list>
+    DatabaseFolder: "database"
+  # For SQL Only
+  SQL:
+    # The database name. This will be playerData.db
+    DatabaseName: 'playerData'
+    # The save location for the database. Please only change this once. This will be ChestShopLimiter/database/playerData.db
+    DatabaseFolder: 'database'
   # For MySQL only
-  SaveEvery: 300
-  # Period save database in seconds
-  ClientHost: "localhost"
-  # The host / IP for the MySQL server
-  ClientPort: 3306
-  # The port for the server
-  DatabaseName: "database"
-  # The database name that will be created
-  ClientUsername: "root"
-  # The username for the server
-  ClientPassword: null
-  # The password for the server
+  MySQL:
+    saveEvery: 300
+    # Period save database in seconds
+    host: "localhost"
+    # The host / IP for the MySQL server
+    port: 3306
+    # The port for the server
+    databaseName: "database"
+    # The database name that will be created
+    user: "root"
+    # The username for the server
+    password: "admin"
+    # The password for the server

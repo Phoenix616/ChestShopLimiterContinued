@@ -1,7 +1,7 @@
 # Lang file, please only edit the text. Do not edit anything more!
 # if you don't understand what is the message mean and when it fill fired. Please read carefully!
 
-normal:
+Normal:
   # Fired when config file reloaded
   config-reloaded: 'Reloaded the config.yml file!'
   # Fired when the lag file reloaded
@@ -24,15 +24,13 @@ normal:
   shop-created-reset-other: '%executor , has set your shop created value into 0'
   # Fired when player successfully saved the specified player's data
   data-save-success: 'Data for player with the name of &c%player &fhas been saved!'
-  # For console command.
-  console-prefix: '&7[ &6CONSOLE &7]&f '
 
-misc:
+Misc:
   # Fired when the teleport button (button on chat) is used.
   teleport-button-text: '&7[ &aTeleport &7]'
   # Fired when hovering the teleport button text (it will shows text)
   teleport-button-hover-text: '&cClick me to teleport!'
-error:
+Error:
   # For invalid command usage only!
   usage:
     # Fired when the command usage is invalid at /csl check command
@@ -55,41 +53,41 @@ error:
   limit-reached: 'Shop limit reached!. Please upgrade your rank to create more shops!. Usage left : &a%created &f/ &c%max'
   # When the command sender send invalid reload type
   invalid-reload-type: 'Invalid reload type!, Available type is : config and lang!'
-list:
+List:
   help-message:
-    - '&7[&c&l!&7]&e___________o0o &7[ &aChestShopLimiter &7] &eo0o___________&7[&c&l!&7]'
-    - ''
-    - '  &f➟ &6/csl check <name>  &f| Check the player''s info'
-    - '  &f➟ &6/csl reload <type> &f| Reload specified file / modules'
-    - '  &f➟ &6/csl reset <name>  &f| Reset the player data back to default'
-    - '  &f➟ &6/csl status        &f| Check your current status'
-    - ''
-    - '&7[&c&l!&7]&e___________o0o &7[ &aChestShopLimiter &7] &eo0o___________&7[&c&l!&7]'
-    - ''
+    - '&8&m----------------- &7[ &bChestShopLimiter &7] &8&m-----------------'
+    - '&r'
+    - '&7(&b✿&7) &f» &e/csl check <name>  &f| Check the player''s info'
+    - '&7(&b✿&7) &f» &e/csl reload <type> &f| Reload specified file / modules'
+    - '&7(&b✿&7) &f» &e/csl reset <name>  &f| Reset the player data back to default'
+    - '&7(&b✿&7) &f» &e/csl status        &f| Check your current status'
+    - '&r'
+    - '&8&m----------------- &7[ &bChestShopLimiter &7] &8&m-----------------'
 
   #Available placeholder
   #- %shopcreated
   #- %shoplimit
   #- %lastshop
-  check-format:
-    - '&7[&c&l!&7]&e___________o0o &7[ &a%player''s Info &7] &eo0o___________&7[&c&l!&7]'
+  #- %uuid
+  check-message:
+    - '&8&m----------------- &7[ &a%player''s Information &7] &8&m-----------------'
     - '&r'
-    - '&6➟ &fPlayer UUID : &a%uuid'
-    - '&6➟ &fShop Created Amount : &c%shopcreated'
-    - '&6➟ &fShop Limit Amount : &c%shoplimit'
-    - '&6➟ &fLatest Shop Created : &c%lastshop'
+    - '&7(&b✿&7) &f» Player UUID : &a%uuid'
+    - '&7(&b✿&7) &f» Shop Created Amount : &c%shopcreated'
+    - '&7(&b✿&7) &f» Shop Limit Amount : &c%shoplimit'
+    - '&7(&b✿&7) &f» Latest Shop Created : &c%lastshop'
     - '&r'
-    - '&7[&c&l!&7]&e___________o0o &7[ &a%player''s Info &7] &eo0o___________&7[&c&l!&7]'
+    - '&8&m----------------- &7[ &a%player''s Information &7] &8&m-----------------'
 
   #Available placeholder
   #- %shopcreated
   #- %shoplimit
-  player-status:
-    - '&7[&c&l!&7]&e___________o0o &7[ &aYour Status &7] &eo0o___________&7[&c&l!&7]'
+  player-status-message:
+    - '&8&m----------------- &7[ &aPlayer Status &7] &8&m-----------------'
     - '&r'
-    - '&6➟ &fShop Created Amount : &c%shopcreated'
-    - '&6➟ &fShop Limit Amount : &c%shoplimit'
+    - '&7(&b✿&7) &f» Shop Created Amount : &c%shopcreated'
+    - '&7(&b✿&7) &f» Shop Limit Amount : &c%shoplimit'
     - '&r'
-    - '&7[&c&l!&7]&e___________o0o &7[ &aYour Status &7] &eo0o___________&7[&c&l!&7]'
+    - '&8&m----------------- &7[ &aPlayer Status &7] &8&m-----------------'
     - '&r'
-    - '&6TIPS : &fBuy a new rank if you want to increase your shop limit!'
+    - '&7(&b✿&7) &f» Buy a new rank if you want to increase your shop limit!'
