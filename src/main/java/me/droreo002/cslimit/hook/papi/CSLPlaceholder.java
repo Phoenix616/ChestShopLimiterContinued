@@ -23,20 +23,18 @@ public class CSLPlaceholder extends PlaceholderExpansion {
 
     @Override
     public String getVersion() {
-        return "1.0-SNAPSHOT";
+        return "1.0";
     }
 
     @Override
     public String onPlaceholderRequest(Player p, String params) {
-        // TODO : Continue this
-
-//        ChestShopLimiter main = ChestShopLimiter.get();
-//        if (params.equalsIgnoreCase("player_maxshop")) {
-//            return String.valueOf(main.getApi().getShopLimitValue(p));
-//        }
-//        if (params.equalsIgnoreCase("player_shopcreated")) {
-//            return String.valueOf(main.getApi().getShopCreated(p));
-//        }
+        final ChestShopLimiter main = ChestShopLimiter.getInstance();
+        if (params.equalsIgnoreCase("player_maxshop")) {
+            return String.valueOf(main.getChestShopAPI().getShopLimit(p.getUniqueId()));
+        }
+        if (params.equalsIgnoreCase("player_shopcreated")) {
+            return String.valueOf(main.getChestShopAPI().getShopCreated(p.getUniqueId()));
+        }
         return "Invalid placeholder.";
     }
 }

@@ -3,6 +3,7 @@ version: 1.0
 main: me.droreo002.cslimit.ChestShopLimiter
 api-version: 1.13
 depend: [ChestShop, OreoCore]
+softdepend: [LuckPerms, Essentials, CMI]
 
 commands:
   chestshoplimiter:

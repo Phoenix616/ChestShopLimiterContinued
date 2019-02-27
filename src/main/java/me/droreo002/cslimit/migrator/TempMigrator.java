@@ -1,7 +1,7 @@
 package me.droreo002.cslimit.migrator;
 
 import me.droreo002.cslimit.ChestShopLimiter;
-import me.droreo002.cslimit.manager.Debug;
+import me.droreo002.cslimit.manager.logger.Debug;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -21,7 +21,7 @@ public class TempMigrator {
      */
     public static List<FileConfiguration> getOldDatas() {
         final ChestShopLimiter plugin = ChestShopLimiter.getInstance();
-        Debug.log("&fGetting old &bChestShopLimiter &fdata!. This might take a while!", true);
+        Debug.info("&fGetting old &bChestShopLimiter &fdata!. This might take a while!", true, true);
         final File dataFile = new File(plugin.getDataFolder(), "oldData");
         if (!dataFile.exists()) {
             throw new NullPointerException("[Migration] Could not find old data file!. Please place it inside the ChestShopLimiter data file and rename it to oldData!");

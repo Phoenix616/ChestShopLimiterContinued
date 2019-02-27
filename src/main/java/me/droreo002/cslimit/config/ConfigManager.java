@@ -7,6 +7,7 @@ import me.droreo002.oreocore.configuration.ConfigMemoryManager;
 import me.droreo002.oreocore.configuration.CustomConfig;
 import me.droreo002.oreocore.configuration.annotations.ConfigVariable;
 import me.droreo002.oreocore.database.DatabaseType;
+import me.droreo002.oreocore.database.SQLType;
 import me.droreo002.oreocore.database.utils.MySqlConnection;
 import me.droreo002.oreocore.utils.misc.SoundObject;
 import org.bukkit.configuration.ConfigurationSection;
@@ -94,6 +95,17 @@ public final class ConfigManager extends CustomConfig {
         private SoundObject failureSound = new SoundObject();
 
         /*
+        Logging
+         */
+        @ConfigVariable(path = "Debugging.LogToFile", isSerializableObject = false)
+        @Getter
+        private boolean logToFile;
+
+        @ConfigVariable(path = "Debugging.LogFormat", isSerializableObject = false)
+        @Getter
+        private String logFormat;
+
+        /*
         ShopLimit
          */
         @ConfigVariable(path = "ShopLimit", errorWhenNull = true, isSerializableObject = false)
@@ -127,6 +139,14 @@ public final class ConfigManager extends CustomConfig {
         @Getter
         private int mysqlSaveTime;
 
+        @ConfigVariable(path = "Database.MySQL.Type", isSerializableObject = false)
+        @Getter
+        private SQLType mySqlDatabaseType;
+
+        @ConfigVariable(path = "Database.MySQL.CompletelyAsync", isSerializableObject = false)
+        @Getter
+        private boolean mySqlCompletelyAsync;
+
         // FLAT_FILE
         @ConfigVariable(path = "Database.FlatFile.DatabaseFolder", isSerializableObject = false)
         @Getter
@@ -140,6 +160,14 @@ public final class ConfigManager extends CustomConfig {
         @ConfigVariable(path = "Database.SQL.DatabaseFolder", isSerializableObject = false)
         @Getter
         private String sqlDatabaseFolder;
+
+        @ConfigVariable(path = "Database.SQL.ForceUpdate",  isSerializableObject = false)
+        @Getter
+        private boolean sqlForceUpdate;
+
+        @ConfigVariable(path = "Database.SQL.Type", isSerializableObject = false)
+        @Getter
+        private SQLType sqlDatabaseType;
 
         Memory(CustomConfig customConfig) {
             this.customConfig = customConfig;

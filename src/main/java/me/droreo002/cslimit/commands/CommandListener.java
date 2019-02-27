@@ -3,7 +3,7 @@ package me.droreo002.cslimit.commands;
 import me.droreo002.cslimit.ChestShopLimiter;
 import me.droreo002.cslimit.lang.LangManager;
 import me.droreo002.cslimit.lang.LangPath;
-import me.droreo002.cslimit.manager.Debug;
+import me.droreo002.cslimit.manager.logger.Debug;
 import me.droreo002.oreocore.utils.misc.SoundObject;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -75,7 +75,7 @@ public class CommandListener implements CommandExecutor {
                 return true;
             }
         } else {
-            lang.getAbout().forEach(s -> Debug.log(s, false));
+            lang.getAbout().forEach(s -> Debug.info(s, false, true));
             return true;
         }
         return true;

@@ -2,7 +2,9 @@ package me.droreo002.cslimit.api;
 
 import me.droreo002.cslimit.config.ConfigManager;
 import me.droreo002.cslimit.database.CSLDatabase;
+import me.droreo002.cslimit.database.PlayerData;
 import me.droreo002.cslimit.lang.LangManager;
+import me.droreo002.oreocore.database.DatabaseType;
 
 import java.util.UUID;
 
@@ -46,4 +48,18 @@ public interface ChestShopAPI {
      * @return  The database
      */
     CSLDatabase getDatabase();
+
+    /**
+     * Get the player data
+     *
+     * @return the PlayerData if there's any, null otherwise
+     */
+    PlayerData getData(UUID uuid);
+
+    /**
+     * Get the current database type
+     *
+     * @return The database type
+     */
+    DatabaseType getDatabaseType();
 }

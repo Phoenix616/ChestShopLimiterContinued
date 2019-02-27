@@ -2,7 +2,7 @@ package me.droreo002.cslimit.commands;
 
 import me.droreo002.cslimit.ChestShopLimiter;
 import me.droreo002.cslimit.config.ConfigManager;
-import me.droreo002.cslimit.manager.Debug;
+import me.droreo002.cslimit.manager.logger.Debug;
 import me.droreo002.oreocore.utils.misc.SoundObject;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -25,13 +25,13 @@ public class TabManager implements TabCompleter {
          /*
         Tabs
          */
-        Debug.log("&fRegistering tab completer for player commands...", false);
+        Debug.info("&fRegistering tab completer for player commands...", false, true);
         completions.add("help");
         completions.add("check");
         completions.add("reload");
         completions.add("status");
         completions.add("reset");
-        completions.forEach(s -> Debug.log("     &fTab completer with the id of &e" + s + " &fhas been registered!", false));
+        completions.forEach(s -> Debug.info("     &fTab completer with the id of &e" + s + " &fhas been registered!", false, true));
     }
 
     @Override

@@ -10,13 +10,13 @@ import me.droreo002.cslimit.database.CSLDatabase;
 import me.droreo002.cslimit.hook.HookManager;
 import me.droreo002.cslimit.lang.LangManager;
 import me.droreo002.cslimit.listener.PlayerConnectionListener;
-import me.droreo002.cslimit.manager.Debug;
+import me.droreo002.cslimit.manager.logger.Debug;
 import me.droreo002.cslimit.manager.LicenseManager;
+import me.droreo002.cslimit.manager.logger.LogFile;
 import me.droreo002.cslimit.metrics.Metrics;
 import me.droreo002.cslimit.objects.ChestShopLimiterHandler;
 import me.droreo002.cslimit.utils.CommonUtils;
 import me.droreo002.oreocore.OreoCore;
-import me.droreo002.oreocore.database.utils.MySqlConnection;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -36,11 +36,14 @@ public class ChestShopLimiter extends JavaPlugin {
     private ChestShopAPI chestShopAPI;
     @Getter
     private CSLDatabase database;
+    @Getter
+    private LogFile logFile;
 
     @Override
     public void onEnable() {
         // Plugin startup logic
         instance = this;
+        logFile = new LogFile();
         configManager = new ConfigManager(this);
         langManager = new LangManager(this);
         chestShopAPI = new ChestShopLimiterHandler();
@@ -62,48 +65,48 @@ public class ChestShopLimiter extends JavaPlugin {
     }
 
     private void printInformation() {
-        Debug.log("&8&m-----------------------&7 [ &aChestShopLimiter &7] &8&m-----------------------", false);
+        Debug.info("&8&m-----------------------&7 [ &aChestShopLimiter &7] &8&m-----------------------", false, true);
         System.out.println(" ");
         // Dependency check (Hard depend)
         if (!CommonUtils.isPluginExists("ChestShop")) {
-            Debug.log("&cChestShop plugin cannot be found!. This plugin will not working if there's no ChestShop plugin found!", false);
+            Debug.info("&cChestShop plugin cannot be found!. This plugin will not working if there's no ChestShop plugin found!", false, true);
             System.out.println(" ");
-            Debug.log("&8&m-----------------------&7 [ &aChestShopLimiter &7] &8&m-----------------------", false);
+            Debug.info("&8&m-----------------------&7 [ &aChestShopLimiter &7] &8&m-----------------------", false, true);
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
         if (!CommonUtils.isPluginExists("OreoCore")) {
-            Debug.log("&cOreoCore plugin cannot be found!. This plugin cannot run without it!, plugin will now be disabled", false);
+            Debug.info("&cOreoCore plugin cannot be found!. This plugin cannot run without it!, plugin will now be disabled", false, true);
             System.out.println(" ");
-            Debug.log("&8&m-----------------------&7 [ &aChestShopLimiter &7] &8&m-----------------------", false);
+            Debug.info("&8&m-----------------------&7 [ &aChestShopLimiter &7] &8&m-----------------------", false, true);
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
 
-        Debug.log("&fSetting up the &econfig.yml", false);
-        Debug.log("&fSetting up the &eLang &ffile", false);
-        Debug.log("&fEnabling &eChestShopLimiter-API", false);
-        Debug.log("&fHooking to some plugins...", false);
+        Debug.info("&fSetting up the &econfig.yml", false, true);
+        Debug.info("&fSetting up the &eLang &ffile", false, true);
+        Debug.info("&fEnabling &eChestShopLimiter-API", false, true);
+        Debug.info("&fHooking to some plugins...", false, true);
         hookManager = new HookManager();
-        Debug.log("&fPlugin is currently using &b" + configManager.getMemory().getDatabaseType() + "&f database type!", false);
-        Debug.log("&bDatabase &fhas been successfully initialized!", false);
+        Debug.info("&fPlugin is currently using &b" + configManager.getMemory().getDatabaseType() + "&f database type!", false, true);
+        Debug.info("&bDatabase &fhas been successfully initialized!", false, true);
         CommandManager.init();
         Bukkit.getPluginCommand("chestshoplimiter").setTabCompleter(new TabManager());
         if (configManager.getMemory().isUseBstats()) {
-            Debug.log("&fConnecting to &bBSTATS", false);
+            Debug.info("&fConnecting to &bBSTATS", false, true);
             if (configManager.getConfig().getBoolean("use-bstats")) {
-                Debug.log("&fPlugin has been connected to &bBSTATS &fserver", false);
+                Debug.info("&fPlugin has been connected to &bBSTATS &fserver", false, true);
                 met = new Metrics(this);
                 met.addCustomChart(new Metrics.SimplePie("plugintype", () -> "Premium"));
             } else {
-                Debug.log("&bBSTATS&f seems to be disabled. Now disconnecting from the server...",false);
+                Debug.info("&bBSTATS&f seems to be disabled. Now disconnecting from the server...",false, true);
                 met = null;
             }
         }
-        Debug.log("&fSuccess!. We're now running on version " + Bukkit.getBukkitVersion() + " &7(&bServer&7) &fand " + getDescription().getVersion() + " &7(&bPlugin&7)", false);
-        Debug.log(LicenseManager.getBuyerInformation(), false);
+        Debug.info("&fSuccess!. We're now running on version " + Bukkit.getBukkitVersion() + " &7(&bServer&7) &fand " + getDescription().getVersion() + " &7(&bPlugin&7)", false, true);
+        Debug.info(LicenseManager.getBuyerInformation(), false, true);
 
         System.out.println(" ");
-        Debug.log("&8&m-----------------------&7 [ &aChestShopLimiter &7] &8&m-----------------------", false);
+        Debug.info("&8&m-----------------------&7 [ &aChestShopLimiter &7] &8&m-----------------------", false, true);
     }
 }

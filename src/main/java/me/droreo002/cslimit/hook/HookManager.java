@@ -8,7 +8,7 @@ import me.droreo002.cslimit.hook.objects.CMIHook;
 import me.droreo002.cslimit.hook.objects.EssentialsHook;
 import me.droreo002.cslimit.hook.objects.LuckPermsHook;
 import me.droreo002.cslimit.hook.objects.PlaceholderAPIHook;
-import me.droreo002.cslimit.manager.Debug;
+import me.droreo002.cslimit.manager.logger.Debug;
 import org.bukkit.Bukkit;
 
 import java.util.HashMap;
@@ -46,14 +46,14 @@ public class HookManager {
         // Setup all hooks here
         ConfigManager.Memory mem = plugin.getConfigManager().getMemory();
         if (mem.isEnableEssentialsHook()) {
-            Debug.log(" &fTrying to hook into &cEssentials", false);
+            Debug.info(" &fTrying to hook into &cEssentials", false, true);
             if (registerHook("Essentials", new EssentialsHook())) {
                 setEssentials(true);
             }
         }
         if (mem.isEnableCMIHook()) {
             if (!isEssentials()) {
-                Debug.log(" &fTrying to hook into &bCMI", false);
+                Debug.info(" &fTrying to hook into &bCMI", false, true);
                 if (registerHook("CMI", new CMIHook())) {
                     setCMI(true);
                 }
@@ -65,13 +65,13 @@ public class HookManager {
             throw new IllegalStateException("Essentials or CMI dependency must be enabled an installed on the server if you want to run this plugin!. Install one of them and then run configure the config.yml to enable one of them!");
         }
         if (mem.isEnableLuckPermsHook()) {
-            Debug.log(" &fTrying to hook into &aLuckperms", false);
+            Debug.info(" &fTrying to hook into &aLuckperms", false, true);
             if (registerHook("LuckPerms", new LuckPermsHook())) {
                 setLuckPerms(true);
             }
         }
         if (mem.isEnablePapiHook()) {
-            Debug.log(" &fTrying to hook into &bPlaceholderAPI", false);
+            Debug.info(" &fTrying to hook into &bPlaceholderAPI", false, true);
             if (registerHook("PlaceholderAPI", new PlaceholderAPIHook())) {
                 setPlaceHolderAPI(true);
             }

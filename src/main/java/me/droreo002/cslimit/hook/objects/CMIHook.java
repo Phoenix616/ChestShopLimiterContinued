@@ -3,7 +3,7 @@ package me.droreo002.cslimit.hook.objects;
 import com.Zrips.CMI.CMI;
 import com.Zrips.CMI.PlayerManager;
 import me.droreo002.cslimit.hook.ChestShopHook;
-import me.droreo002.cslimit.manager.Debug;
+import me.droreo002.cslimit.manager.logger.Debug;
 import org.bukkit.Bukkit;
 
 public class CMIHook implements ChestShopHook {
@@ -29,12 +29,12 @@ public class CMIHook implements ChestShopHook {
 
     @Override
     public void hookSuccess() {
-        Debug.log("     &f> &bCMI &fhas been hooked!", false);
+        Debug.info("     &f> &bCMI &fhas been hooked!", false, true);
     }
 
     @Override
     public void hookFailed() {
-        Debug.log("     &f> Cannot hook into &bCMI &fbecause the plugin cannot be found!", false);
+        Debug.info("     &f> Cannot hook into &bCMI &fbecause the plugin cannot be found!", false, true);
     }
 
     @Override

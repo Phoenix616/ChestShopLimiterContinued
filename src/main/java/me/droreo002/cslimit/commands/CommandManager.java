@@ -1,12 +1,11 @@
 package me.droreo002.cslimit.commands;
 
-import me.droreo002.cslimit.ChestShopLimiter;
 import me.droreo002.cslimit.commands.objects.console.CCheckCommand;
 import me.droreo002.cslimit.commands.objects.console.CHelpCommand;
 import me.droreo002.cslimit.commands.objects.console.CReloadCommand;
 import me.droreo002.cslimit.commands.objects.console.CResetCommand;
 import me.droreo002.cslimit.commands.objects.player.*;
-import me.droreo002.cslimit.manager.Debug;
+import me.droreo002.cslimit.manager.logger.Debug;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +39,7 @@ public final class CommandManager {
         /*
         Register commands (Player Only)
          */
-        Debug.log(" &fRegistering player commands", false);
+        Debug.info(" &fRegistering player commands", false, true);
         new HelpCommand();
         new CheckCommand();
         new ReloadCommand();
@@ -49,7 +48,7 @@ public final class CommandManager {
         /*
         Register commands (Console Only)
          */
-        Debug.log(" &fRegistering console commands", false);
+        Debug.info(" &fRegistering console commands", false, true);
         new CCheckCommand();
         new CHelpCommand();
         new CReloadCommand();

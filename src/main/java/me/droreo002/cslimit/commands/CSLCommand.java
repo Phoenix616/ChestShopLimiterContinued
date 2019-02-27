@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import me.droreo002.cslimit.ChestShopLimiter;
 import me.droreo002.cslimit.config.ConfigManager;
-import me.droreo002.cslimit.manager.Debug;
+import me.droreo002.cslimit.manager.logger.Debug;
 import me.droreo002.oreocore.utils.misc.SoundObject;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -52,7 +52,7 @@ public abstract class CSLCommand {
     }
 
     private void register() {
-        Debug.log("     &fCommand with the name of &e" + commandKey + "&f has been registered!", false);
+        Debug.info("     &fCommand with the name of &e" + commandKey + "&f has been registered!", false, true);
         CommandManager.registerCommand(this);
     }
 

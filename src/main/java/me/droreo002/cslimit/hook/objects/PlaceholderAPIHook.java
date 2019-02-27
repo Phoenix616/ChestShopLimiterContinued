@@ -2,7 +2,7 @@ package me.droreo002.cslimit.hook.objects;
 
 import me.droreo002.cslimit.hook.ChestShopHook;
 import me.droreo002.cslimit.hook.papi.CSLPlaceholder;
-import me.droreo002.cslimit.manager.Debug;
+import me.droreo002.cslimit.manager.logger.Debug;
 import org.bukkit.Bukkit;
 
 public class PlaceholderAPIHook implements ChestShopHook {
@@ -24,12 +24,12 @@ public class PlaceholderAPIHook implements ChestShopHook {
 
     @Override
     public void hookSuccess() {
-        Debug.log("     &f> &bPlaceHolderAPI &fhas been hooked!", false);
+        Debug.info("     &f> &bPlaceHolderAPI &fhas been hooked!", false, true);
     }
 
     @Override
     public void hookFailed() {
-        Debug.log("     &f> Cannot hook into &bPlaceholderAPI &fbecause the plugin cannot be found!", false);
+        Debug.info("     &f> Cannot hook into &bPlaceholderAPI &fbecause the plugin cannot be found!", false, true);
     }
 
     @Override

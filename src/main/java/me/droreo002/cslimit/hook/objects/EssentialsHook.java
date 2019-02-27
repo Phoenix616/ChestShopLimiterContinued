@@ -3,13 +3,11 @@ package me.droreo002.cslimit.hook.objects;
 import com.earth2me.essentials.Essentials;
 import com.earth2me.essentials.User;
 import me.droreo002.cslimit.hook.ChestShopHook;
-import me.droreo002.cslimit.manager.Debug;
+import me.droreo002.cslimit.manager.logger.Debug;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
-
-// TODO : Lib is done, now we continue this :D
 
 public class EssentialsHook implements ChestShopHook {
 
@@ -32,12 +30,12 @@ public class EssentialsHook implements ChestShopHook {
 
     @Override
     public void hookSuccess() {
-        Debug.log("     &f> &cEssentials &fhas been hooked!", false);
+        Debug.info("     &f> &cEssentials &fhas been hooked!", false, true);
     }
 
     @Override
     public void hookFailed() {
-        Debug.log("     &f> Cannot hook into &cEssentials &fbecause the plugin cannot be found!", false);
+        Debug.info("     &f> Cannot hook into &cEssentials &fbecause the plugin cannot be found!", false, true);
     }
 
     @Override
