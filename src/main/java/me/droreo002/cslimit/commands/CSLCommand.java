@@ -52,7 +52,7 @@ public abstract class CSLCommand {
     }
 
     private void register() {
-        Debug.info("     &fCommand with the name of &e" + commandKey + "&f has been registered!", false, true);
+        Debug.info("     &fCommand with the name of &e" + commandKey + "&f has been registered!", false, Debug.LogType.BOTH);
         CommandManager.registerCommand(this);
     }
 

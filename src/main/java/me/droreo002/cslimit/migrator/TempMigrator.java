@@ -21,7 +21,7 @@ public class TempMigrator {
      */
     public static List<FileConfiguration> getOldDatas() {
         final ChestShopLimiter plugin = ChestShopLimiter.getInstance();
-        Debug.info("&fGetting old &bChestShopLimiter &fdata!. This might take a while!", true, true);
+        Debug.info("&fGetting old &bChestShopLimiter &fdata!. This might take a while!", true, Debug.LogType.BOTH);
         final File dataFile = new File(plugin.getDataFolder(), "oldData");
         if (!dataFile.exists()) {
             throw new NullPointerException("[Migration] Could not find old data file!. Please place it inside the ChestShopLimiter data file and rename it to oldData!");

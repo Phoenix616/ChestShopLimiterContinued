@@ -46,14 +46,14 @@ public class HookManager {
         // Setup all hooks here
         ConfigManager.Memory mem = plugin.getConfigManager().getMemory();
         if (mem.isEnableEssentialsHook()) {
-            Debug.info(" &fTrying to hook into &cEssentials", false, true);
+            Debug.info(" &fTrying to hook into &cEssentials", false, Debug.LogType.BOTH);
             if (registerHook("Essentials", new EssentialsHook())) {
                 setEssentials(true);
             }
         }
         if (mem.isEnableCMIHook()) {
             if (!isEssentials()) {
-                Debug.info(" &fTrying to hook into &bCMI", false, true);
+                Debug.info(" &fTrying to hook into &bCMI", false, Debug.LogType.BOTH);
                 if (registerHook("CMI", new CMIHook())) {
                     setCMI(true);
                 }
@@ -65,13 +65,13 @@ public class HookManager {
             throw new IllegalStateException("Essentials or CMI dependency must be enabled an installed on the server if you want to run this plugin!. Install one of them and then run configure the config.yml to enable one of them!");
         }
         if (mem.isEnableLuckPermsHook()) {
-            Debug.info(" &fTrying to hook into &aLuckperms", false, true);
+            Debug.info(" &fTrying to hook into &aLuckperms", false, Debug.LogType.BOTH);
             if (registerHook("LuckPerms", new LuckPermsHook())) {
                 setLuckPerms(true);
             }
         }
         if (mem.isEnablePapiHook()) {
-            Debug.info(" &fTrying to hook into &bPlaceholderAPI", false, true);
+            Debug.info(" &fTrying to hook into &bPlaceholderAPI", false, Debug.LogType.BOTH);
             if (registerHook("PlaceholderAPI", new PlaceholderAPIHook())) {
                 setPlaceHolderAPI(true);
             }

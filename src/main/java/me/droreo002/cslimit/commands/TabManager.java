@@ -25,13 +25,13 @@ public class TabManager implements TabCompleter {
          /*
         Tabs
          */
-        Debug.info("&fRegistering tab completer for player commands...", false, true);
+        Debug.info("&fRegistering tab completer for player commands...", false, Debug.LogType.BOTH);
         completions.add("help");
         completions.add("check");
         completions.add("reload");
         completions.add("status");
         completions.add("reset");
-        completions.forEach(s -> Debug.info("     &fTab completer with the id of &e" + s + " &fhas been registered!", false, true));
+        completions.forEach(s -> Debug.info("     &fTab completer with the id of &e" + s + " &fhas been registered!", false, Debug.LogType.BOTH));
     }
 
     @Override

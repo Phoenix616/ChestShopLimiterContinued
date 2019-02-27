@@ -75,7 +75,7 @@ public class CommandListener implements CommandExecutor {
                 return true;
             }
         } else {
-            lang.getAbout().forEach(s -> Debug.info(s, false, true));
+            lang.getAbout().forEach(s -> Debug.info(s, false, Debug.LogType.CONSOLE));
             return true;
         }
         return true;

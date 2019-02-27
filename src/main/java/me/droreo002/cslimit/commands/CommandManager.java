@@ -39,7 +39,7 @@ public final class CommandManager {
         /*
         Register commands (Player Only)
          */
-        Debug.info(" &fRegistering player commands", false, true);
+        Debug.info(" &fRegistering player commands", false, Debug.LogType.BOTH);
         new HelpCommand();
         new CheckCommand();
         new ReloadCommand();
@@ -48,7 +48,7 @@ public final class CommandManager {
         /*
         Register commands (Console Only)
          */
-        Debug.info(" &fRegistering console commands", false, true);
+        Debug.info(" &fRegistering console commands", false, Debug.LogType.BOTH);
         new CCheckCommand();
         new CHelpCommand();
         new CReloadCommand();

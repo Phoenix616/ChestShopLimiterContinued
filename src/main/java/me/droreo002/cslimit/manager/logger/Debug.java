@@ -1,6 +1,7 @@
 package me.droreo002.cslimit.manager.logger;
 
 import me.droreo002.cslimit.ChestShopLimiter;
+import me.droreo002.oreocore.utils.strings.StringUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
@@ -13,18 +14,31 @@ public class Debug {
      *
      * @param text : The log message
      * @param addPrefix : Should we add prefix?
-     * @param logToFile : Should we also log it to file?
+     * @param logType : The log type
      */
-    public static void info(String text, boolean addPrefix, boolean logToFile) {
+    public static void info(String text, boolean addPrefix, LogType logType) {
         final ChestShopLimiter plugin = ChestShopLimiter.getInstance();
         boolean allowFileLogging = plugin.getConfigManager().getMemory().isLogToFile();
-        if (logToFile && allowFileLogging) {
-            plugin.getLogFile().getLogger().log(Level.INFO, text);
-        }
-        if (addPrefix) {
-            Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&7[ &bINFO &7] &7[ &aChestShop &7]&f " + text));
-        } else {
-            Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', text));
+        switch (logType) {
+            case FILE:
+                if (allowFileLogging) plugin.getLogFile().getLogger().log(Level.INFO, ChatColor.stripColor(StringUtil.color(text)));
+                break;
+            case CONSOLE:
+                if (addPrefix) {
+                    Bukkit.getConsoleSender().sendMessage(StringUtil.color("&7[ &bINFO &7] &7[ &aChestShop &7]&f " + text));
+                } else {
+                    Bukkit.getConsoleSender().sendMessage(StringUtil.color(text));
+                }
+                break;
+            case BOTH:
+                if (allowFileLogging) plugin.getLogFile().getLogger().log(Level.INFO, ChatColor.stripColor(StringUtil.color(text)));
+
+                if (addPrefix) {
+                    Bukkit.getConsoleSender().sendMessage(StringUtil.color("&7[ &bINFO &7] &7[ &aChestShop &7]&f " + text));
+                } else {
+                    Bukkit.getConsoleSender().sendMessage(StringUtil.color(text));
+                }
+                break;
         }
     }
 
@@ -33,18 +47,37 @@ public class Debug {
      *
      * @param text : The log message
      * @param addPrefix : Should we add prefix?
-     * @param logToFile : Should we also log it to file?
+     * @param logType : The log type
      */
-    public static void error(String text, boolean addPrefix, boolean logToFile) {
+    public static void error(String text, boolean addPrefix, LogType logType) {
         final ChestShopLimiter plugin = ChestShopLimiter.getInstance();
         boolean allowFileLogging = plugin.getConfigManager().getMemory().isLogToFile();
-        if (logToFile && allowFileLogging) {
-            plugin.getLogFile().getLogger().log(Level.WARNING, text);
+        switch (logType) {
+            case FILE:
+                if (allowFileLogging) plugin.getLogFile().getLogger().log(Level.WARNING, ChatColor.stripColor(StringUtil.color(text)));
+                break;
+            case CONSOLE:
+                if (addPrefix) {
+                    Bukkit.getConsoleSender().sendMessage(StringUtil.color("&7[ &cERROR &7] &7[ &aChestShop &7]&f " + text));
+                } else {
+                    Bukkit.getConsoleSender().sendMessage(StringUtil.color(text));
+                }
+                break;
+            case BOTH:
+                if (allowFileLogging) plugin.getLogFile().getLogger().log(Level.INFO, ChatColor.stripColor(StringUtil.color(text)));
+
+                if (addPrefix) {
+                    Bukkit.getConsoleSender().sendMessage(StringUtil.color("&7[ &cERROR &7] &7[ &aChestShop &7]&f " + text));
+                } else {
+                    Bukkit.getConsoleSender().sendMessage(StringUtil.color(text));
+                }
+                break;
         }
-        if (addPrefix) {
-            Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&7[ &cERROR &7] &7[ &aChestShop &7]&f " + text));
-        } else {
-            Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', text));
-        }
+    }
+
+    public enum LogType {
+        FILE,
+        CONSOLE,
+        BOTH;
     }
 }

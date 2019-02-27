@@ -29,12 +29,12 @@ public class CMIHook implements ChestShopHook {
 
     @Override
     public void hookSuccess() {
-        Debug.info("     &f> &bCMI &fhas been hooked!", false, true);
+        Debug.info("     &f> &bCMI &fhas been hooked!", false, Debug.LogType.BOTH);
     }
 
     @Override
     public void hookFailed() {
-        Debug.info("     &f> Cannot hook into &bCMI &fbecause the plugin cannot be found!", false, true);
+        Debug.info("     &f> Cannot hook into &bCMI &fbecause the plugin cannot be found!", false, Debug.LogType.BOTH);
     }
 
     @Override

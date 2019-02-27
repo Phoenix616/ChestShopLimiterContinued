@@ -30,12 +30,12 @@ public class EssentialsHook implements ChestShopHook {
 
     @Override
     public void hookSuccess() {
-        Debug.info("     &f> &cEssentials &fhas been hooked!", false, true);
+        Debug.info("     &f> &cEssentials &fhas been hooked!", false, Debug.LogType.BOTH);
     }
 
     @Override
     public void hookFailed() {
-        Debug.info("     &f> Cannot hook into &cEssentials &fbecause the plugin cannot be found!", false, true);
+        Debug.info("     &f> Cannot hook into &cEssentials &fbecause the plugin cannot be found!", false, Debug.LogType.BOTH);
     }
 
     @Override
