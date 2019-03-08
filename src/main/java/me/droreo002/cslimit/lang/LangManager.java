@@ -5,6 +5,9 @@ import me.droreo002.cslimit.config.ConfigManager;
 import me.droreo002.cslimit.manager.LicenseManager;
 import me.droreo002.cslimit.utils.StringUtils;
 import me.droreo002.oreocore.configuration.CustomConfig;
+import me.droreo002.oreocore.utils.item.helper.TextPlaceholder;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -41,15 +44,15 @@ public final class LangManager extends CustomConfig {
      * @param addPrefix : Should we add prefix to it?
      * @return the String if succeeded, null otherwise
      */
-    public String getLang(LangPath path, Map<String, String> placeholder, boolean addPrefix) {
-        if (values.get(path) == null) return null;
+    public String getLang(LangPath path, TextPlaceholder placeholder, boolean addPrefix) {
+        if (values.get(path) == null) return "Error. Lang " + path.getPath() + " cannot be found!";
         ConfigManager.Memory mem = plugin.getConfigManager().getMemory();
         if (placeholder != null) {
             // Process placeholder
             String result = (String) values.get(path);
-            for (Map.Entry ent : placeholder.entrySet()) {
-                String from = (String) ent.getKey();
-                String to = (String) ent.getValue();
+            for (TextPlaceholder place : placeholder.getPlaceholders()) {
+                String from = place.getFrom();
+                String to = place.getTo();
                 result = result.replace(from, to);
             }
             return (addPrefix) ? StringUtils.color(mem.getPrefix() + result) : StringUtils.color(result);
@@ -64,14 +67,14 @@ public final class LangManager extends CustomConfig {
      * @param placeholder : The placeholder, null if there's none
      * @return List containing the string if there's any, empty string otherwise
      */
-    public List<String> getLangList(LangPath path, Map<String, String> placeholder) {
+    public List<String> getLangList(LangPath path, TextPlaceholder placeholder) {
         if (values.get(path) == null) return new ArrayList<>();
         if (placeholder != null) {
             List<String> result = new ArrayList<>();
             for (String s : (List<String>) values.get(path)) {
-                for (Map.Entry ent : placeholder.entrySet()) {
-                    String from = (String) ent.getKey();
-                    String to = (String) ent.getValue();
+                for (TextPlaceholder place : placeholder.getPlaceholders()) {
+                    String from = place.getFrom();
+                    String to = place.getTo();
                     if (s.contains(from)) {
                         s = s.replace(from, to);
                     }
@@ -83,14 +86,24 @@ public final class LangManager extends CustomConfig {
         return ((List<String>) values.get(path)).stream().map(StringUtils::color).collect(Collectors.toList());
     }
 
+    /**
+     * Get the path as a ConfigurationSection object
+     *
+     * @param path : The path enum
+     * @return a ConfigurationSection if there's any, null otherwise
+     */
+    public ConfigurationSection asSection(LangPath path) {
+        return getConfig().getConfigurationSection(path.getPath());
+    }
+
     public List<String> getAbout() {
         List<String> result = new ArrayList<>();
-        result.add(StringUtils.color("&8&m--------------- &7[ &aChestShopLimiter &7] &8&m---------------"));
+        result.add(StringUtils.color("&8&m---------------&7 [ &aChestShopLimiter &7] &8&m---------------"));
         result.add(" ");
         result.add(StringUtils.color("&fThis server is running on &bChestShopLimiter &fplugin version &c" + getPlugin().getDescription().getVersion()));
         result.add(LicenseManager.getBuyerInformation());
         result.add(" ");
-        result.add(StringUtils.color("&8&m--------------- &7[ &aChestShopLimiter &7] &8&m---------------"));
+        result.add(StringUtils.color("&8&m---------------&7 [ &aChestShopLimiter &7] &8&m---------------"));
         return result;
     }
 }

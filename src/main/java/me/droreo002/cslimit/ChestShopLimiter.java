@@ -2,19 +2,19 @@ package me.droreo002.cslimit;
 
 import lombok.Getter;
 import me.droreo002.cslimit.api.ChestShopAPI;
-import me.droreo002.cslimit.commands.CommandListener;
-import me.droreo002.cslimit.commands.CommandManager;
-import me.droreo002.cslimit.commands.TabManager;
+import me.droreo002.cslimit.commands.ChestShopLimiterCommand;
 import me.droreo002.cslimit.config.ConfigManager;
+import me.droreo002.cslimit.conversation.ConversationManager;
 import me.droreo002.cslimit.database.CSLDatabase;
 import me.droreo002.cslimit.hook.HookManager;
 import me.droreo002.cslimit.lang.LangManager;
 import me.droreo002.cslimit.listener.PlayerConnectionListener;
+import me.droreo002.cslimit.listener.ShopListener;
 import me.droreo002.cslimit.manager.logger.Debug;
 import me.droreo002.cslimit.manager.LicenseManager;
 import me.droreo002.cslimit.manager.logger.LogFile;
 import me.droreo002.cslimit.metrics.Metrics;
-import me.droreo002.cslimit.objects.ChestShopLimiterHandler;
+import me.droreo002.cslimit.api.ChestShopLimiterHandler;
 import me.droreo002.cslimit.utils.CommonUtils;
 import me.droreo002.oreocore.OreoCore;
 import org.bukkit.Bukkit;
@@ -38,6 +38,10 @@ public class ChestShopLimiter extends JavaPlugin {
     private CSLDatabase database;
     @Getter
     private LogFile logFile;
+    @Getter
+    private ConversationManager conversationManager;
+    @Getter
+    private ChestShopLimiterCommand command;
 
     @Override
     public void onEnable() {
@@ -47,15 +51,15 @@ public class ChestShopLimiter extends JavaPlugin {
         logFile = new LogFile();
         Debug.info("&fStarting the plugin...", true, Debug.LogType.BOTH);
         langManager = new LangManager(this);
-        chestShopAPI = new ChestShopLimiterHandler();
         database = new CSLDatabase(this, configManager.getMemory().getDatabaseType());
+        chestShopAPI = new ChestShopLimiterHandler();
+        conversationManager = new ConversationManager(this);
         OreoCore.getInstance().dependPlugin(this, true);
 
-        Bukkit.getPluginCommand("chestshoplimiter").setExecutor(new CommandListener());
         Bukkit.getPluginManager().registerEvents(new PlayerConnectionListener(this), this);
-//        Bukkit.getPluginManager().registerEvents(new PlayerJoinListener(this), this);
-//        Bukkit.getPluginManager().registerEvents(new ShopCreateListener(this), this);
-//        Bukkit.getPluginManager().registerEvents(new ShopDestroyListener(this), this);
+        Bukkit.getPluginManager().registerEvents(new ShopListener(this), this);
+
+        command = new ChestShopLimiterCommand(this, this);
 
         printInformation();
     }
@@ -92,8 +96,10 @@ public class ChestShopLimiter extends JavaPlugin {
         hookManager = new HookManager();
         Debug.info("&fPlugin is currently using &b" + configManager.getMemory().getDatabaseType() + "&f database type!", false, Debug.LogType.BOTH);
         Debug.info("&bDatabase &fhas been successfully initialized!", false, Debug.LogType.BOTH);
-        CommandManager.init();
-        Bukkit.getPluginCommand("chestshoplimiter").setTabCompleter(new TabManager());
+        Debug.info("&fRegistering &eCommands...", false, Debug.LogType.BOTH);
+        command.getArgs().forEach(arg ->  Debug.info("     &fSub-Command with the id of &e" + arg.getTrigger() + " &fhas been registered!", false, Debug.LogType.BOTH));
+        Debug.info("&fRegisteting &eTabCompleters...", false, Debug.LogType.BOTH);
+        command.getTabComplete().forEach(s -> Debug.info("     &fTab completer with the id of &e" + s + " &fhas been registered!", false, Debug.LogType.BOTH));
         if (configManager.getMemory().isUseBstats()) {
             Debug.info("&fConnecting to &bBSTATS", false, Debug.LogType.BOTH);
             if (configManager.getConfig().getBoolean("use-bstats")) {

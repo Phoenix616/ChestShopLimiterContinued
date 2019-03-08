@@ -61,6 +61,7 @@ public class SqlData extends DatabaseSQL implements DatabaseWrapper {
 
     @Override
     public PlayerData getPlayerData(UUID uuid) {
+        load(uuid);
         return playerData.get(uuid);
     }
 

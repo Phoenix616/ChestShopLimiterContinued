@@ -95,6 +95,53 @@ public final class ConfigManager extends CustomConfig {
         private SoundObject failureSound = new SoundObject();
 
         /*
+        Inventory sound
+         */
+
+        // Main menu
+        @ConfigVariable(path = "InventorySound.MainMenu.click", isSerializableObject = true)
+        @Getter
+        private SoundObject mainMenuClickSound = new SoundObject();
+        @ConfigVariable(path = "InventorySound.MainMenu.open", isSerializableObject = true)
+        @Getter
+        private SoundObject mainMenuOpenSound = new SoundObject();
+        @ConfigVariable(path = "InventorySound.MainMenu.close", isSerializableObject = true)
+        @Getter
+        private SoundObject mainMenuCloseSound = new SoundObject();
+
+        // PlayerSelector
+        @ConfigVariable(path = "InventorySound.PlayerSelector.click", isSerializableObject = true)
+        @Getter
+        private SoundObject pSelectorClickSound = new SoundObject();
+        @ConfigVariable(path = "InventorySound.PlayerSelector.open", isSerializableObject = true)
+        @Getter
+        private SoundObject pSelectorOpenSound = new SoundObject();
+        @ConfigVariable(path = "InventorySound.PlayerSelector.close", isSerializableObject = true)
+        @Getter
+        private SoundObject pSelectorCloseSound = new SoundObject();
+
+        // Editor
+        @ConfigVariable(path = "InventorySound.Editor.click", isSerializableObject = true)
+        @Getter
+        private SoundObject editorClickSound = new SoundObject();
+        @ConfigVariable(path = "InventorySound.Editor.close", isSerializableObject = true)
+        @Getter
+        private SoundObject editorCloseSound = new SoundObject();
+        @ConfigVariable(path = "InventorySound.Editor.open", isSerializableObject = true)
+        @Getter
+        private SoundObject editorOpenSound = new SoundObject();
+
+        /*
+        TextEditorSound
+         */
+        @ConfigVariable(path = "TextEditorSound.success", isSerializableObject = true)
+        @Getter
+        private SoundObject tEditorSuccessSound = new SoundObject();
+        @ConfigVariable(path = "TextEditorSound.failure", isSerializableObject = true)
+        @Getter
+        private SoundObject tEditorFailureSound = new SoundObject();
+
+        /*
         Logging
          */
         @ConfigVariable(path = "Debugging.LogToFile", isSerializableObject = false)

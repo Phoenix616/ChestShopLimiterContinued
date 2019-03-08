@@ -17,8 +17,6 @@ import java.util.logging.*;
 
 public final class LogFile {
 
-    // TODO : Log file complete, data complete. Now continue command and core, then we're DONE!. WHOOOO!
-
     @Getter
     private final Logger logger = Logger.getLogger(Debug.class.getCanonicalName());
     @Getter

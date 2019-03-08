@@ -67,6 +67,7 @@ public class FlatFileData extends DatabaseFlatFile implements DatabaseWrapper {
      */
     @Override
     public PlayerData getPlayerData(UUID key) {
+        load(key);
         return playerData.get(key);
     }
 
@@ -95,7 +96,6 @@ public class FlatFileData extends DatabaseFlatFile implements DatabaseWrapper {
             removeData(data, true);
             this.playerData.remove(playerData.getPlayerUUID());
         } else {
-            removeData(data, false);
             this.playerData.remove(playerData.getPlayerUUID());
         }
     }
@@ -111,7 +111,7 @@ public class FlatFileData extends DatabaseFlatFile implements DatabaseWrapper {
             // Try to generate new data
             setup(key.toString(), true);
             Data objectData = getDataClass(key.toString());
-            if (objectData == null) throw new NullPointerException("No object data found for UUID " + key.toString());
+            if (objectData == null) throw new NullPointerException("No object data found for UUID " + key.toString() + " please contact administrator!");
             FileConfiguration config = objectData.getConfig();
             // If this is a new data. Process it in different way then
             if (config.contains("Data") && config.getConfigurationSection("Data") == null) {
@@ -132,6 +132,7 @@ public class FlatFileData extends DatabaseFlatFile implements DatabaseWrapper {
                 saveData(objectData);
                 PlayerData data = PlayerData.fromYaml(config);
                 playerData.put(key, data);
+                return;
             }
             if (plugin.getHookManager().isLuckPerms()) {
                 LuckPermsHook hook = (LuckPermsHook) plugin.getHookManager().getHookMap().get("LuckPerms");

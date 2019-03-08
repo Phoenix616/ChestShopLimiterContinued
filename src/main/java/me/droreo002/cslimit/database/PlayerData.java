@@ -72,6 +72,16 @@ public class PlayerData {
         this.lastShopLocation = lastShopLocation;
     }
 
+    public void addMaxShop(int value) {
+        if (!changes.contains(SqlDataName.MAX_SHOP)) changes.add(SqlDataName.MAX_SHOP);
+        this.maxShop += value;
+    }
+
+    public void addShopCreated(int value) {
+        if (!changes.contains(SqlDataName.SHOP_CREATED)) changes.add(SqlDataName.SHOP_CREATED);
+        this.shopCreated += value;
+    }
+
     /**
      * Get the data from YAML file
      *

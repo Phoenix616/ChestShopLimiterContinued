@@ -102,12 +102,15 @@ public class LuckPermsHook implements ChestShopHook {
      * @param firstSetup : Is this a first setup?
      */
     public void setupData(UUID uuid, PlayerData playerData, boolean firstSetup) {
-        final User user = getLuckPerms().getUser(uuid);
         final ChestShopLimiter plugin = ChestShopLimiter.getInstance();
+        User user = getLuckPerms().getUser(uuid);
+        if (user == null) {
+            user = luckPerms.getUserManager().loadUser(uuid).join();
+            Debug.info("&eLuckPerms &fplayer data &7(&e" + playerData.getPlayerName() + "&7)&f has been force loaded, because plugin is trying to access a non cached player!", true, Debug.LogType.BOTH);
+        }
         DatabaseWrapper database = plugin.getDatabase().getWrapper();
         ConfigManager.Memory memory = plugin.getConfigManager().getMemory();
         ConfigurationSection lpLimit = memory.getShopLimitLuckPerms();
-        Validate.notNull(user, "LuckPerms user cannot be null!");
         String currGroup = user.getPrimaryGroup();
 
         if (firstSetup) {

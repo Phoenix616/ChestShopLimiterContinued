@@ -1,4 +1,4 @@
-package me.droreo002.cslimit.objects;
+package me.droreo002.cslimit.api;
 
 import me.droreo002.cslimit.ChestShopLimiter;
 import me.droreo002.cslimit.api.ChestShopAPI;
@@ -7,6 +7,7 @@ import me.droreo002.cslimit.database.CSLDatabase;
 import me.droreo002.cslimit.database.PlayerData;
 import me.droreo002.cslimit.lang.LangManager;
 import me.droreo002.oreocore.database.DatabaseType;
+import org.apache.commons.lang.Validate;
 
 import java.util.UUID;
 
@@ -26,6 +27,38 @@ public final class ChestShopLimiterHandler implements ChestShopAPI {
         final PlayerData data = getDatabase().getWrapper().getPlayerData(uuid);
         if (data == null) return 0;
         return data.getMaxShop();
+    }
+
+    @Override
+    public void addShopCreated(UUID uuid, int amount) {
+        final PlayerData data = getData(uuid);
+        Validate.notNull(data, "Data for UUID " + uuid + " cannot be found!");
+        data.setShopCreated(data.getShopCreated() + amount);
+        saveData(data);
+    }
+
+    @Override
+    public void addShopLimit(UUID uuid, int amount) {
+        final PlayerData data = getData(uuid);
+        Validate.notNull(data, "Data for UUID " + uuid + " cannot be found!");
+        data.setMaxShop(data.getMaxShop() + amount);
+        saveData(data);
+    }
+
+    @Override
+    public void setShopCreated(UUID uuid, int value) {
+        final PlayerData data = getData(uuid);
+        Validate.notNull(data, "Data for UUID " + uuid + " cannot be found!");
+        data.setShopCreated(value);
+        saveData(data);
+    }
+
+    @Override
+    public void setShopLimit(UUID uuid, int value) {
+        final PlayerData data = getData(uuid);
+        Validate.notNull(data, "Data for UUID " + uuid + " cannot be found!");
+        data.setMaxShop(value);
+        saveData(data);
     }
 
     @Override
@@ -51,5 +84,10 @@ public final class ChestShopLimiterHandler implements ChestShopAPI {
     @Override
     public DatabaseType getDatabaseType() {
         return getDatabase().getWrapper().getType();
+    }
+
+    @Override
+    public void saveData(PlayerData data) {
+        getDatabase().getWrapper().updatePlayerData(data);
     }
 }

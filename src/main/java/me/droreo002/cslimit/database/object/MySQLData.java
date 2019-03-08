@@ -66,9 +66,9 @@ public class MySQLData extends DatabaseMySQL implements DatabaseWrapper {
 
     @Override
     public PlayerData getPlayerData(UUID uuid) {
+        load(uuid);
         return playerData.get(uuid);
     }
-
 
     @Override
     public void updatePlayerData(PlayerData playerData) {

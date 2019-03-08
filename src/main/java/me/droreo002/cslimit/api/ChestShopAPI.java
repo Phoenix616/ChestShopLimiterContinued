@@ -27,6 +27,40 @@ public interface ChestShopAPI {
     int getShopLimit(UUID uuid);
 
     /**
+     * Increase player's shop created value by specified amount
+     *
+     * @param uuid : The player UUID
+     * @param amount : How much to add
+     */
+    void addShopCreated(UUID uuid, int amount);
+
+    /**
+     * Increase the player's shop limit value by specified amount
+     *
+     * @param uuid : The player UUID
+     * @param amount : How much to add
+     */
+    void addShopLimit(UUID uuid, int amount);
+
+    /**
+     * Set player's shop created data into the specified
+     * value
+     *
+     * @param uuid : The player UUID
+     * @param value : The value
+     */
+    void setShopCreated(UUID uuid, int value);
+
+    /**
+     * Set player's shop limit data into the specified
+     * value
+     *
+     * @param uuid : The player UUID
+     * @param value : The value
+     */
+    void setShopLimit(UUID uuid, int value);
+
+    /**
      * Get the plugin's config memory. This will give access
      * to config datas
      *
@@ -62,4 +96,11 @@ public interface ChestShopAPI {
      * @return The database type
      */
     DatabaseType getDatabaseType();
+
+    /**
+     * Save the player data via PlayerData object
+     *
+     * @param data : The player data
+     */
+    void saveData(PlayerData data);
 }
