@@ -9,6 +9,7 @@ import me.droreo002.cslimit.hook.objects.LuckPermsHook;
 import me.droreo002.oreocore.database.DatabaseManager;
 import me.droreo002.oreocore.database.DatabaseType;
 import me.droreo002.oreocore.database.object.DatabaseSQL;
+import me.droreo002.oreocore.utils.entity.PlayerUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -179,6 +180,36 @@ public class SqlData extends DatabaseSQL implements DatabaseWrapper {
         }
     }
 
+    @Override
+    public void migrate(PlayerData playerData) {
+        if (!isExists("UUID", playerData.getPlayerUUID().toString(), "csl")) insertNew(playerData.getPlayerUUID());
+        StringBuilder builder = new StringBuilder();
+        builder.append("UPDATE `csl` SET ");
+        for (SqlDataName name : column) {
+            switch (name) {
+                case SHOP_CREATED:
+                    builder.append(name.getNameAsString()).append(" = '").append(playerData.getShopCreated()).append("',");
+                    break;
+                case MAX_SHOP:
+                    builder.append(name.getNameAsString()).append(" = '").append(playerData.getMaxShop()).append("',");
+                    break;
+                case LAST_PERMISSION:
+                    builder.append(name.getNameAsString()).append(" = '").append(playerData.getLastPermission()).append("',");
+                    break;
+                case LAST_RANK:
+                    builder.append(name.getNameAsString()).append(" = '").append(playerData.getLastRank()).append("',");
+                    break;
+                case LAST_SHOP_LOCATION:
+                    builder.append(name.getNameAsString()).append(" = '").append(playerData.getLastShopLocation()).append("',");
+                    break;
+            }
+        }
+        builder.setCharAt(builder.toString().length() - 1, ' '); // Remove last
+        builder.append("WHERE UUID IS '").append(playerData.getPlayerUUID().toString()).append("';");
+        execute(builder.toString());
+        this.playerData.put(playerData.getPlayerUUID(), playerData);
+    }
+
     private void setupData(UUID uuid, PlayerData data, boolean firstSetup) {
         Player player = Bukkit.getPlayer(uuid);
         ConfigManager.Memory mem = plugin.getConfigManager().getMemory();
@@ -207,7 +238,8 @@ public class SqlData extends DatabaseSQL implements DatabaseWrapper {
                     if (player.hasPermission(PERMISSION_STRING + s)) {
                         // Don't update because its the same perm
                         if (data.getLastPermission().equalsIgnoreCase(PERMISSION_STRING + s)) continue;
-                        data.setMaxShop(permLimit.getInt(s + ".limit"));
+                        int newLimit = permLimit.getInt(s + ".limit");
+                        if (data.getMaxShop() < newLimit) data.setMaxShop(newLimit);
                         data.setLastPermission(PERMISSION_STRING + s);
                         database.updatePlayerData(data);
                         break;
@@ -218,9 +250,9 @@ public class SqlData extends DatabaseSQL implements DatabaseWrapper {
     }
 
     private void insertNew(UUID uuid) {
-        Player player = Bukkit.getPlayer(uuid);
-        if (player == null) throw new NullPointerException("Player cannot be null when inserting new data!");
+        String playerName = PlayerUtils.getPlayerName(uuid);
+        if (playerName == null) throw new NullPointerException("Could not find any player name data from " + uuid + " UUID!");
         execute("INSERT INTO `csl` (UUID,name,shopCreated,maxShop,lastPermission,lastRank,lastShopLocation) " +
-                "VALUES ('" + uuid.toString() + "','" + player.getName() + "',0,0,'empty','empty','empty');");
+                "VALUES ('" + uuid.toString() + "','" + playerName + "',0,0,'empty','empty','empty');");
     }
 }

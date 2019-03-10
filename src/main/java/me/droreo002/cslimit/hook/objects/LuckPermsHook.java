@@ -80,13 +80,15 @@ public class LuckPermsHook implements ChestShopHook {
             if (!lastGroup.equalsIgnoreCase(currGroup)) {
                 // Not found. Setup using the default-value value
                 if (!lpLimit.contains(currGroup)) {
-                    playerData.setMaxShop(lpLimit.getInt("default-value.limit"));
+                    int newLimit = lpLimit.getInt("default-value.limit");
+                    if (playerData.getMaxShop() < newLimit) playerData.setMaxShop(newLimit); // Go higher value
                     database.updatePlayerData(playerData);
                 } else {
                     // New group. Add then
                     if (!lastGroup.equalsIgnoreCase(currGroup)) {
                         playerData.setLastRank(currGroup);
-                        playerData.setMaxShop(lpLimit.getInt(currGroup + ".limit"));
+                        int newLimit = lpLimit.getInt(currGroup + ".limit");
+                        if (playerData.getMaxShop() < newLimit) playerData.setMaxShop(newLimit); // Go higher value
                         database.updatePlayerData(playerData);
                     }
                 }
@@ -120,13 +122,15 @@ public class LuckPermsHook implements ChestShopHook {
             String lastGroup = playerData.getLastRank();
             if (!lastGroup.equalsIgnoreCase(currGroup)) {
                 if (!lpLimit.contains(currGroup)) {
-                    playerData.setMaxShop(lpLimit.getInt("default-value.limit"));
+                    int newLimit = lpLimit.getInt("default-value.limit");
+                    if (playerData.getMaxShop() < newLimit) playerData.setMaxShop(newLimit);
                     database.updatePlayerData(playerData);
                 } else {
                     // New group. Add then
                     if (!lastGroup.equalsIgnoreCase(currGroup)) {
                         playerData.setLastRank(currGroup);
-                        playerData.setMaxShop(lpLimit.getInt(currGroup + ".limit"));
+                        int newLimit = lpLimit.getInt(currGroup + ".limit");
+                        if (playerData.getMaxShop() < newLimit) playerData.setMaxShop(newLimit);
                         database.updatePlayerData(playerData);
                     }
                 }

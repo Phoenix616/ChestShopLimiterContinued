@@ -1,7 +1,7 @@
 package me.droreo002.cslimit.manager.logger;
 
 import me.droreo002.cslimit.ChestShopLimiter;
-import me.droreo002.oreocore.utils.strings.StringUtil;
+import me.droreo002.oreocore.utils.strings.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
@@ -21,22 +21,22 @@ public class Debug {
         boolean allowFileLogging = plugin.getConfigManager().getMemory().isLogToFile();
         switch (logType) {
             case FILE:
-                if (allowFileLogging) plugin.getLogFile().getLogger().log(Level.INFO, ChatColor.stripColor(StringUtil.color(text)));
+                if (allowFileLogging) plugin.getLogFile().getLogger().log(Level.INFO, ChatColor.stripColor(StringUtils.color(text)));
                 break;
             case CONSOLE:
                 if (addPrefix) {
-                    Bukkit.getConsoleSender().sendMessage(StringUtil.color("&7[ &bINFO &7] &7[ &aChestShop &7]&f " + text));
+                    Bukkit.getConsoleSender().sendMessage(StringUtils.color("&7[ &bINFO &7] &7[ &aChestShop &7]&f " + text));
                 } else {
-                    Bukkit.getConsoleSender().sendMessage(StringUtil.color(text));
+                    Bukkit.getConsoleSender().sendMessage(StringUtils.color(text));
                 }
                 break;
             case BOTH:
-                if (allowFileLogging) plugin.getLogFile().getLogger().log(Level.INFO, ChatColor.stripColor(StringUtil.color(text)));
+                if (allowFileLogging) plugin.getLogFile().getLogger().log(Level.INFO, ChatColor.stripColor(StringUtils.color(text)));
 
                 if (addPrefix) {
-                    Bukkit.getConsoleSender().sendMessage(StringUtil.color("&7[ &bINFO &7] &7[ &aChestShop &7]&f " + text));
+                    Bukkit.getConsoleSender().sendMessage(StringUtils.color("&7[ &bINFO &7] &7[ &aChestShop &7]&f " + text));
                 } else {
-                    Bukkit.getConsoleSender().sendMessage(StringUtil.color(text));
+                    Bukkit.getConsoleSender().sendMessage(StringUtils.color(text));
                 }
                 break;
         }
@@ -54,22 +54,22 @@ public class Debug {
         boolean allowFileLogging = plugin.getConfigManager().getMemory().isLogToFile();
         switch (logType) {
             case FILE:
-                if (allowFileLogging) plugin.getLogFile().getLogger().log(Level.WARNING, ChatColor.stripColor(StringUtil.color(text)));
+                if (allowFileLogging) plugin.getLogFile().getLogger().log(Level.WARNING, ChatColor.stripColor(StringUtils.color(text)));
                 break;
             case CONSOLE:
                 if (addPrefix) {
-                    Bukkit.getConsoleSender().sendMessage(StringUtil.color("&7[ &cERROR &7] &7[ &aChestShop &7]&f " + text));
+                    Bukkit.getConsoleSender().sendMessage(StringUtils.color("&7[ &cERROR &7] &7[ &aChestShop &7]&f " + text));
                 } else {
-                    Bukkit.getConsoleSender().sendMessage(StringUtil.color(text));
+                    Bukkit.getConsoleSender().sendMessage(StringUtils.color(text));
                 }
                 break;
             case BOTH:
-                if (allowFileLogging) plugin.getLogFile().getLogger().log(Level.INFO, ChatColor.stripColor(StringUtil.color(text)));
+                if (allowFileLogging) plugin.getLogFile().getLogger().log(Level.INFO, ChatColor.stripColor(StringUtils.color(text)));
 
                 if (addPrefix) {
-                    Bukkit.getConsoleSender().sendMessage(StringUtil.color("&7[ &cERROR &7] &7[ &aChestShop &7]&f " + text));
+                    Bukkit.getConsoleSender().sendMessage(StringUtils.color("&7[ &cERROR &7] &7[ &aChestShop &7]&f " + text));
                 } else {
-                    Bukkit.getConsoleSender().sendMessage(StringUtil.color(text));
+                    Bukkit.getConsoleSender().sendMessage(StringUtils.color(text));
                 }
                 break;
         }

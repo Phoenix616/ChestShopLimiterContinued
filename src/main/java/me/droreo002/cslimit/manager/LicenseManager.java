@@ -1,6 +1,6 @@
 package me.droreo002.cslimit.manager;
 
-import me.droreo002.cslimit.utils.StringUtils;
+import me.droreo002.oreocore.utils.strings.StringUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -3,9 +3,9 @@ package me.droreo002.cslimit.lang;
 import me.droreo002.cslimit.ChestShopLimiter;
 import me.droreo002.cslimit.config.ConfigManager;
 import me.droreo002.cslimit.manager.LicenseManager;
-import me.droreo002.cslimit.utils.StringUtils;
 import me.droreo002.oreocore.configuration.CustomConfig;
 import me.droreo002.oreocore.utils.item.helper.TextPlaceholder;
+import me.droreo002.oreocore.utils.strings.StringUtils;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 

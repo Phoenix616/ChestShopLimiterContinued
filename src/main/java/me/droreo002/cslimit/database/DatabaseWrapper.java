@@ -43,4 +43,12 @@ public interface DatabaseWrapper {
      * @param uuid : The UUID
      */
     void load(UUID uuid);
+
+    /**
+     * Migrate the PlayerData object that is from old / different database type
+     * into the current database
+     *
+     * @param playerData : The player data that will get migrated
+     */
+    void migrate(PlayerData playerData);
 }

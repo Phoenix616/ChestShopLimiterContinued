@@ -10,10 +10,6 @@
 # Plugin prefix!
 Prefix: '&7[ &bChestShopLimiter &7]&f '
 
-# Migrate the old data? (Non Premium Version)
-# for Migration tutorial, please refer to the spigot page!
-MigrateOldData: false
-
 # Which lang file that you want to use, you can name it whatever you want to. Btw
 # make sure To make one just copy and paste the whole lang.yml file and
 # rename it, make sure you don't edit any of the config keys, by default it will make a EN_lang file if no lang file found

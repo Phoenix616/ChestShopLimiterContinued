@@ -37,9 +37,6 @@ public class StatusCommand extends CommandArg {
             sendStatus(commandSender, player.getUniqueId());
             return;
         }
-        if (args.length == 2) {
-            // TODO : Status for other player, make it next update
-        }
         error(commandSender);
         sendMessage(commandSender, lang.getLang(LangPath.ERROR_USAGE_COMMAND_STATUS, null, true));
     }

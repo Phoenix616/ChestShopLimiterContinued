@@ -15,7 +15,6 @@ import java.util.concurrent.ExecutionException;
 
 public final class PlayerUtils {
 
-    @SuppressWarnings("deprecation")
     public static UUID getUUID(String name) {
         final HookManager hookManager = ChestShopLimiter.getInstance().getHookManager();
         if (hookManager.isCMI()) {

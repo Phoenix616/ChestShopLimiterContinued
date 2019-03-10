@@ -120,4 +120,24 @@ public class PlayerData {
         String lastShopLocation = (String) values.get(6);
         return new PlayerData(uuid, playerName, maxShop, shopCreated, lastPermission, lastRank, lastShopLocation);
     }
+
+    /**
+     * Get the data from old YAML File
+     *
+     * @param config : The YAML FileConfiguration
+     * @return a new YAML based data if succeeded, null otherwise
+     */
+    public static PlayerData fromOldYaml(FileConfiguration config) {
+        if (config == null) return null;
+        if (!config.contains("player-name")) return null;
+        if (config.getConfigurationSection("Info") == null) return null;
+        UUID uuid = UUID.fromString(config.getString("Updated.fileName")); // File name will be a valid UUID
+        String playerName = config.getString("player-name");
+        int maxShop = config.getInt("Info.shopLimit");
+        int shopCreated = config.getInt("Info.shopCreated");
+        String lastPermission = "empty";
+        String lastRank = "empty";
+        String lastShop = "empty";
+        return new PlayerData(uuid, playerName, maxShop, shopCreated, lastPermission, lastRank, lastShop);
+    }
 }

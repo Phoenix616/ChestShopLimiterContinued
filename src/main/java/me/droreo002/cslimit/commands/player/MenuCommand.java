@@ -20,7 +20,7 @@ public class MenuCommand extends CommandArg {
         LangManager lang = plugin.getLangManager();
 
         setPlayerOnly(true, lang.getLang(LangPath.NORMAL_PLAYER_ONLY, null, true));
-        setPermission("csl.player.menu", lang.getLang(LangPath.NORMAL_NO_PERMISSION, null, true));
+        setPermission("csl.admin.menu", lang.getLang(LangPath.NORMAL_NO_PERMISSION, null, true));
     }
 
     @Override
