@@ -77,7 +77,7 @@ public class ChestShopLimiterCommand extends CustomCommand {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
         if (args.length == 1) {
-            return createReturnList(new ArrayList<>(tabComplete), args[0]);
+            return createReturnList(tabComplete, args[0]);
         } else if (args.length == 2) {
             if (args[0].equalsIgnoreCase("reload")) {
                 List<String> toReturn = new ArrayList<>();

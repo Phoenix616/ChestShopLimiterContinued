@@ -41,8 +41,6 @@ public class SelectorInventory extends PaginatedInventory {
         setSearchRow(4, true, new ItemStack(XMaterial.GRAY_STAINED_GLASS_PANE.parseMaterial()));
         setItemSlot(0, 1, 2, 3);
 
-        // TODO : Try the conversation api!
-
         for (Player p : Bukkit.getOnlinePlayers()) {
             final Map<ItemMetaType, TextPlaceholder> placeholder = new HashMap<>();
             placeholder.put(ItemMetaType.DISPLAY_NAME, new TextPlaceholder("%player", p.getName()));
