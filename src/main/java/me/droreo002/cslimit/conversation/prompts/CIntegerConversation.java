@@ -68,12 +68,15 @@ public class CIntegerConversation extends StringPrompt {
         }
         TextPlaceholder pl = new TextPlaceholder("%value", String.valueOf(numberInput));
         switch (type) {
+            /*
+            Change shop value
+             */
             case CHANGE_MAX_SHOP:
                 player.sendMessage(lang.getLang(LangPath.TE_SUCCESS_CHANGE_MAX_SHOP, pl, true));
                 targetData.setMaxShop(numberInput);
                 break;
             case CHANGE_CURRENT_SHOP:
-                if (numberInput > targetData.getShopCreated()) {
+                if ((numberInput + targetData.getShopCreated()) > targetData.getShopCreated()) {
                     player.sendMessage(lang.getLang(LangPath.TE_SHOP_CREATED_GREATER, null, true));
                     memory.getTEditorFailureSound().send(player);
                     return Prompt.END_OF_CONVERSATION;
@@ -81,6 +84,10 @@ public class CIntegerConversation extends StringPrompt {
                 player.sendMessage(lang.getLang(LangPath.TE_SUCCESS_CHANGE_CURR_SHOP, pl, true));
                 targetData.setShopCreated(numberInput);
                 break;
+
+            /*
+            Add shop value
+             */
             case ADD_CURRENT_SHOP:
                 if ((numberInput + targetData.getShopCreated()) > targetData.getShopCreated()) {
                     player.sendMessage(lang.getLang(LangPath.TE_SHOP_CREATED_GREATER, null, true));
