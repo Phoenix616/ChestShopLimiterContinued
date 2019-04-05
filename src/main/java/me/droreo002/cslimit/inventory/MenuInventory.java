@@ -41,7 +41,7 @@ public class MenuInventory extends CustomInventory {
                     close(player);
                     new EditorInventory(p, plugin).open(player);
                 }
-            }).openAsync(player);
+            }).openAsync(player, 1);
         }), true);
     }
 
