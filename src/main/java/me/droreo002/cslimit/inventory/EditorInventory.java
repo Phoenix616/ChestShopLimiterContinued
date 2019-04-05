@@ -44,9 +44,10 @@ public class EditorInventory extends CustomInventory {
                 .add("%maxShop", String.valueOf(data.getMaxShop()))
                 .add("%shopCount", String.valueOf(data.getShopCreated())));
 
+        // INFO : No need async. Only 1 button
         ItemStack infoButton;
         try {
-            infoButton = CustomSkull.toHeadAsync(CustomItem.fromSection(lang.asSection(LangPath.INVENTORY_EDITOR_INFO_BUTTON), infoPlaceholder), player).get();
+            infoButton = CustomSkull.toHeadAsync(CustomItem.fromSection(lang.asSection(LangPath.INVENTORY_EDITOR_INFO_BUTTON), infoPlaceholder), player.getUniqueId()).get();
         } catch (InterruptedException | ExecutionException e) {
             player.sendMessage("Something went wrong, please contact server admin!");
             e.printStackTrace();

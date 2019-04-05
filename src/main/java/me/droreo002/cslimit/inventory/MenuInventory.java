@@ -10,11 +10,17 @@ import me.droreo002.oreocore.enums.XMaterial;
 import me.droreo002.oreocore.inventory.api.CustomInventory;
 import me.droreo002.oreocore.inventory.api.GUIButton;
 import me.droreo002.oreocore.utils.item.CustomItem;
+import me.droreo002.oreocore.utils.item.CustomSkull;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class MenuInventory extends CustomInventory {
 
@@ -39,7 +45,7 @@ public class MenuInventory extends CustomInventory {
                     close(player);
                     new EditorInventory(p, plugin).open(player);
                 }
-            }).open(player);
+            }).openAsync(player);
         }), true);
     }
 

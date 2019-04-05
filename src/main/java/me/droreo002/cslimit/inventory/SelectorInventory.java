@@ -10,14 +10,17 @@ import me.droreo002.oreocore.inventory.api.GUIButton;
 import me.droreo002.oreocore.inventory.api.paginated.PaginatedInventory;
 import me.droreo002.oreocore.utils.item.CustomItem;
 import me.droreo002.oreocore.utils.item.CustomSkull;
+import me.droreo002.oreocore.utils.item.ItemUtils;
 import me.droreo002.oreocore.utils.item.helper.ItemMetaType;
 import me.droreo002.oreocore.utils.item.helper.TextPlaceholder;
+import me.droreo002.oreocore.utils.strings.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
@@ -41,19 +44,14 @@ public class SelectorInventory extends PaginatedInventory {
         setSearchRow(4, true, new ItemStack(XMaterial.GRAY_STAINED_GLASS_PANE.parseMaterial()));
         setItemSlot(0, 1, 2, 3);
 
-        for (Player p : Bukkit.getOnlinePlayers()) {
+        // INFO : NO NEED ASYNC. BECAUSE WE"RE ALREADY OPENED THIS INVENTORY VIA ASYNC WAY
+        for (Player player : Bukkit.getOnlinePlayers()) {
             final Map<ItemMetaType, TextPlaceholder> placeholder = new HashMap<>();
-            placeholder.put(ItemMetaType.DISPLAY_NAME, new TextPlaceholder("%player", p.getName()));
-            ItemStack head;
-            try {
-                head = CustomSkull.toHeadAsync(CustomItem.fromSection(lang.asSection(LangPath.INVENTORY_PLAYER_SELECTOR_PLAYER_BUTTON), placeholder), p).get();
-            } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
-                return;
-            }
+            placeholder.put(ItemMetaType.DISPLAY_NAME, new TextPlaceholder("%player", player.getName()));
+            ItemStack head = CustomSkull.fromSection(lang.asSection(LangPath.INVENTORY_PLAYER_SELECTOR_PLAYER_BUTTON), placeholder, player.getUniqueId());
             addPaginatedButton(new GUIButton(head).setListener(inventoryClickEvent -> {
                 ItemStack curr = inventoryClickEvent.getCurrentItem();
-                Bukkit.getScheduler().scheduleSyncDelayedTask(ChestShopLimiter.getInstance(), () -> selected.selected(inventoryClickEvent, curr, p), 1L);
+                Bukkit.getScheduler().scheduleSyncDelayedTask(ChestShopLimiter.getInstance(), () -> selected.selected(inventoryClickEvent, curr, player), 1L);
             }));
         }
     }

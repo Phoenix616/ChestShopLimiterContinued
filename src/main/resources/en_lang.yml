@@ -93,6 +93,8 @@ List:
     - '&7(&b✿&7) &f» &e/csl reload <type> &f| Reload specified file / modules'
     - '&7(&b✿&7) &f» &e/csl reset <name>  &f| Reset the player data back to default'
     - '&7(&b✿&7) &f» &e/csl status        &f| Check your current status'
+    - '&7(&b✿&7) &f» &e/csl menu          &f| Open menu'
+    - '&7(&b✿&7) &f» &e/csl migrate       &f| Migrating from old to new data'
     - '&r'
     - '&8&m-----------------&7 [ &bChestShopLimiter &7] &8&m-----------------'
 
@@ -159,7 +161,7 @@ Inventory:
   MainMenu:
     title: '&8» Main Menu'
     exit-button:
-      material: OAK_DOOR
+      material: WOOD_DOOR
       name: '&7[ &cExit &7]'
       lore:
         - '&8&m--------------'
