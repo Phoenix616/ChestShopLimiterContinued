@@ -76,7 +76,7 @@ public class CIntegerConversation extends StringPrompt {
                 targetData.setMaxShop(numberInput);
                 break;
             case CHANGE_CURRENT_SHOP:
-                if ((numberInput + targetData.getShopCreated()) > targetData.getShopCreated()) {
+                if (numberInput > targetData.getShopCreated()) {
                     player.sendMessage(lang.getLang(LangPath.TE_SHOP_CREATED_GREATER, null, true));
                     memory.getTEditorFailureSound().send(player);
                     return Prompt.END_OF_CONVERSATION;
