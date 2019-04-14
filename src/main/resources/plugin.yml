@@ -1,5 +1,5 @@
 name: ChestShopLimiter
-version: 1.3
+version: 1.4
 main: me.droreo002.cslimit.ChestShopLimiter
 api-version: 1.13
 depend: [ChestShop, OreoCore]
