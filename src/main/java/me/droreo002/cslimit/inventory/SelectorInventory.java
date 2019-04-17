@@ -42,7 +42,7 @@ public class SelectorInventory extends PaginatedInventory {
         setCloseSound(mem.getPSelectorCloseSound());
 
         setSearchRow(4, true, new ItemStack(XMaterial.GRAY_STAINED_GLASS_PANE.parseMaterial()));
-        setItemSlot(0, 1, 2, 3);
+        setItemRow(0, 1, 2, 3);
 
         // INFO : NO NEED ASYNC. BECAUSE WE"RE ALREADY OPENED THIS INVENTORY VIA ASYNC WAY
         for (Player player : Bukkit.getOnlinePlayers()) {
