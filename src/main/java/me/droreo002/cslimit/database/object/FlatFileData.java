@@ -37,11 +37,12 @@ public class FlatFileData extends DatabaseFlatFile implements DatabaseWrapper {
     private final ChestShopLimiter plugin;
 
     public FlatFileData(ChestShopLimiter plugin, ConfigManager.Memory memory) {
-        super(plugin, new File(plugin.getDataFolder(), memory.getFlatFileDatabaseFolder()));
+        super(plugin, new File(plugin.getDataFolder(), memory.getFlatFileDatabaseFolder()), false);
         this.plugin = plugin;
         this.memory = memory;
         this.playerData = new HashMap<>();
         loadData();
+
         DatabaseManager.registerDatabase(plugin, this);
     }
 
