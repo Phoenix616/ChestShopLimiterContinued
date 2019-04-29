@@ -41,7 +41,6 @@ public class FlatFileData extends DatabaseFlatFile implements DatabaseWrapper {
         this.plugin = plugin;
         this.memory = memory;
         this.playerData = new HashMap<>();
-        loadData();
 
         DatabaseManager.registerDatabase(plugin, this);
     }
@@ -92,8 +91,7 @@ public class FlatFileData extends DatabaseFlatFile implements DatabaseWrapper {
     public void removePlayerData(UUID uuid, boolean delete) {
         final PlayerData playerData = getPlayerData(uuid);
         final Data data = getDataClass(uuid.toString());
-        Validate.notNull(playerData, "Cannot find data object for UUID " + uuid.toString());
-        Validate.notNull(data, "Cannot find data object for player " + playerData.getPlayerName());
+        if (playerData == null) throw new NullPointerException("Failed to get player data with the UUID of " + uuid.toString() + ", when trying to remove!");
         if (delete) {
             removeData(data, true);
             this.playerData.remove(playerData.getPlayerUUID());
@@ -109,14 +107,13 @@ public class FlatFileData extends DatabaseFlatFile implements DatabaseWrapper {
 
     @Override
     public void load(UUID key) {
-        if (!playerData.containsKey(key)) {
+        setup(key.toString(), true, setupCallbackType -> {
             // Try to generate new data
-            setup(key.toString(), true);
             Data objectData = getDataClass(key.toString());
             if (objectData == null) throw new NullPointerException("No object data found for UUID " + key.toString() + " please contact administrator!");
             FileConfiguration config = objectData.getConfig();
-            // If this is a new data. Process it in different way then
-            if (config.contains("Data") && config.getConfigurationSection("Data") == null) {
+            if (setupCallbackType == SetupCallbackType.CREATED_AND_LOADED) {
+                // If this is a new data. Process it in different way then
                 config.set("Data.uuid", key.toString());
                 config.set("Data.playerName", PlayerUtils.getPlayerName(key));
                 config.set("Data.shopCreated", 0);
@@ -132,43 +129,48 @@ public class FlatFileData extends DatabaseFlatFile implements DatabaseWrapper {
                 }
                 objectData.setConfig(config); // Update it
                 saveData(objectData);
+
                 PlayerData data = PlayerData.fromYaml(config);
                 playerData.put(key, data);
                 return;
             }
-            if (plugin.getHookManager().isLuckPerms()) {
-                LuckPermsHook hook = (LuckPermsHook) plugin.getHookManager().getHookMap().get("LuckPerms");
-                hook.setupData(key, config, false);
-            } else {
-                setupData(key, config, false);
+            if (setupCallbackType == SetupCallbackType.LOADED) {
+                if (plugin.getHookManager().isLuckPerms()) {
+                    LuckPermsHook hook = (LuckPermsHook) plugin.getHookManager().getHookMap().get("LuckPerms");
+                    hook.setupData(key, config, false);
+                } else {
+                    setupData(key, config, false);
+                }
+                objectData.setConfig(config); // Update it
+                saveData(objectData);
+
+                PlayerData data = PlayerData.fromYaml(config);
+                playerData.put(key, data);
             }
-            objectData.setConfig(config); // Update it
-            saveData(objectData);
-            PlayerData data = PlayerData.fromYaml(config);
-            playerData.put(key, data);
-        }
+        });
     }
 
     @Override
     public void migrate(PlayerData playerData) {
         Debug.info("Trying to migrate &e" + playerData.getPlayerName() + " &fthis will take sometimes...", true, Debug.LogType.BOTH);
         UUID key = playerData.getPlayerUUID();
-        setup(key.toString(), true);
-        Data objectData = getDataClass(key.toString());
-        if (objectData == null) throw new NullPointerException("No object data found for UUID " + key.toString() + " please contact administrator!");
-        FileConfiguration config = objectData.getConfig();
-        // Update the new config
-        config.set("Data.uuid", playerData.getPlayerUUID().toString());
-        config.set("Data.playerName", playerData.getPlayerName());
-        config.set("Data.shopCreated", playerData.getShopCreated());
-        config.set("Data.maxShop", playerData.getMaxShop());
-        config.set("Data.lastPermission", playerData.getLastPermission());
-        config.set("Data.lastRank", playerData.getLastRank());
-        config.set("Data.lastShopLocation", playerData.getLastShopLocation());
-        // Update the data
-        objectData.setConfig(config);
-        saveData(objectData);
-        this.playerData.put(key, playerData);
+        setup(key.toString(), true, setupCallbackType -> {
+            Data objectData = getDataClass(key.toString());
+            if (objectData == null) throw new NullPointerException("No object data found for UUID " + key.toString() + " please contact administrator!");
+            FileConfiguration config = objectData.getConfig();
+            // Update the new config
+            config.set("Data.uuid", playerData.getPlayerUUID().toString());
+            config.set("Data.playerName", playerData.getPlayerName());
+            config.set("Data.shopCreated", playerData.getShopCreated());
+            config.set("Data.maxShop", playerData.getMaxShop());
+            config.set("Data.lastPermission", playerData.getLastPermission());
+            config.set("Data.lastRank", playerData.getLastRank());
+            config.set("Data.lastShopLocation", playerData.getLastShopLocation());
+            // Update the data
+            objectData.setConfig(config);
+            saveData(objectData);
+            this.playerData.put(key, playerData);
+        });
     }
 
     private void setupData(UUID uuid, FileConfiguration config, boolean firstSetup) {

@@ -11,6 +11,7 @@ import me.droreo002.cslimit.manager.logger.Debug;
 import me.droreo002.cslimit.utils.PlayerUtils;
 import me.droreo002.oreocore.commands.CommandArg;
 import me.droreo002.oreocore.commands.CustomCommand;
+import me.droreo002.oreocore.utils.item.helper.ItemMetaType;
 import me.droreo002.oreocore.utils.item.helper.TextPlaceholder;
 import me.droreo002.oreocore.utils.strings.TextBuilder;
 import me.droreo002.oreocore.utils.world.LocationUtils;
@@ -75,7 +76,7 @@ public class CheckCommand extends CommandArg {
         final PlayerData data = plugin.getChestShopAPI().getData(target);
         final String targetName = Bukkit.getOfflinePlayer(target).getName();
         if (data == null) {
-            sendMessage(sender, lang.getLang(LangPath.NORMAL_DATA_NOT_FOUND, new TextPlaceholder("%player", targetName), true));
+            sendMessage(sender, lang.getLang(LangPath.NORMAL_DATA_NOT_FOUND, new TextPlaceholder(ItemMetaType.NONE, "%player", targetName), true));
             error(sender);
             return;
         }

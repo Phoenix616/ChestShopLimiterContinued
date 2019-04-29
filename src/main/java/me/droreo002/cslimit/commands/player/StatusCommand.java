@@ -7,6 +7,7 @@ import me.droreo002.cslimit.lang.LangPath;
 import me.droreo002.cslimit.manager.logger.Debug;
 import me.droreo002.oreocore.commands.CommandArg;
 import me.droreo002.oreocore.commands.CustomCommand;
+import me.droreo002.oreocore.utils.item.helper.ItemMetaType;
 import me.droreo002.oreocore.utils.item.helper.TextPlaceholder;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -43,7 +44,7 @@ public class StatusCommand extends CommandArg {
 
     private void sendStatus(CommandSender sender, UUID target) {
         final PlayerData data = plugin.getChestShopAPI().getData(target);
-        List<String> message = lang.getLangList(LangPath.LIST_PLAYER_STATUS_MESSAGE, new TextPlaceholder("%shopcreated", String.valueOf(data.getShopCreated())).add("%shoplimit", String.valueOf(data.getMaxShop())));
+        List<String> message = lang.getLangList(LangPath.LIST_PLAYER_STATUS_MESSAGE, new TextPlaceholder(ItemMetaType.NONE, "%shopcreated", String.valueOf(data.getShopCreated())).add(ItemMetaType.NONE, "%shoplimit", String.valueOf(data.getMaxShop())));
         message.forEach(sender::sendMessage);
     }
 }

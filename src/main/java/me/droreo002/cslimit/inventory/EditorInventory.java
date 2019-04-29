@@ -1,5 +1,6 @@
 package me.droreo002.cslimit.inventory;
 
+import com.sun.org.apache.bcel.internal.generic.LOR;
 import me.droreo002.cslimit.ChestShopLimiter;
 import me.droreo002.cslimit.config.ConfigManager;
 import me.droreo002.cslimit.conversation.helper.ConversationType;
@@ -37,12 +38,10 @@ public class EditorInventory extends CustomInventory {
         setSoundOnOpen(mem.getEditorOpenSound());
         setSoundOnClose(mem.getEditorCloseSound());
 
-        Map<ItemMetaType, TextPlaceholder> infoPlaceholder = new HashMap<>();
-        infoPlaceholder.put(ItemMetaType.DISPLAY_NAME, new TextPlaceholder("%player", player.getName()));
-        infoPlaceholder.put(ItemMetaType.LORE,
-                new TextPlaceholder("%player", player.getName())
-                .add("%maxShop", String.valueOf(data.getMaxShop()))
-                .add("%shopCount", String.valueOf(data.getShopCreated())));
+        TextPlaceholder infoPlaceholder = new TextPlaceholder(ItemMetaType.DISPLAY_NAME, "%player", player.getName())
+                .add(ItemMetaType.LORE, "%player", player.getName())
+                .add(ItemMetaType.LORE, "%maxShop", String.valueOf(data.getMaxShop()))
+                .add(ItemMetaType.LORE,"%shopCount", String.valueOf(data.getShopCreated()));
 
         // INFO : No need async. Only 1 button
         ItemStack infoButton;

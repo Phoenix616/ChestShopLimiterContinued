@@ -10,6 +10,7 @@ import me.droreo002.cslimit.manager.logger.Debug;
 import me.droreo002.cslimit.utils.PlayerUtils;
 import me.droreo002.oreocore.commands.CommandArg;
 import me.droreo002.oreocore.commands.CustomCommand;
+import me.droreo002.oreocore.utils.item.helper.ItemMetaType;
 import me.droreo002.oreocore.utils.item.helper.TextPlaceholder;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -52,13 +53,13 @@ public class ResetCommand extends CommandArg {
                 success(commandSender);
                 OfflinePlayer off = Bukkit.getOfflinePlayer(offUUID);
                 reset(commandSender, off.getUniqueId());
-                sendMessage(commandSender, lang.getLang(LangPath.NORMAL_SHOP_CREATED_RESET, new TextPlaceholder("%player", off.getName()), true));
+                sendMessage(commandSender, lang.getLang(LangPath.NORMAL_SHOP_CREATED_RESET, new TextPlaceholder(ItemMetaType.NONE, "%player", off.getName()), true));
                 return;
             }
             success(commandSender);
             reset(commandSender, target.getUniqueId());
-            sendMessage(commandSender, lang.getLang(LangPath.NORMAL_SHOP_CREATED_RESET, new TextPlaceholder("%player", target.getName()), true));
-            sendMessage(target, lang.getLang(LangPath.NORMAL_SHOP_CREATED_RESET_OTHER, new TextPlaceholder("%executor", commandSender.getName()), true));
+            sendMessage(commandSender, lang.getLang(LangPath.NORMAL_SHOP_CREATED_RESET, new TextPlaceholder(ItemMetaType.NONE, "%player", target.getName()), true));
+            sendMessage(target, lang.getLang(LangPath.NORMAL_SHOP_CREATED_RESET_OTHER, new TextPlaceholder(ItemMetaType.NONE,"%executor", commandSender.getName()), true));
         } else {
             sendMessage(commandSender, lang.getLang(LangPath.NORMAL_TOO_MUCH_ARGS, null, true));
             error(commandSender);

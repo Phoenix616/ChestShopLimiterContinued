@@ -213,5 +213,5 @@ Inventory:
       lore:
         - '&8&m--------------'
         - '&r'
-        - '&7(&b✿&7) &cLeft-Click &fto set player''s &eshopCount &fdata count'
-        - '&7(&b✿&7) &cRight-Click &fto add player''s &eshopCount &fdata count'
+        - '&7(&b✿&7) &cLeft-Click &fto set player''s &eshopCreated &fdata'
+        - '&7(&b✿&7) &cRight-Click &fto add player''s &eshopCreated &fdata'

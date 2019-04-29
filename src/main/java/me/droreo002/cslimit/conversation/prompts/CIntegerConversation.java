@@ -7,6 +7,7 @@ import me.droreo002.cslimit.conversation.helper.SessionDataKey;
 import me.droreo002.cslimit.database.PlayerData;
 import me.droreo002.cslimit.lang.LangManager;
 import me.droreo002.cslimit.lang.LangPath;
+import me.droreo002.oreocore.utils.item.helper.ItemMetaType;
 import me.droreo002.oreocore.utils.item.helper.TextPlaceholder;
 import org.bukkit.Bukkit;
 import org.bukkit.conversations.*;
@@ -30,7 +31,7 @@ public class CIntegerConversation extends StringPrompt {
         ConversationType type = (ConversationType) context.getSessionData(SessionDataKey.CONVERSATION_TYPE);
         PlayerData targetData = (PlayerData) context.getSessionData(SessionDataKey.PLAYER_DATA);
         String targetName = Bukkit.getOfflinePlayer(targetData.getPlayerUUID()).getName();
-        TextPlaceholder pl = new TextPlaceholder("%target", targetName);
+        TextPlaceholder pl = new TextPlaceholder(ItemMetaType.NONE, "%target", targetName);
         String result;
         switch (type) {
             case CHANGE_MAX_SHOP:
@@ -66,7 +67,7 @@ public class CIntegerConversation extends StringPrompt {
             memory.getTEditorFailureSound().send(player);
             return Prompt.END_OF_CONVERSATION;
         }
-        TextPlaceholder pl = new TextPlaceholder("%value", String.valueOf(numberInput));
+        TextPlaceholder pl = new TextPlaceholder(ItemMetaType.NONE, "%value", String.valueOf(numberInput));
         switch (type) {
             /*
             Change shop value
@@ -76,7 +77,7 @@ public class CIntegerConversation extends StringPrompt {
                 targetData.setMaxShop(numberInput);
                 break;
             case CHANGE_CURRENT_SHOP:
-                if (numberInput > targetData.getShopCreated()) {
+                if (numberInput > targetData.getMaxShop()) {
                     player.sendMessage(lang.getLang(LangPath.TE_SHOP_CREATED_GREATER, null, true));
                     memory.getTEditorFailureSound().send(player);
                     return Prompt.END_OF_CONVERSATION;
@@ -89,7 +90,7 @@ public class CIntegerConversation extends StringPrompt {
             Add shop value
              */
             case ADD_CURRENT_SHOP:
-                if ((numberInput + targetData.getShopCreated()) > targetData.getShopCreated()) {
+                if ((numberInput + targetData.getShopCreated()) > targetData.getMaxShop()) {
                     player.sendMessage(lang.getLang(LangPath.TE_SHOP_CREATED_GREATER, null, true));
                     memory.getTEditorFailureSound().send(player);
                     return Prompt.END_OF_CONVERSATION;

@@ -1,5 +1,6 @@
 package me.droreo002.cslimit.inventory;
 
+import com.earth2me.essentials.textreader.TextPager;
 import lombok.Getter;
 import me.droreo002.cslimit.ChestShopLimiter;
 import me.droreo002.cslimit.config.ConfigManager;
@@ -46,8 +47,7 @@ public class SelectorInventory extends PaginatedInventory {
 
         // INFO : NO NEED ASYNC. BECAUSE WE"RE ALREADY OPENED THIS INVENTORY VIA ASYNC WAY
         for (Player player : Bukkit.getOnlinePlayers()) {
-            final Map<ItemMetaType, TextPlaceholder> placeholder = new HashMap<>();
-            placeholder.put(ItemMetaType.DISPLAY_NAME, new TextPlaceholder("%player", player.getName()));
+            final TextPlaceholder placeholder = new TextPlaceholder(ItemMetaType.DISPLAY_NAME, "%player", player.getName());
             ItemStack head = CustomSkull.fromSection(lang.asSection(LangPath.INVENTORY_PLAYER_SELECTOR_PLAYER_BUTTON), placeholder, player.getUniqueId());
             addPaginatedButton(new GUIButton(head).setListener(inventoryClickEvent -> {
                 ItemStack curr = inventoryClickEvent.getCurrentItem();

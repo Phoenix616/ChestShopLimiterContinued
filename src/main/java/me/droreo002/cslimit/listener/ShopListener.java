@@ -12,6 +12,7 @@ import me.droreo002.cslimit.lang.LangManager;
 import me.droreo002.cslimit.lang.LangPath;
 import me.droreo002.cslimit.manager.logger.Debug;
 import me.droreo002.oreocore.utils.bridge.ServerUtils;
+import me.droreo002.oreocore.utils.item.helper.ItemMetaType;
 import me.droreo002.oreocore.utils.item.helper.TextPlaceholder;
 import me.droreo002.oreocore.utils.world.LocationUtils;
 import org.bukkit.Location;
@@ -52,7 +53,7 @@ public class ShopListener implements Listener {
             }
             int created = data.getShopCreated();
             int limit = data.getMaxShop();
-            TextPlaceholder pl = new TextPlaceholder("%created", String.valueOf(created)).add("%max", String.valueOf(limit));
+            TextPlaceholder pl = new TextPlaceholder(ItemMetaType.NONE, "%created", String.valueOf(created)).add(ItemMetaType.NONE, "%max", String.valueOf(limit));
 
             if (created >= limit) {
                 // TODO : Maybe action bar, title, sound?. Oh also, make custom event for this please << IGNORE FOR NOW
@@ -67,7 +68,7 @@ public class ShopListener implements Listener {
                 data.setShopCreated(data.getShopCreated() + 1);
                 created = data.getShopCreated();
                 limit = data.getMaxShop();
-                pl = new TextPlaceholder("%created", String.valueOf(created)).add("%max", String.valueOf(limit));
+                pl = new TextPlaceholder(ItemMetaType.NONE, "%created", String.valueOf(created)).add(ItemMetaType.NONE, "%max", String.valueOf(limit));
 
                 player.sendMessage(lang.getLang(LangPath.NORMAL_SHOP_CREATED, pl, true));
                 data.setLastShopLocation(LocationUtils.convertToString(shopLoc));
@@ -98,7 +99,7 @@ public class ShopListener implements Listener {
             data.setShopCreated(data.getShopCreated() - 1);
             int created = data.getShopCreated();
             int limit = data.getMaxShop();
-            TextPlaceholder pl = new TextPlaceholder("%created", String.valueOf(created)).add("%max", String.valueOf(limit));
+            TextPlaceholder pl = new TextPlaceholder(ItemMetaType.NONE, "%created", String.valueOf(created)).add(ItemMetaType.NONE, "%max", String.valueOf(limit));
             player.sendMessage(lang.getLang(LangPath.NORMAL_SHOP_REMOVED, pl, true));
 
             // Remove last shop created
