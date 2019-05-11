@@ -37,6 +37,7 @@ public class ShopListener implements Listener {
         if (!e.isCancelled()) {
             final ChestShopAPI api = plugin.getChestShopAPI();
             final LangManager lang = plugin.getLangManager();
+            final ConfigManager.Memory memory = plugin.getConfigManager().getMemory();
             Player player = e.getPlayer();
             String[] line = e.getSignLines();
             UUID uuid = player.getUniqueId();
@@ -56,11 +57,11 @@ public class ShopListener implements Listener {
             TextPlaceholder pl = new TextPlaceholder(ItemMetaType.NONE, "%created", String.valueOf(created)).add(ItemMetaType.NONE, "%max", String.valueOf(limit));
 
             if (created >= limit) {
-                // TODO : Maybe action bar, title, sound?. Oh also, make custom event for this please << IGNORE FOR NOW
                 ShopMaxAmountReachedEvent event = new ShopMaxAmountReachedEvent(player, data);
                 ServerUtils.callEvent(event);
 
                 if (!event.isCancelled()) {
+                    if (memory.isTMaxShopReachedEnable()) memory.getTMaxShopReached().send(player);
                     player.sendMessage(lang.getLang(LangPath.ERROR_LIMIT_REACHED, pl, true));
                     e.setOutcome(PreShopCreationEvent.CreationOutcome.NO_PERMISSION);
                 }

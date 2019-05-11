@@ -35,7 +35,7 @@ public class ReloadCommand extends CommandArg {
             switch (type.toLowerCase()) {
                 case "config":
                     success(commandSender);
-                    plugin.getConfigManager().reloadConfig();
+                    plugin.getConfigManager().reload();
                     sendMessage(commandSender, lang.getLang(LangPath.NORMAL_CONFIG_RELOADED, null, true));
                     return;
                 case "lang":

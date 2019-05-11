@@ -35,6 +35,18 @@ Dependency:
 # it is recommended to not set it to false because it helps the dev to improve the plugin and know how much server using the plugin
 use-bstats: true
 
+# Title, the title setting for the plugin
+# The fade-in, fade-out, and stay is on ticks format. Keep in mind that 1 second is 20 tick. So 1 second is 20 x 1 = 20, 2 second is 20 x 2 = 40, etc
+Titles:
+  MaxShopReached:
+    enable: true
+    title: '&aNotification'
+    sub-title: '&fYou''ve reached the max shop amount!'
+    fade-in: 20
+    fade-out: 20
+    stay: 40
+    soundOnSend: 'NOTE_PLING'
+
 # This is the sound of "success" and "failure" when using a command. Required to reload / restart the server if you made changes
 # for the sound list, you can see it here https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html
 # available config keys are volume, pitch, sound. The required key is only sound. Rest of them will be set to default

@@ -10,6 +10,7 @@ import me.droreo002.oreocore.database.DatabaseType;
 import me.droreo002.oreocore.database.SQLType;
 import me.droreo002.oreocore.database.utils.MySqlConnection;
 import me.droreo002.oreocore.utils.misc.SoundObject;
+import me.droreo002.oreocore.utils.misc.TitleObject;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.io.File;
@@ -44,42 +45,42 @@ public final class ConfigManager extends CustomConfig {
         /*
         Misc
          */
-        @ConfigVariable(path = "Prefix", isSerializableObject = false)
+        @ConfigVariable(path = "Prefix")
         @Getter
         private String prefix;
 
-        @ConfigVariable(path = "use-bstats", isSerializableObject = false)
+        @ConfigVariable(path = "use-bstats")
         @Getter
         private boolean useBstats;
 
-        @ConfigVariable(path = "Language", isSerializableObject = false)
+        @ConfigVariable(path = "Language")
         @Getter
         private String langFile;
 
-        @ConfigVariable(path = "RefundOnShopRemove", isSerializableObject = false)
+        @ConfigVariable(path = "RefundOnShopRemove")
         @Getter
         private boolean refundOnRemove;
 
-        @ConfigVariable(path = "RefundOnShopRemove-Unlimited", isSerializableObject = false)
+        @ConfigVariable(path = "RefundOnShopRemove-Unlimited")
         @Getter
         private boolean refundOnUnlimited;
 
         /*
         Dependency
          */
-        @ConfigVariable(path = "Dependency.Essentials", isSerializableObject = false)
+        @ConfigVariable(path = "Dependency.Essentials")
         @Getter
         private boolean enableEssentialsHook;
 
-        @ConfigVariable(path = "Dependency.PlaceholderAPI", isSerializableObject = false)
+        @ConfigVariable(path = "Dependency.PlaceholderAPI")
         @Getter
         private boolean enablePapiHook;
 
-        @ConfigVariable(path = "Dependency.LuckPerms", isSerializableObject = false)
+        @ConfigVariable(path = "Dependency.LuckPerms")
         @Getter
         private boolean enableLuckPermsHook;
 
-        @ConfigVariable(path = "Dependency.CMI", isSerializableObject = false)
+        @ConfigVariable(path = "Dependency.CMI")
         @Getter
         private boolean enableCMIHook;
 
@@ -144,36 +145,36 @@ public final class ConfigManager extends CustomConfig {
         /*
         Logging
          */
-        @ConfigVariable(path = "Debugging.LogToFile", isSerializableObject = false)
+        @ConfigVariable(path = "Debugging.LogToFile")
         @Getter
         private boolean logToFile;
 
-        @ConfigVariable(path = "Debugging.LogFormat", isSerializableObject = false)
+        @ConfigVariable(path = "Debugging.LogFormat")
         @Getter
         private String logFormat;
 
         /*
         ShopLimit
          */
-        @ConfigVariable(path = "ShopLimit", errorWhenNull = true, isSerializableObject = false)
+        @ConfigVariable(path = "ShopLimit", errorWhenNull = true)
         @Getter
         private ConfigurationSection shopLimit;
 
-        @ConfigVariable(path = "ShopLimit.force-default", isSerializableObject = false)
+        @ConfigVariable(path = "ShopLimit.force-default")
         @Getter
         private boolean shopLimitForceDefault;
 
         /*
         ShopLimitLuckPerms
          */
-        @ConfigVariable(path = "ShopLimitLuckPerms", errorWhenNull = true, isSerializableObject = false)
+        @ConfigVariable(path = "ShopLimitLuckPerms", errorWhenNull = true)
         @Getter
         private ConfigurationSection shopLimitLuckPerms;
 
         /*
         Databases
          */
-        @ConfigVariable(path = "Database.DatabaseType", isSerializableObject = false)
+        @ConfigVariable(path = "Database.DatabaseType")
         @Getter
         private DatabaseType databaseType;
 
@@ -182,39 +183,52 @@ public final class ConfigManager extends CustomConfig {
         @Getter
         private MySqlConnection mySqlConnection = new MySqlConnection();
 
-        @ConfigVariable(path = "Database.MySQL.saveEvery", isSerializableObject = false)
+        @ConfigVariable(path = "Database.MySQL.saveEvery")
         @Getter
         private int mysqlSaveTime;
 
-        @ConfigVariable(path = "Database.MySQL.Type", isSerializableObject = false)
+        @ConfigVariable(path = "Database.MySQL.Type")
         @Getter
         private SQLType mySqlDatabaseType;
 
-        @ConfigVariable(path = "Database.MySQL.CompletelyAsync", isSerializableObject = false)
+        @ConfigVariable(path = "Database.MySQL.CompletelyAsync")
         @Getter
         private boolean mySqlCompletelyAsync;
 
         // FLAT_FILE
-        @ConfigVariable(path = "Database.FlatFile.DatabaseFolder", isSerializableObject = false)
+        @ConfigVariable(path = "Database.FlatFile.DatabaseFolder")
         @Getter
         private String flatFileDatabaseFolder;
 
         // SQL
-        @ConfigVariable(path = "Database.SQL.DatabaseName", isSerializableObject = false)
+        @ConfigVariable(path = "Database.SQL.DatabaseName")
         @Getter
         private String sqlDatabaseName;
 
-        @ConfigVariable(path = "Database.SQL.DatabaseFolder", isSerializableObject = false)
+        @ConfigVariable(path = "Database.SQL.DatabaseFolder")
         @Getter
         private String sqlDatabaseFolder;
 
-        @ConfigVariable(path = "Database.SQL.ForceUpdate",  isSerializableObject = false)
+        @ConfigVariable(path = "Database.SQL.ForceUpdate")
         @Getter
         private boolean sqlForceUpdate;
 
-        @ConfigVariable(path = "Database.SQL.Type", isSerializableObject = false)
+        @ConfigVariable(path = "Database.SQL.Type")
         @Getter
         private SQLType sqlDatabaseType;
+
+        /*
+        Titles
+         */
+        // Booleans
+        @ConfigVariable(path = "Titles.MaxShopReached.enable")
+        @Getter
+        private boolean tMaxShopReachedEnable;
+
+        // Object
+        @ConfigVariable(path = "Titles.MaxShopReached", isSerializableObject = true)
+        @Getter
+        private TitleObject tMaxShopReached = new TitleObject();
 
         Memory(CustomConfig customConfig) {
             this.customConfig = customConfig;
