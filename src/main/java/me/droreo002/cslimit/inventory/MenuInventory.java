@@ -11,6 +11,7 @@ import me.droreo002.oreocore.inventory.api.CustomInventory;
 import me.droreo002.oreocore.inventory.api.GUIButton;
 import me.droreo002.oreocore.utils.item.CustomItem;
 import me.droreo002.oreocore.utils.item.CustomSkull;
+import me.droreo002.oreocore.utils.item.complex.UMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -31,15 +32,15 @@ public class MenuInventory extends CustomInventory {
         setSoundOnClose(mem.getMainMenuCloseSound());
         setSoundOnOpen(mem.getMainMenuOpenSound());
 
-        addButton(0, new GUIButton(CustomItem.fromSection(lang.asSection(LangPath.INVENTORY_MAIN_MENU_EXIT_BUTTON), null)).setListener(GUIButton.CLOSE_LISTENER), true);
-        addButton(1, new GUIButton(CustomItem.GRAY_GLASSPANE).setListener(GUIButton.CLOSE_LISTENER), true);
-        addButton(2, new GUIButton(editorButton).setListener(inventoryClickEvent -> {
+        addButton(new GUIButton(CustomItem.fromSection(lang.asSection(LangPath.INVENTORY_MAIN_MENU_EXIT_BUTTON), null), 0).setListener(GUIButton.CLOSE_LISTENER), true);
+        addButton(new GUIButton(CustomItem.GRAY_GLASSPANE, 1).setListener(GUIButton.CLOSE_LISTENER), true);
+        addButton(new GUIButton(editorButton, 2).setListener(inventoryClickEvent -> {
             Player player = (Player) inventoryClickEvent.getWhoClicked();
-            close(player);
-            new SelectorInventory(lang.getLang(LangPath.INVENTORY_PLAYER_SELECTOR_TITLE, null, false), (e, item, p) -> {
-                if (item.getType().equals(XMaterial.PLAYER_HEAD.parseMaterial())) {
-                    close(player);
-                    new EditorInventory(p, plugin).open(player);
+            closeInventory(player);
+            new SelectorInventory(lang.getLang(LangPath.INVENTORY_PLAYER_SELECTOR_TITLE, null, false), (e, item, targetPlayer) -> {
+                if (item.getType().equals(UMaterial.PLAYER_HEAD_ITEM.getMaterial())) {
+                    closeInventory(player);
+                    new EditorInventory(player, targetPlayer, plugin).openAsync(player); // In case that there's head
                 }
             }).openAsync(player, 1);
         }), true);

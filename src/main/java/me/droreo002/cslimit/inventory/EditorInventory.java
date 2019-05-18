@@ -23,76 +23,67 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 public class EditorInventory extends CustomInventory {
 
-    public EditorInventory(Player player, ChestShopLimiter plugin) {
+    public EditorInventory(Player opener, Player targetPlayer, ChestShopLimiter plugin) {
         super(9, plugin.getLangManager().getLang(LangPath.INVENTORY_EDITOR_TITLE, null, false));
         final LangManager lang = plugin.getLangManager();
         final ConfigManager.Memory mem = plugin.getConfigManager().getMemory();
-        final PlayerData data = plugin.getChestShopAPI().getData(player.getUniqueId());
+        final PlayerData data = plugin.getChestShopAPI().getData(targetPlayer.getUniqueId());
 
         if (data == null) throw new NullPointerException("Data cannot be null!. Please contact dev!");
         setSoundOnClick(mem.getEditorClickSound());
         setSoundOnOpen(mem.getEditorOpenSound());
         setSoundOnClose(mem.getEditorCloseSound());
 
-        TextPlaceholder infoPlaceholder = new TextPlaceholder(ItemMetaType.DISPLAY_NAME, "%player", player.getName())
-                .add(ItemMetaType.LORE, "%player", player.getName())
+        TextPlaceholder infoPlaceholder = new TextPlaceholder(ItemMetaType.DISPLAY_NAME, "%player", targetPlayer.getName())
+                .add(ItemMetaType.LORE, "%player", targetPlayer.getName())
                 .add(ItemMetaType.LORE, "%maxShop", String.valueOf(data.getMaxShop()))
                 .add(ItemMetaType.LORE,"%shopCount", String.valueOf(data.getShopCreated()));
 
-        // INFO : No need async. Only 1 button
-        ItemStack infoButton;
-        try {
-            infoButton = CustomSkull.toHeadAsync(CustomItem.fromSection(lang.asSection(LangPath.INVENTORY_EDITOR_INFO_BUTTON), infoPlaceholder), player.getUniqueId()).get();
-        } catch (InterruptedException | ExecutionException e) {
-            player.sendMessage("Something went wrong, please contact server admin!");
-            e.printStackTrace();
-            return;
-        }
+        ItemStack infoButton = CustomItem.applyFromSection(CustomSkull.getHead(targetPlayer.getUniqueId()), lang.asSection(LangPath.INVENTORY_EDITOR_INFO_BUTTON), infoPlaceholder);
         ItemStack editMaxShopButton = CustomItem.fromSection(lang.asSection(LangPath.INVENTORY_EDITOR_EDIT_MAX_SHOP_BUTTON), null);
         ItemStack editShopCountButton = CustomItem.fromSection(lang.asSection(LangPath.INVENTORY_EDITOR_EDIT_SHOP_COUNT), null);
 
-        addButton(0, new GUIButton(infoButton).setListener(GUIButton.CLOSE_LISTENER), true);
-        addButton(1, new GUIButton(CustomItem.GRAY_GLASSPANE).setListener(GUIButton.CLOSE_LISTENER), true);
-        addButton(2, new GUIButton(editMaxShopButton).setListener(inventoryClickEvent -> {
+        addButton(new GUIButton(infoButton, 0).setListener(GUIButton.CLOSE_LISTENER), true);
+        addButton(new GUIButton(CustomItem.GRAY_GLASSPANE, 1).setListener(GUIButton.CLOSE_LISTENER), true);
+        addButton(new GUIButton(editMaxShopButton, 2).setListener(inventoryClickEvent -> {
             ClickType click = inventoryClickEvent.getClick();
             if (click == ClickType.LEFT) {
                 Map<SessionDataKey, Object> sessionData = new HashMap<>();
                 sessionData.put(SessionDataKey.CONVERSATION_TYPE, ConversationType.CHANGE_MAX_SHOP);
                 sessionData.put(SessionDataKey.PLAYER_DATA, data);
 
-                plugin.getConversationManager().sendConversation(player, ConversationType.CHANGE_MAX_SHOP, sessionData);
-                close(player);
+                plugin.getConversationManager().sendConversation(opener, ConversationType.CHANGE_MAX_SHOP, sessionData);
+                closeInventory(opener);
             }
             if (click == ClickType.RIGHT) {
                 Map<SessionDataKey, Object> sessionData = new HashMap<>();
                 sessionData.put(SessionDataKey.CONVERSATION_TYPE, ConversationType.ADD_MAX_SHOP);
                 sessionData.put(SessionDataKey.PLAYER_DATA, data);
 
-                plugin.getConversationManager().sendConversation(player, ConversationType.ADD_MAX_SHOP, sessionData);
-                close(player);
+                plugin.getConversationManager().sendConversation(opener, ConversationType.ADD_MAX_SHOP, sessionData);
+                closeInventory(opener);
             }
         }), true);
-        addButton(3, new GUIButton(editShopCountButton).setListener(inventoryClickEvent -> {
+        addButton(new GUIButton(editShopCountButton, 3).setListener(inventoryClickEvent -> {
             ClickType click = inventoryClickEvent.getClick();
             if (click == ClickType.LEFT) {
                 Map<SessionDataKey, Object> sessionData = new HashMap<>();
                 sessionData.put(SessionDataKey.CONVERSATION_TYPE, ConversationType.CHANGE_CURRENT_SHOP);
                 sessionData.put(SessionDataKey.PLAYER_DATA, data);
 
-                plugin.getConversationManager().sendConversation(player, ConversationType.CHANGE_CURRENT_SHOP, sessionData);
-                close(player);
+                plugin.getConversationManager().sendConversation(opener, ConversationType.CHANGE_CURRENT_SHOP, sessionData);
+                closeInventory(opener);
             }
             if (click == ClickType.RIGHT) {
                 Map<SessionDataKey, Object> sessionData = new HashMap<>();
                 sessionData.put(SessionDataKey.CONVERSATION_TYPE, ConversationType.ADD_CURRENT_SHOP);
                 sessionData.put(SessionDataKey.PLAYER_DATA, data);
 
-                plugin.getConversationManager().sendConversation(player, ConversationType.ADD_CURRENT_SHOP, sessionData);
-                close(player);
+                plugin.getConversationManager().sendConversation(opener, ConversationType.ADD_CURRENT_SHOP, sessionData);
+                closeInventory(opener);
             }
         }), true);
     }

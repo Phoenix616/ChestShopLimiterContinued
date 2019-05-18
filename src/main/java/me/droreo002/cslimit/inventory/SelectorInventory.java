@@ -42,16 +42,16 @@ public class SelectorInventory extends PaginatedInventory {
         setClickSound(mem.getPSelectorClickSound());
         setCloseSound(mem.getPSelectorCloseSound());
 
-        setSearchRow(4, true, new ItemStack(XMaterial.GRAY_STAINED_GLASS_PANE.parseMaterial()));
+        setSearchRow(4, true, CustomItem.GRAY_GLASSPANE);
         setItemRow(0, 1, 2, 3);
 
         // INFO : NO NEED ASYNC. BECAUSE WE"RE ALREADY OPENED THIS INVENTORY VIA ASYNC WAY
         for (Player player : Bukkit.getOnlinePlayers()) {
             final TextPlaceholder placeholder = new TextPlaceholder(ItemMetaType.DISPLAY_NAME, "%player", player.getName());
-            ItemStack head = CustomSkull.fromSection(lang.asSection(LangPath.INVENTORY_PLAYER_SELECTOR_PLAYER_BUTTON), placeholder, player.getUniqueId());
+            ItemStack head = CustomItem.applyFromSection(CustomSkull.getHead(player.getUniqueId()), lang.asSection(LangPath.INVENTORY_PLAYER_SELECTOR_PLAYER_BUTTON), placeholder);
             addPaginatedButton(new GUIButton(head).setListener(inventoryClickEvent -> {
                 ItemStack curr = inventoryClickEvent.getCurrentItem();
-                Bukkit.getScheduler().scheduleSyncDelayedTask(ChestShopLimiter.getInstance(), () -> selected.selected(inventoryClickEvent, curr, player), 1L);
+                selected.selected(inventoryClickEvent, curr, player);
             }));
         }
     }
