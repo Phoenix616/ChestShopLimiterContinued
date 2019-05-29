@@ -40,6 +40,7 @@ public class ChestShopLimiterCommand extends CustomCommand {
         setErrorSound(memory.getFailureSound());
         setSuccessSound(memory.getSuccessSound());
         setArgumentNotFoundMessage(langManager.getLang(LangPath.ERROR_USAGE_COMMAND_UNKNOWN, null, true));
+        setTabCompletePermission("csl.admin", langManager.getLang(LangPath.ERROR_TAB_COMPLETE_NO_PERM, null, true));
 
         /*
         Add args

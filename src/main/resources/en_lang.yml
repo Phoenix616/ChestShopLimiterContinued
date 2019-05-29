@@ -85,6 +85,8 @@ Error:
   limit-reached: 'Shop limit reached!. Please upgrade your rank to create more shops! &7(&b%created&7/&e%max&7)'
   # When the command sender send invalid reload type
   invalid-reload-type: 'Invalid reload type!, Available type is : config and lang!'
+  # When player tried to use tab-complete without the csl.admin permission
+  tab-complete-no-permission: 'You don''t have the right permission to use the &etabComplete &ffeature!'
 List:
   help-message:
     - '&8&m-----------------&7 [ &bChestShopLimiter &7] &8&m-----------------'

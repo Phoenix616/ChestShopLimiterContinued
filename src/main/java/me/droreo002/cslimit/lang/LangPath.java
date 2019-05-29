@@ -56,6 +56,7 @@ public enum LangPath {
     ERROR_PLAYER_NEVER_PLAYED("Error.player-never-played"),
     ERROR_LIMIT_REACHED("Error.limit-reached"),
     ERROR_INVALID_RELOAD_TYPE("Error.invalid-reload-type"),
+    ERROR_TAB_COMPLETE_NO_PERM("Error.tab-complete-no-permission"),
 
     /*
     List values
