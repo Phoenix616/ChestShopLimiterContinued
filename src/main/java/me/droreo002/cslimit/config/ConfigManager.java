@@ -26,13 +26,7 @@ public final class ConfigManager extends CustomConfig {
         super(plugin, new File(plugin.getDataFolder(), "config.yml"));
         this.plugin = plugin;
         this.memory = new Memory(this);
-        ConfigMemoryManager.registerMemory(plugin, memory);
-    }
-
-    public void reload() {
-        super.reloadConfig();
-        this.memory = new Memory(this);
-        ConfigMemoryManager.reloadMemory(plugin, memory);
+        registerMemory(memory);
     }
 
     public class Memory implements ConfigMemory {
