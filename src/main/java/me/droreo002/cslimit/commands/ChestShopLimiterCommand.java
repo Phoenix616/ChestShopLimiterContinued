@@ -84,10 +84,6 @@ public class ChestShopLimiterCommand extends CustomCommand {
                 List<String> toReturn = new ArrayList<>();
                 toReturn.add("config");
                 toReturn.add("lang");
-                if (sender instanceof Player) {
-                    Player player = (Player) sender;
-                    successSound(player);
-                }
                 return createReturnList(toReturn, args[1]);
             }
             return null;
