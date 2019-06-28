@@ -7,6 +7,8 @@ Normal:
   config-reloaded: 'Reloaded the config.yml file!'
   # Fired when the lag file reloaded
   lang-reloaded: 'Reloaded the lang file!'
+  # Fired when csl update-file command successfully fired
+  file-updated: 'All .yml file has been updated!'
   # Fired, when player has no permission on executing csl command
   no-permission: '&cYou don''t have the right perms to do this!'
   # Fired when console trying to access the player command

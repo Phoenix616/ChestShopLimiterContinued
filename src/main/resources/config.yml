@@ -10,11 +10,11 @@
 # Plugin prefix!
 Prefix: '&7[ &bChestShopLimiter &7]&f '
 
-# Which lang file that you want to use, you can name it whatever you want to. Btw
-# make sure To make one just copy and paste the whole lang.yml file and
-# rename it, make sure you don't edit any of the config keys, by default it will make a EN_lang file if no lang file found
+# Which lang file that you want to use, you can name it whatever you want to.
 # WARNING it will throw an error and disabled the plugin if the <name>.yml file is not found!
-Language: 'en_lang' # + yml
+# WARNING do not change if this is the first time you run the plugin!
+# INFO there's only 1 lang available by default (en_lang.yml)
+Language: 'en_lang.yml'
 
 # Set this to true if you want to decrease the shopCreated value on player's data on ShopRemove. The refunded value will always be 1
 RefundOnShopRemove: true

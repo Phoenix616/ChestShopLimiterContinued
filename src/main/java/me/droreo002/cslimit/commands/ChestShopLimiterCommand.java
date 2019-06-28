@@ -10,6 +10,7 @@ import me.droreo002.cslimit.commands.universal.CheckCommand;
 import me.droreo002.cslimit.commands.universal.HelpCommand;
 import me.droreo002.cslimit.commands.universal.ReloadCommand;
 import me.droreo002.cslimit.commands.universal.ResetCommand;
+import me.droreo002.cslimit.commands.universal.UpdateFileCommand;
 import me.droreo002.cslimit.config.ConfigManager;
 import me.droreo002.cslimit.lang.LangManager;
 import me.droreo002.cslimit.lang.LangPath;
@@ -52,6 +53,7 @@ public class ChestShopLimiterCommand extends CustomCommand {
         addArgument(new StatusCommand(this, plugin));
         addArgument(new MenuCommand(this, plugin));
         addArgument(new MigrateCommand(this, plugin));
+        addArgument(new UpdateFileCommand(this, plugin));
         //addArgument(new DebugCommand(this, plugin));
 
         /*
@@ -63,6 +65,7 @@ public class ChestShopLimiterCommand extends CustomCommand {
         tabComplete.add("reset");
         tabComplete.add("status");
         tabComplete.add("menu");
+        tabComplete.add("update-file");
 
         // Last > Register it
         CustomCommandManager.registerCommand(owner, this);

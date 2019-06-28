@@ -41,6 +41,7 @@ public class ReloadCommand extends CommandArg {
                 case "lang":
                     success(commandSender);
                     lang.reloadConfig();
+                    lang.loadData();
                     sendMessage(commandSender, lang.getLang(LangPath.NORMAL_LANG_RELOADED, null, true));
                     return;
                 default:

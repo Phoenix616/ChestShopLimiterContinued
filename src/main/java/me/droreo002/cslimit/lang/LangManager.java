@@ -23,12 +23,12 @@ public final class LangManager extends CustomConfig {
     private final ChestShopLimiter plugin;
 
     public LangManager(ChestShopLimiter plugin) {
-        super(plugin, new File(plugin.getDataFolder(), "en_lang.yml"));
+        super(plugin, new File(plugin.getDataFolder(), plugin.getConfigManager().getMemory().getLangFile()));
         this.plugin = plugin;
         loadData();
     }
 
-    private void loadData() {
+    public void loadData() {
         if (!values.isEmpty()) values.clear();
         for (LangPath path : LangPath.values()) {
             String exactPath = path.getPath();

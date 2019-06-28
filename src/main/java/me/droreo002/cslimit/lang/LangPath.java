@@ -9,6 +9,7 @@ public enum LangPath {
      */
     NORMAL_CONFIG_RELOADED("Normal.config-reloaded"),
     NORMAL_LANG_RELOADED("Normal.lang-reloaded"),
+    NORMAL_FILE_UPDATED("Normal.file-updated"),
     NORMAL_NO_PERMISSION("Normal.no-permission"),
     NORMAL_PLAYER_ONLY("Normal.player-only"),
     NORMAL_TOO_MUCH_ARGS("Normal.too-much-args"),
