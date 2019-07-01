@@ -96,8 +96,8 @@ public class CheckCommand extends CommandArg {
         for (String s : lang.getLangList(LangPath.LIST_CHECK_MESSAGE, null)) {
             if (location != null) {
                 if (s.contains("%lastshop")) {
-                    String result = s.replaceAll("%lastshop", "");
-                    TextBuilder builder = TextBuilder.of(result).addText(lang.getLang(LangPath.MISC_TELEPORT_BUTTON_HOVER_TEXT, null, false));
+                    String result = s.replace("%lastshop", "");
+                    TextBuilder builder = TextBuilder.of(result).addText(lang.getLang(LangPath.MISC_TELEPORT_BUTTON_TEXT, null, false));
                     builder.setHoverEvent(HoverEvent.Action.SHOW_TEXT, lang.getLang(LangPath.MISC_TELEPORT_BUTTON_HOVER_TEXT, null, false));
                     // Setup the click event
                     if (Bukkit.getPluginManager().getPlugin("Essentials") != null) {

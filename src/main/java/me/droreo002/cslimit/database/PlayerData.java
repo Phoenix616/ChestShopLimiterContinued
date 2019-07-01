@@ -98,8 +98,8 @@ public class PlayerData {
         int shopCreated = config.getInt("Data.shopCreated");
         String lastPermission = (config.getString("Data.lastPermission") == null) ? "empty" : config.getString("Data.lastPermission");
         String lastRank = (config.getString("Data.lastRank") == null) ? "empty" : config.getString("Data.lastRank");
-        String lastShop = (config.getString("Data.lastShop") == null) ? "empty" : config.getString("Data.lastShop");
-        return new PlayerData(uuid, playerName, maxShop, shopCreated, lastPermission, lastRank, lastShop);
+        String lastShopLocation = (config.getString("Data.lastShopLocation") == null) ? "empty" : config.getString("Data.lastShopLocation");
+        return new PlayerData(uuid, playerName, maxShop, shopCreated, lastPermission, lastRank, lastShopLocation);
     }
 
     /**
@@ -137,7 +137,7 @@ public class PlayerData {
         int shopCreated = config.getInt("Info.shopCreated");
         String lastPermission = "empty";
         String lastRank = "empty";
-        String lastShop = "empty";
-        return new PlayerData(uuid, playerName, maxShop, shopCreated, lastPermission, lastRank, lastShop);
+        String lastShopLocation = "empty";
+        return new PlayerData(uuid, playerName, maxShop, shopCreated, lastPermission, lastRank, lastShopLocation);
     }
 }

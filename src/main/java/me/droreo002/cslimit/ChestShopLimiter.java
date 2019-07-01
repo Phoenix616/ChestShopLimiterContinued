@@ -9,7 +9,7 @@ import me.droreo002.cslimit.database.CSLDatabase;
 import me.droreo002.cslimit.hook.HookManager;
 import me.droreo002.cslimit.lang.LangManager;
 import me.droreo002.cslimit.listener.PlayerConnectionListener;
-import me.droreo002.cslimit.listener.ShopListener;
+import me.droreo002.cslimit.listener.support.ShopListenerUniversal;
 import me.droreo002.cslimit.manager.logger.Debug;
 import me.droreo002.cslimit.manager.LicenseManager;
 import me.droreo002.cslimit.manager.logger.LogFile;
@@ -57,7 +57,7 @@ public class ChestShopLimiter extends JavaPlugin {
         OreoCore.getInstance().dependPlugin(this, true);
 
         Bukkit.getPluginManager().registerEvents(new PlayerConnectionListener(this), this);
-        Bukkit.getPluginManager().registerEvents(new ShopListener(this), this);
+        Bukkit.getPluginManager().registerEvents(new ShopListenerUniversal(this), this);
 
         command = new ChestShopLimiterCommand(this, this);
 

@@ -1,4 +1,4 @@
-package me.droreo002.cslimit.listener;
+package me.droreo002.cslimit.listener.support;
 
 import com.Acrobot.ChestShop.Events.PreShopCreationEvent;
 import com.Acrobot.ChestShop.Events.ShopDestroyedEvent;
@@ -12,8 +12,10 @@ import me.droreo002.cslimit.lang.LangManager;
 import me.droreo002.cslimit.lang.LangPath;
 import me.droreo002.cslimit.manager.logger.Debug;
 import me.droreo002.oreocore.utils.bridge.ServerUtils;
+import me.droreo002.oreocore.utils.item.complex.UMaterial;
 import me.droreo002.oreocore.utils.item.helper.ItemMetaType;
 import me.droreo002.oreocore.utils.item.helper.TextPlaceholder;
+import me.droreo002.oreocore.utils.world.BlockUtils;
 import me.droreo002.oreocore.utils.world.LocationUtils;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -24,11 +26,11 @@ import org.bukkit.material.Sign;
 
 import java.util.UUID;
 
-public class ShopListener implements Listener {
+public class ShopListenerUniversal implements Listener {
 
     private final ChestShopLimiter plugin;
 
-    public ShopListener(ChestShopLimiter plugin) {
+    public ShopListenerUniversal(ChestShopLimiter plugin) {
         this.plugin = plugin;
     }
 
@@ -41,8 +43,7 @@ public class ShopListener implements Listener {
             Player player = e.getPlayer();
             String[] line = e.getSignLines();
             UUID uuid = player.getUniqueId();
-            Sign signMaterial = (Sign) e.getSign().getBlock().getState().getData();
-            Location shopLoc = e.getSign().getBlock().getRelative(signMaterial.getAttachedFace()).getLocation();
+            Location shopLoc = BlockUtils.getFacedLocation(e.getSign().getBlock(), UMaterial.CHEST.getMaterial(), true);
             // Ignore if the shop created is admin shop
             if (ChestShopSign.isAdminShop(line[0])) return;
             if (player.hasPermission("csl.limit.unlimited")) return;
@@ -105,8 +106,7 @@ public class ShopListener implements Listener {
 
             // Remove last shop created
             Location lastShop = LocationUtils.toLocation(data.getLastShopLocation());
-            Sign signMaterial = (Sign) e.getSign().getBlock().getState().getData();
-            Location currentShopLocation = e.getSign().getBlock().getRelative(signMaterial.getAttachedFace()).getLocation();
+            Location currentShopLocation = BlockUtils.getFacedLocation(e.getSign().getBlock(), UMaterial.CHEST.getMaterial(), true);
             if (lastShop == null) {
                 plugin.getChestShopAPI().saveData(data);
                 return;
