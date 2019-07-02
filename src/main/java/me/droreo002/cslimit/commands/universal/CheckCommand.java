@@ -61,20 +61,21 @@ public class CheckCommand extends CommandArg {
                     return;
                 }
                 OfflinePlayer off = Bukkit.getOfflinePlayer(offlineUUID);
-                sendCheckFormat(commandSender, off.getUniqueId());
+                sendCheckFormat(commandSender, off);
                 return;
             }
             success(commandSender);
-            sendCheckFormat(commandSender, target.getUniqueId());
+            sendCheckFormat(commandSender, target);
         } else {
             error(commandSender);
             sendMessage(commandSender, lang.getLang(LangPath.NORMAL_TOO_MUCH_ARGS, null, true));
         }
     }
     
-    private void sendCheckFormat(CommandSender sender, UUID target) {
-        final PlayerData data = plugin.getChestShopAPI().getData(target);
-        final String targetName = Bukkit.getOfflinePlayer(target).getName();
+    private void sendCheckFormat(CommandSender sender, OfflinePlayer target) {
+        final PlayerData data = plugin.getChestShopAPI().getData(target.getUniqueId());
+        final String targetName = target.getName();
+
         if (data == null) {
             sendMessage(sender, lang.getLang(LangPath.NORMAL_DATA_NOT_FOUND, new TextPlaceholder(ItemMetaType.NONE, "%player", targetName), true));
             error(sender);
@@ -83,12 +84,20 @@ public class CheckCommand extends CommandArg {
         Location location = LocationUtils.toLocation(data.getLastShopLocation());
         if (!(sender instanceof Player)) {
             for (String s : lang.getLangList(LangPath.LIST_CHECK_MESSAGE, null)) {
+                String shopLimit = String.valueOf(data.getMaxShop());
+                String lastShop = data.getLastShopLocation();
+                if (data.getLastPermission().equalsIgnoreCase("csl.limit.unlimited")) {
+                    shopLimit = lang.getLang(LangPath.MISC_SHOP_LIMIT_UNLIMITED, null, false);
+                }
+                if (location == null) {
+                    lastShop = lang.getLang(LangPath.MISC_TELEPORT_NO_LOCATION_FOUND, null, false);
+                }
                 String result = s
                         .replace("%player", targetName)
-                        .replace("%lastshop", data.getLastShopLocation())
-                        .replace("%uuid", target.toString())
+                        .replace("%uuid", target.getUniqueId().toString())
                         .replace("%shopcreated", String.valueOf(data.getShopCreated()))
-                        .replace("%shoplimit", String.valueOf(data.getMaxShop()));
+                        .replace("%shoplimit", shopLimit)
+                        .replace("%lastshop", lastShop);
                 sender.sendMessage(color(result));
             }
             return;
@@ -114,11 +123,15 @@ public class CheckCommand extends CommandArg {
                     continue;
                 }
             }
+            String shopLimit = String.valueOf(data.getMaxShop());
+            if (data.getLastPermission().equalsIgnoreCase("csl.limit.unlimited")) {
+                shopLimit = lang.getLang(LangPath.MISC_SHOP_LIMIT_UNLIMITED, null, false);
+            }
             String result = s
-                    .replace("%player", targetName)
-                    .replace("%uuid", target.toString())
-                    .replace("%shopcreated", String.valueOf(data.getShopCreated()))
-                    .replace("%shoplimit", String.valueOf(data.getMaxShop()));
+                .replace("%player", targetName)
+                .replace("%uuid", target.getUniqueId().toString())
+                .replace("%shopcreated", String.valueOf(data.getShopCreated()))
+                .replace("%shoplimit", shopLimit);
             sender.sendMessage(color(result));
         }
     }

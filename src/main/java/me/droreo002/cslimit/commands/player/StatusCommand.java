@@ -35,16 +35,20 @@ public class StatusCommand extends CommandArg {
         Player player = (Player) commandSender;
         if (args.length == 1) {
             success(commandSender);
-            sendStatus(commandSender, player.getUniqueId());
+            sendStatus(player, player.getUniqueId());
             return;
         }
         error(commandSender);
         sendMessage(commandSender, lang.getLang(LangPath.ERROR_USAGE_COMMAND_STATUS, null, true));
     }
 
-    private void sendStatus(CommandSender sender, UUID target) {
+    private void sendStatus(Player sender, UUID target) {
         final PlayerData data = plugin.getChestShopAPI().getData(target);
-        List<String> message = lang.getLangList(LangPath.LIST_PLAYER_STATUS_MESSAGE, new TextPlaceholder(ItemMetaType.NONE, "%shopcreated", String.valueOf(data.getShopCreated())).add(ItemMetaType.NONE, "%shoplimit", String.valueOf(data.getMaxShop())));
+        String shopLimit = String.valueOf(data.getMaxShop());
+        if (sender.hasPermission("csl.limit.unlimited")) shopLimit = lang.getLang(LangPath.MISC_SHOP_LIMIT_UNLIMITED, null, false);
+        List<String> message = lang.getLangList(LangPath.LIST_PLAYER_STATUS_MESSAGE,
+                new TextPlaceholder(ItemMetaType.NONE, "%shopcreated", String.valueOf(data.getShopCreated()))
+                .add(ItemMetaType.NONE, "%shoplimit", shopLimit));
         message.forEach(sender::sendMessage);
     }
 }

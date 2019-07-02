@@ -88,6 +88,6 @@ public final class ChestShopLimiterHandler implements ChestShopAPI {
 
     @Override
     public void saveData(PlayerData data) {
-        getDatabase().getWrapper().updatePlayerData(data);
+        getDatabase().getWrapper().savePlayerData(data);
     }
 }

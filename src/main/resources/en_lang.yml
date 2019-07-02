@@ -63,7 +63,10 @@ Misc:
   # Used when hovering the teleport button text (it will shows text)
   teleport-button-hover-text: '&cClick me to teleport!'
   # Used when the last shop location is not available
-  teleport-no-location-found: '&cUNAVAILABLE'
+  teleport-no-location-found: '&cUnavailable'
+  # Used if player have permission of csl.limit.unlimited and this will replace the
+  # %shoplimit placeholder
+  shop-limit-unlimited: '&eUnlimited'
 Error:
   # For invalid command usage only!
   usage:
@@ -111,7 +114,7 @@ List:
   check-message:
     - '&8&m--------------&7 [ &a%player''s Information &7] &8&m--------------'
     - '&r'
-    - '&7(&b✿&7) &fUUID &7»  &a%uuid'
+    - '&7(&b✿&7) &fUUID &7» &a%uuid'
     - '&7(&b✿&7) &fShop Created &7» &c%shopcreated'
     - '&7(&b✿&7) &fShop Limit &7» &c%shoplimit'
     - '&7(&b✿&7) &fLatest Shop &7» &c%lastshop'
@@ -132,14 +135,6 @@ List:
     - '&7(&b✿&7) &f» Buy a new rank if you want to increase your shop limit!'
 # Material can be 1.13 or 1.12 and below. It will automatically convert it
 # into ur server version's material.
-# Available key :
-#  material > Material as string (String) MUST HAVE
-#  materialDurr > The durability or item ID (int)
-#  amount > The item amount (int)
-#  name > The item displayName (String)
-#  lore > The item lore (List String)
-#  glow > Set the item glow or not (bool)
-#  texture > The head texture, will only work if the material is player skull or head (String)
 Inventory:
   Universal:
     information-button:

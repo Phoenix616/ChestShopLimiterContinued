@@ -35,7 +35,7 @@ public class MigrateCommand extends CommandArg {
     public void execute(CommandSender commandSender, String[] args) {
         Debug.info("Command migrate has been executed by " + commandSender.getName(), false, Debug.LogType.FILE);
         if (args.length == 1) {
-            sendMessage(commandSender, prefix + "&bChestShopLimiter &fdata &eMigrator &fv1.0, please be aware that this command will get removed on the future version. Type &e/csl migrate start &fto continue, for more information please visit our &cWiki");
+            sendMessage(commandSender, prefix + "&bChestShopLimiter &fdata &eMigrator &fv1.2. Type &e/csl migrate start &fto continue, for more information please visit our &cWiki");
             return;
         }
         if (args.length == 2) {

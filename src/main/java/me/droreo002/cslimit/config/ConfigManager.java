@@ -154,10 +154,6 @@ public final class ConfigManager extends CustomConfig {
         @Getter
         private ConfigurationSection shopLimit;
 
-        @ConfigVariable(path = "ShopLimit.force-default")
-        @Getter
-        private boolean shopLimitForceDefault;
-
         /*
         ShopLimitLuckPerms
          */

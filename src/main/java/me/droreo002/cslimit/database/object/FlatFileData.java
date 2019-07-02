@@ -27,8 +27,6 @@ import java.util.UUID;
 
 public class FlatFileData extends DatabaseFlatFile implements DatabaseWrapper {
 
-    private static final String PERMISSION_STRING = "csl.limit.";
-
     @Getter
     private final ConfigManager.Memory memory;
     @Getter
@@ -73,18 +71,43 @@ public class FlatFileData extends DatabaseFlatFile implements DatabaseWrapper {
     }
 
     @Override
-    public void updatePlayerData(PlayerData playerData) {
+    public void savePlayerData(PlayerData playerData) {
+        if (playerData.getChanges().isEmpty()) return;
         Data objectData = getDataClass(playerData.getPlayerUUID().toString());
         FileConfiguration config = objectData.getConfig();
-        config.set("Data.uuid", playerData.getPlayerUUID().toString());
-        config.set("Data.playerName", playerData.getPlayerName());
-        config.set("Data.shopCreated", playerData.getShopCreated());
-        config.set("Data.maxShop", playerData.getMaxShop());
-        config.set("Data.lastPermission", playerData.getLastPermission());
-        config.set("Data.lastRank", playerData.getLastRank());
-        config.set("Data.lastShopLocation", playerData.getLastShopLocation());
-        objectData.setConfig(config);
+
+        for (DataProperty property : playerData.getChanges()) {
+            switch (property) {
+                case LAST_RANK:
+                    config.set(DataProperty.LAST_RANK.getAsPath(), playerData.getLastRank());
+                    break;
+                case LAST_PERMISSION:
+                    config.set(DataProperty.LAST_PERMISSION.getAsPath(), playerData.getLastRank());
+                    break;
+                case UUID:
+                    config.set(DataProperty.UUID.getAsPath(), playerData.getPlayerUUID().toString());
+                    break;
+                case NAME:
+                    config.set(DataProperty.NAME.getAsPath(), playerData.getPlayerName());
+                    break;
+                case SHOP_CREATED:
+                    config.set(DataProperty.SHOP_CREATED.getAsPath(), playerData.getShopCreated());
+                    break;
+                case MAX_SHOP:
+                    config.set(DataProperty.MAX_SHOP.getAsPath(), playerData.getMaxShop());
+                    break;
+                case LAST_SHOP_LOCATION:
+                    config.set(DataProperty.LAST_SHOP_LOCATION.getAsString(), playerData.getLastShopLocation());
+                    break;
+            }
+        }
         saveData(objectData);
+    }
+
+    @Override
+    public void updatePlayerData(PlayerData playerData) {
+        playerData.setupData(plugin, false);
+        savePlayerData(playerData);
     }
 
     @Override
@@ -107,47 +130,45 @@ public class FlatFileData extends DatabaseFlatFile implements DatabaseWrapper {
 
     @Override
     public void load(UUID key) {
-        setup(key.toString(), true, setupCallbackType -> {
-            // Try to generate new data
-            Data objectData = getDataClass(key.toString());
-            if (objectData == null) throw new NullPointerException("No object data found for UUID " + key.toString() + " please contact administrator!");
-            FileConfiguration config = objectData.getConfig();
-            if (setupCallbackType == SetupCallbackType.CREATED_AND_LOADED) {
-                // If this is a new data. Process it in different way then
-                config.set("Data.uuid", key.toString());
-                config.set("Data.playerName", PlayerUtils.getPlayerName(key));
-                config.set("Data.shopCreated", 0);
-                config.set("Data.maxShop", 0);
-                config.set("Data.lastPermission", "{}");
-                config.set("Data.lastRank", "{}");
-                config.set("Data.lastShopLocation", "{}");
-                if (plugin.getHookManager().isLuckPerms()) {
-                    LuckPermsHook hook = (LuckPermsHook) plugin.getHookManager().getHookMap().get("LuckPerms");
-                    hook.setupData(key, config, true);
-                } else {
-                    setupData(key, config, true);
-                }
-                objectData.setConfig(config); // Update it
-                saveData(objectData);
+        if (!playerData.containsKey(key)) {
+            setup(key.toString(), true, setupCallbackType -> {
+                // Try to generate new data
+                Data objectData = getDataClass(key.toString());
+                if (objectData == null)
+                    throw new NullPointerException("No object data found for UUID " + key.toString() + " please contact administrator!");
+                FileConfiguration config = objectData.getConfig();
+                if (setupCallbackType == SetupCallbackType.CREATED_AND_LOADED) {
+                    // If this is a new data. Process it in different way then
+                    config.set("Data.uuid", key.toString());
+                    config.set("Data.playerName", PlayerUtils.getPlayerName(key));
+                    config.set("Data.shopCreated", 0);
+                    config.set("Data.maxShop", 0);
+                    config.set("Data.lastPermission", "{}");
+                    config.set("Data.lastRank", "{}");
+                    config.set("Data.lastShopLocation", "{}");
 
-                PlayerData data = PlayerData.fromYaml(config);
-                playerData.put(key, data);
-                return;
-            }
-            if (setupCallbackType == SetupCallbackType.LOADED) {
-                if (plugin.getHookManager().isLuckPerms()) {
-                    LuckPermsHook hook = (LuckPermsHook) plugin.getHookManager().getHookMap().get("LuckPerms");
-                    hook.setupData(key, config, false);
-                } else {
-                    setupData(key, config, false);
-                }
-                objectData.setConfig(config); // Update it
-                saveData(objectData);
+                    PlayerData data = PlayerData.fromYaml(config);
+                    data.setupData(plugin, false);
 
-                PlayerData data = PlayerData.fromYaml(config);
-                playerData.put(key, data);
-            }
-        });
+                    config.set("Data.maxShop", data.getMaxShop());
+                    config.set("Data.lastRank", data.getLastRank());
+                    saveData(objectData);
+                    playerData.put(key, data);
+                    return;
+                }
+                if (setupCallbackType == SetupCallbackType.LOADED) {
+                    PlayerData data = PlayerData.fromYaml(config);
+                    data.setupData(plugin, false);
+
+                    config.set("Data.maxShop", data.getMaxShop());
+                    config.set("Data.lastRank", data.getLastRank());
+                    saveData(objectData);
+                    playerData.put(key, data);
+                }
+            });
+        } else {
+            updatePlayerData(playerData.get(key));
+        }
     }
 
     @Override
@@ -171,45 +192,5 @@ public class FlatFileData extends DatabaseFlatFile implements DatabaseWrapper {
             saveData(objectData);
             this.playerData.put(key, playerData);
         });
-    }
-
-    private void setupData(UUID uuid, FileConfiguration config, boolean firstSetup) {
-        Player player = Bukkit.getPlayer(uuid);
-        ConfigManager.Memory mem = plugin.getConfigManager().getMemory();
-        ConfigurationSection permLimit = mem.getShopLimit();
-        DatabaseWrapper database = plugin.getDatabase().getWrapper();
-        if (firstSetup) {
-            if (player != null) {
-                for (String s : permLimit.getKeys(false)) {
-                    // Has perm. But not default
-                    if (player.hasPermission(PERMISSION_STRING + s) && !s.equalsIgnoreCase("default")) {
-                        config.set("Data.lastPermission", PERMISSION_STRING + s);
-                        config.set("Data.maxShop", permLimit.getInt(s + ".limit"));
-                        break;
-                    } else {
-                        if (permLimit.getBoolean("force-default")) {
-                            config.set("Data.lastPermission", PERMISSION_STRING + "default");
-                            config.set("Data.maxShop", permLimit.getInt("default.limit"));
-                        }
-                    }
-                }
-            }
-        } else {
-            if (player != null) {
-                PlayerData data = PlayerData.fromYaml(config);
-                if (data == null) throw new NullPointerException("Fatal Error! : Failed to get player data!");
-                for (String s : permLimit.getKeys(false)) {
-                    if (player.hasPermission(PERMISSION_STRING + s)) {
-                        // Don't update because its the same perm
-                        if (data.getLastPermission().equalsIgnoreCase(PERMISSION_STRING + s)) continue;
-                        int newLimit = permLimit.getInt(s + ".limit");
-                        if (data.getMaxShop() < newLimit) data.setMaxShop(newLimit);
-                        data.setLastPermission(PERMISSION_STRING + s);
-                        database.updatePlayerData(data);
-                        break;
-                    }
-                }
-            }
-        }
     }
 }

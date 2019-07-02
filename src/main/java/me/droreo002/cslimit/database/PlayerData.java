@@ -1,12 +1,12 @@
 package me.droreo002.cslimit.database;
 
 import lombok.Getter;
-import lombok.Setter;
-import me.droreo002.cslimit.database.object.SqlData;
-import me.droreo002.cslimit.database.object.SqlDataName;
-import me.droreo002.oreocore.utils.world.LocationUtils;
-import org.apache.commons.lang.Validate;
+import me.droreo002.cslimit.ChestShopLimiter;
+import me.droreo002.cslimit.config.ConfigManager;
+import me.droreo002.cslimit.database.object.DataProperty;
+import me.droreo002.cslimit.hook.objects.LuckPermsHook;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
@@ -16,13 +16,15 @@ import java.util.UUID;
 
 public class PlayerData {
 
+    private static final String PERMISSION_STRING = "csl.limit.";
+
     // Final var
     @Getter
     private final UUID playerUUID;
     @Getter
     private final String playerName;
     @Getter
-    private final List<SqlDataName> changes;
+    private final List<DataProperty> changes;
 
     // Non final
     @Getter
@@ -48,38 +50,84 @@ public class PlayerData {
     }
 
     public void setMaxShop(int maxShop) {
-        if (!changes.contains(SqlDataName.MAX_SHOP)) changes.add(SqlDataName.MAX_SHOP);
+        if (!changes.contains(DataProperty.MAX_SHOP)) changes.add(DataProperty.MAX_SHOP);
         this.maxShop = maxShop;
     }
 
     public void setShopCreated(int shopCreated) {
-        if (!changes.contains(SqlDataName.SHOP_CREATED)) changes.add(SqlDataName.SHOP_CREATED);
+        if (!changes.contains(DataProperty.SHOP_CREATED)) changes.add(DataProperty.SHOP_CREATED);
         this.shopCreated = shopCreated;
     }
 
     public void setLastPermission(String lastPermission) {
-        if (!changes.contains(SqlDataName.LAST_PERMISSION)) changes.add(SqlDataName.LAST_PERMISSION);
+        if (!changes.contains(DataProperty.LAST_PERMISSION)) changes.add(DataProperty.LAST_PERMISSION);
         this.lastPermission = lastPermission;
     }
 
     public void setLastRank(String lastRank) {
-        if (!changes.contains(SqlDataName.LAST_RANK)) changes.add(SqlDataName.LAST_RANK);
+        if (!changes.contains(DataProperty.LAST_RANK)) changes.add(DataProperty.LAST_RANK);
         this.lastRank = lastRank;
     }
 
     public void setLastShopLocation(String lastShopLocation) {
-        if (!changes.contains(SqlDataName.LAST_SHOP_LOCATION)) changes.add(SqlDataName.LAST_SHOP_LOCATION);
+        if (!changes.contains(DataProperty.LAST_SHOP_LOCATION)) changes.add(DataProperty.LAST_SHOP_LOCATION);
         this.lastShopLocation = lastShopLocation;
     }
 
     public void addMaxShop(int value) {
-        if (!changes.contains(SqlDataName.MAX_SHOP)) changes.add(SqlDataName.MAX_SHOP);
+        if (!changes.contains(DataProperty.MAX_SHOP)) changes.add(DataProperty.MAX_SHOP);
         this.maxShop += value;
     }
 
     public void addShopCreated(int value) {
-        if (!changes.contains(SqlDataName.SHOP_CREATED)) changes.add(SqlDataName.SHOP_CREATED);
+        if (!changes.contains(DataProperty.SHOP_CREATED)) changes.add(DataProperty.SHOP_CREATED);
         this.shopCreated += value;
+    }
+
+    /**
+     * Setup the data
+     *
+     * @param plugin ChestShopLimiter plugin instance
+     */
+    public void setupData(ChestShopLimiter plugin, boolean sql) {
+        Player player = Bukkit.getPlayer(playerUUID);
+        ConfigManager.Memory mem = plugin.getConfigManager().getMemory();
+        DatabaseWrapper database = plugin.getDatabase().getWrapper();
+        ConfigurationSection permLimit = mem.getShopLimit();
+
+        if (plugin.getHookManager().isLuckPerms()) {
+            LuckPermsHook hook = (LuckPermsHook) plugin.getHookManager().getHookMap().get("LuckPerms");
+            hook.setupData(this);
+        } else {
+            if (player != null) {
+                boolean hasPermission = false;
+                for (String s : permLimit.getKeys(false)) {
+                    int newLimit = permLimit.getInt(s + ".limit");
+                    int playerLimit = getMaxShop();
+
+                    if (player.hasPermission(PERMISSION_STRING + s)) {
+                        // Don't update if player's perm is the same and the limit is also the same a.k.a no limit update on permission (We do this on sql only)
+                        if (sql) {
+                            if (getLastPermission().equalsIgnoreCase(PERMISSION_STRING + s) && (playerLimit == newLimit))
+                                continue;
+                        }
+                        setLastPermission(PERMISSION_STRING + s);
+                        hasPermission = true;
+                        break;
+                    }
+                }
+                if (!hasPermission) {
+                    if (permLimit.getBoolean("force-default")) {
+                        setLastPermission(PERMISSION_STRING + "default");
+                        setMaxShop(permLimit.getInt("default.limit"));
+                    }
+                }
+                if (player.hasPermission("csl.limit.unlimited")) {
+                    setLastPermission("csl.limit.unlimited");
+                }
+            }
+        }
+        database.savePlayerData(this);
     }
 
     /**

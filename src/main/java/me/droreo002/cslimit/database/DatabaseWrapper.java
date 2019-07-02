@@ -16,9 +16,16 @@ public interface DatabaseWrapper {
     PlayerData getPlayerData(UUID uuid);
 
     /**
-     * Update the player data
+     * Save the player data
      *
      * @param playerData : Player data
+     */
+    void savePlayerData(PlayerData playerData);
+
+    /**
+     * Update the player data
+     *
+     * @param playerData : Player data to update
      */
     void updatePlayerData(PlayerData playerData);
 
@@ -42,7 +49,7 @@ public interface DatabaseWrapper {
      *
      * @param uuid : The UUID
      */
-    void load(UUID uuid);
+    void load(UUID uuid) throws Exception;
 
     /**
      * Migrate the PlayerData object that is from old / different database type

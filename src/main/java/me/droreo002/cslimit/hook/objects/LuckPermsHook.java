@@ -55,86 +55,29 @@ public class LuckPermsHook implements ChestShopHook {
     }
 
     /**
-     * Setup the data's 'ShopLimit' for YAML data type
+     * Setup the data's 'ShopLimit'
      *
-     * @param uuid : The player's UUID
-     * @param config : The player's YAML data
-     * @param firstSetup : Is this a first setup?
+     * @param playerData : The player data
      */
-    public void setupData(UUID uuid, FileConfiguration config, boolean firstSetup) {
-        final User user = getLuckPerms().getUser(uuid);
+    public void setupData(PlayerData playerData) {
         final ChestShopLimiter plugin = ChestShopLimiter.getInstance();
+        final UUID playerUUID = playerData.getPlayerUUID();
+        User user = getLuckPerms().getUser(playerUUID);
+        if (user == null) {
+            user = luckPerms.getUserManager().loadUser(playerUUID).join();
+            Debug.info("&eLuckPerms &fplayer data &7(&e" + playerData.toString() + "&7)&f has been force loaded, because plugin is trying to access a non cached player!", true, Debug.LogType.BOTH);
+        }
         ConfigManager.Memory memory = plugin.getConfigManager().getMemory();
         ConfigurationSection lpLimit = memory.getShopLimitLuckPerms();
-        DatabaseWrapper database = plugin.getDatabase().getWrapper();
         Validate.notNull(user, "LuckPerms user cannot be null!");
         String currGroup = user.getPrimaryGroup();
 
-        if (firstSetup) {
-            config.set("Data.lastRank", currGroup);
-            config.set("Data.maxShop", lpLimit.getInt(currGroup + ".limit"));
-        } else {
-            PlayerData playerData = PlayerData.fromYaml(config);
-            Validate.notNull(playerData, "Failed to retrieve player data!");
-            String lastGroup = playerData.getLastRank();
-            if (!lastGroup.equalsIgnoreCase(currGroup)) {
-                // Not found. Setup using the default-value value
-                if (!lpLimit.contains(currGroup)) {
-                    int newLimit = lpLimit.getInt("default-value.limit");
-                    if (playerData.getMaxShop() < newLimit) playerData.setMaxShop(newLimit); // Go higher value
-                    database.updatePlayerData(playerData);
-                } else {
-                    // New group. Add then
-                    if (!lastGroup.equalsIgnoreCase(currGroup)) {
-                        playerData.setLastRank(currGroup);
-                        int newLimit = lpLimit.getInt(currGroup + ".limit");
-                        if (playerData.getMaxShop() < newLimit) playerData.setMaxShop(newLimit); // Go higher value
-                        database.updatePlayerData(playerData);
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * Setup the data's 'ShopLimit' for SQL or MYSQL data type
-     *
-     * @param uuid : The player's UUID
-     * @param playerData : The player's serialized data
-     * @param firstSetup : Is this a first setup?
-     */
-    public void setupData(UUID uuid, PlayerData playerData, boolean firstSetup) {
-        final ChestShopLimiter plugin = ChestShopLimiter.getInstance();
-        User user = getLuckPerms().getUser(uuid);
-        if (user == null) {
-            user = luckPerms.getUserManager().loadUser(uuid).join();
-            Debug.info("&eLuckPerms &fplayer data &7(&e" + playerData.getPlayerName() + "&7)&f has been force loaded, because plugin is trying to access a non cached player!", true, Debug.LogType.BOTH);
-        }
-        DatabaseWrapper database = plugin.getDatabase().getWrapper();
-        ConfigManager.Memory memory = plugin.getConfigManager().getMemory();
-        ConfigurationSection lpLimit = memory.getShopLimitLuckPerms();
-        String currGroup = user.getPrimaryGroup();
-
-        if (firstSetup) {
+        if (lpLimit.contains(currGroup)) {
             playerData.setLastRank(currGroup);
             playerData.setMaxShop(lpLimit.getInt(currGroup + ".limit"));
         } else {
-            String lastGroup = playerData.getLastRank();
-            if (!lastGroup.equalsIgnoreCase(currGroup)) {
-                if (!lpLimit.contains(currGroup)) {
-                    int newLimit = lpLimit.getInt("default-value.limit");
-                    if (playerData.getMaxShop() < newLimit) playerData.setMaxShop(newLimit);
-                    database.updatePlayerData(playerData);
-                } else {
-                    // New group. Add then
-                    if (!lastGroup.equalsIgnoreCase(currGroup)) {
-                        playerData.setLastRank(currGroup);
-                        int newLimit = lpLimit.getInt(currGroup + ".limit");
-                        if (playerData.getMaxShop() < newLimit) playerData.setMaxShop(newLimit);
-                        database.updatePlayerData(playerData);
-                    }
-                }
-            }
+            playerData.setLastRank("none");
+            playerData.setMaxShop(lpLimit.getInt("default-value.limit"));
         }
     }
 }

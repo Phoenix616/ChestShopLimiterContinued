@@ -27,9 +27,12 @@ public class PlayerConnectionListener implements Listener {
         Player player = e.getPlayer();
         DatabaseWrapper wrp = plugin.getDatabase().getWrapper();
 
-        PlayerData data = wrp.getPlayerData(player.getUniqueId());
-        Validate.notNull(data, "Data cannot be null please contact dev!");
-        Debug.info("Data for player '" + data.getPlayerName() + "' has been loaded!", false, Debug.LogType.FILE);
+        try {
+            wrp.load(player.getUniqueId());
+            Debug.info("Data for player '" + player.getName() + "' has been loaded!", false, Debug.LogType.FILE);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     @EventHandler(priority = EventPriority.LOW)

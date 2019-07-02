@@ -43,6 +43,7 @@ public enum LangPath {
     MISC_TELEPORT_BUTTON_TEXT("Misc.teleport-button-text"),
     MISC_TELEPORT_BUTTON_HOVER_TEXT("Misc.teleport-button-hover-text"),
     MISC_TELEPORT_NO_LOCATION_FOUND("Misc.teleport-no-location-found"),
+    MISC_SHOP_LIMIT_UNLIMITED("Misc.shop-limit-unlimited"),
 
     /*
     Error values

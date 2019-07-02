@@ -104,7 +104,7 @@ public class CIntegerConversation extends StringPrompt {
                 break;
         }
         memory.getTEditorSuccessSound().send(player);
-        plugin.getDatabase().getWrapper().updatePlayerData(targetData);
+        plugin.getDatabase().getWrapper().savePlayerData(targetData);
         return Prompt.END_OF_CONVERSATION;
     }
 }
