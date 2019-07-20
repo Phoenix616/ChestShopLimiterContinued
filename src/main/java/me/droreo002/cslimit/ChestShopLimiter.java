@@ -17,6 +17,7 @@ import me.droreo002.cslimit.metrics.Metrics;
 import me.droreo002.cslimit.api.ChestShopLimiterHandler;
 import me.droreo002.cslimit.utils.CommonUtils;
 import me.droreo002.oreocore.OreoCore;
+import me.droreo002.oreocore.utils.bridge.ServerUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -50,17 +51,23 @@ public class ChestShopLimiter extends JavaPlugin {
         configManager = new ConfigManager(this);
         logFile = new LogFile();
         Debug.info("&fStarting the plugin...", true, Debug.LogType.BOTH);
+
+        if (ServerUtils.getPlugin("ChestShop") == null) {
+            Debug.error("ChestShop is not installed!. Disabling plugin...", true, Debug.LogType.BOTH);
+            Bukkit.getPluginManager().disablePlugin(this);
+            return;
+        }
+
         langManager = new LangManager(this);
         database = new CSLDatabase(this, configManager.getMemory().getDatabaseType());
         chestShopAPI = new ChestShopLimiterHandler();
         conversationManager = new ConversationManager(this);
-        OreoCore.getInstance().dependPlugin(this, true);
+        command = new ChestShopLimiterCommand(this, this);
 
         Bukkit.getPluginManager().registerEvents(new PlayerConnectionListener(this), this);
         Bukkit.getPluginManager().registerEvents(new ShopListenerUniversal(this), this);
 
-        command = new ChestShopLimiterCommand(this, this);
-
+        OreoCore.getInstance().dependPlugin(this, true);
         printInformation();
     }
 

@@ -27,6 +27,7 @@ import org.bukkit.entity.Player;
 import static me.droreo002.oreocore.utils.strings.StringUtils.*;
 
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 
 public class CheckCommand extends CommandArg {
 
@@ -54,13 +55,18 @@ public class CheckCommand extends CommandArg {
             Player target = Bukkit.getPlayerExact(name);
             if (target == null) {
                 success(commandSender);
-                final UUID offlineUUID = PlayerUtils.getUUID(name);
-                if (offlineUUID == null) {
+                UUID offlineUUID = null;
+                try {
+                    offlineUUID = PlayerUtils.getPlayerUuid(name).get();
+                } catch (InterruptedException | ExecutionException e) {
+                    e.printStackTrace();
+                }
+                OfflinePlayer off = Bukkit.getOfflinePlayer(offlineUUID);
+                if (!off.hasPlayedBefore()) {
                     sendMessage(commandSender, lang.getLang(LangPath.ERROR_PLAYER_NEVER_PLAYED, null, true));
                     error(commandSender);
                     return;
                 }
-                OfflinePlayer off = Bukkit.getOfflinePlayer(offlineUUID);
                 sendCheckFormat(commandSender, off);
                 return;
             }
@@ -76,7 +82,7 @@ public class CheckCommand extends CommandArg {
         final PlayerData data = plugin.getChestShopAPI().getData(target.getUniqueId());
         final String targetName = target.getName();
 
-        if (data == null) {
+        if (data == null || data.isEmptyData()) {
             sendMessage(sender, lang.getLang(LangPath.NORMAL_DATA_NOT_FOUND, new TextPlaceholder(ItemMetaType.NONE, "%player", targetName), true));
             error(sender);
             return;

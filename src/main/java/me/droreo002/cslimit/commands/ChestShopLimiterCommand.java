@@ -14,15 +14,19 @@ import me.droreo002.cslimit.commands.universal.UpdateFileCommand;
 import me.droreo002.cslimit.config.ConfigManager;
 import me.droreo002.cslimit.lang.LangManager;
 import me.droreo002.cslimit.lang.LangPath;
+import me.droreo002.cslimit.manager.LicenseManager;
 import me.droreo002.cslimit.manager.logger.Debug;
 import me.droreo002.oreocore.commands.CustomCommand;
 import me.droreo002.oreocore.commands.CustomCommandManager;
+import me.droreo002.oreocore.utils.strings.TextBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class ChestShopLimiterCommand extends CustomCommand {
@@ -74,7 +78,15 @@ public class ChestShopLimiterCommand extends CustomCommand {
     @Override
     public void execute(CommandSender commandSender, String[] strings) {
         Debug.info("Command csl or chestshoplimiter has been executed by " + commandSender.getName(), false, Debug.LogType.FILE);
-        plugin.getLangManager().getAbout().forEach(s -> sendMessage(commandSender, s));
+        TextBuilder textBuilder = new TextBuilder();
+        textBuilder
+                .addHoverEvent("&b✿ ChestShopLimiter &7| ", HoverEvent.Action.SHOW_TEXT, LicenseManager.getBuyerInformation())
+                .addText("&fMade with love by &cDrOreo002");
+        if (commandSender instanceof Player) {
+            textBuilder.send((Player) commandSender);
+        } else {
+            sendMessage(commandSender, "&b✿ ChestShopLimiter &7| &fMade with love by &cDrOreo002 &7[License status: " + LicenseManager.getBuyerInformation() + "&7]");
+        }
         successSound(commandSender);
     }
 

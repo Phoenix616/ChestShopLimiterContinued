@@ -11,10 +11,14 @@ import java.net.URLConnection;
 public final class LicenseManager {
 
     private static final String USER_INFORMATION = "%%__USER__%%";
+    private static String registeredTo = "";
 
     public static String getBuyerInformation() {
         if (USER_INFORMATION.startsWith("%%")) {
-            return StringUtils.color("&7[ &cWarning &7] &fUnregistered user!. Cracked version?!");
+            return StringUtils.color("&cCracked license found :(");
+        }
+        if (!registeredTo.isEmpty()) {
+            return StringUtils.color("Plugin is currently registered to &e" + registeredTo);
         }
         try {
             final URLConnection openConnection = new URL("https://www.spigotmc.org/members/" + USER_INFORMATION + "/").openConnection();
@@ -25,11 +29,12 @@ public final class LicenseManager {
             while ((line = bufferedReader.readLine()) != null) {
                 sb.append(line);
             }
-            String buyerName = sb.toString().split("<title>")[1].split("</title>")[0].split(" | ")[0];
-            return StringUtils.color("&bThis instance of &cChestShopLimiter &6is registered to &7(&e" + "https://www.spigotmc.org/members/" + USER_INFORMATION + "&7) &ba.k.a &7(&e" + buyerName + "&7)");
-        }
-        catch (IOException ex) {
-            return StringUtils.color("&7[ &cWarning &7] &fCannot contact &bspigotmc.org! &f. Is the website down?!");
+            String buyerName = sb.toString().split("<title>")[1].split("</title>")[0].split(" \\| ")[0];
+            registeredTo = buyerName;
+            return StringUtils.color("Plugin is currently registered to &e" + buyerName);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return ex.getMessage();
         }
     }
 }

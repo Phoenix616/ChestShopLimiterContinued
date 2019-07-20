@@ -61,8 +61,7 @@ public class HookManager {
         }
         // Just in case
         if (!isCMI && !isEssentials) {
-            Bukkit.getPluginManager().disablePlugin(ChestShopLimiter.getInstance());
-            throw new IllegalStateException("Essentials or CMI dependency must be enabled an installed on the server if you want to run this plugin!. Install one of them and then run configure the config.yml to enable one of them!");
+            Debug.error(" &cCMI or Essentials is not installed!, it's recommended to install one of them!", false, Debug.LogType.BOTH);
         }
         if (mem.isEnableLuckPermsHook()) {
             Debug.info(" &fTrying to hook into &aLuckperms", false, Debug.LogType.BOTH);

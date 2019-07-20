@@ -1,29 +1,20 @@
 package me.droreo002.cslimit.inventory;
 
-import com.earth2me.essentials.textreader.TextPager;
 import lombok.Getter;
 import me.droreo002.cslimit.ChestShopLimiter;
 import me.droreo002.cslimit.config.ConfigManager;
 import me.droreo002.cslimit.lang.LangManager;
 import me.droreo002.cslimit.lang.LangPath;
-import me.droreo002.oreocore.enums.XMaterial;
 import me.droreo002.oreocore.inventory.api.GUIButton;
 import me.droreo002.oreocore.inventory.api.paginated.PaginatedInventory;
 import me.droreo002.oreocore.utils.item.CustomItem;
 import me.droreo002.oreocore.utils.item.CustomSkull;
-import me.droreo002.oreocore.utils.item.ItemUtils;
 import me.droreo002.oreocore.utils.item.helper.ItemMetaType;
 import me.droreo002.oreocore.utils.item.helper.TextPlaceholder;
-import me.droreo002.oreocore.utils.strings.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 public class SelectorInventory extends PaginatedInventory {
 

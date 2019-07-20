@@ -39,7 +39,7 @@ public class CMIHook implements ChestShopHook {
 
     @Override
     public boolean disablePluginIfNotFound() {
-        return true;
+        return false;
     }
 
     public CMI getCmi() {

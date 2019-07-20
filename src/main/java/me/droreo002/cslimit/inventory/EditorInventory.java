@@ -1,6 +1,5 @@
 package me.droreo002.cslimit.inventory;
 
-import com.sun.org.apache.bcel.internal.generic.LOR;
 import me.droreo002.cslimit.ChestShopLimiter;
 import me.droreo002.cslimit.config.ConfigManager;
 import me.droreo002.cslimit.conversation.helper.ConversationType;
@@ -86,20 +85,5 @@ public class EditorInventory extends CustomInventory {
                 closeInventory(opener);
             }
         }), true);
-    }
-
-    @Override
-    public void onClick(InventoryClickEvent inventoryClickEvent) {
-
-    }
-
-    @Override
-    public void onClose(InventoryCloseEvent inventoryCloseEvent) {
-
-    }
-
-    @Override
-    public void onOpen(InventoryOpenEvent inventoryOpenEvent) {
-
     }
 }

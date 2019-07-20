@@ -18,6 +18,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 
 public class ResetCommand extends CommandArg {
 
@@ -44,14 +45,19 @@ public class ResetCommand extends CommandArg {
             String name = args[1];
             Player target = Bukkit.getPlayerExact(name);
             if (target == null) {
-                final UUID offUUID = PlayerUtils.getUUID(name);
-                if (offUUID == null) {
+                success(commandSender);
+                UUID offUUID = null;
+                try {
+                    offUUID = PlayerUtils.getPlayerUuid(name).get();
+                } catch (InterruptedException | ExecutionException e) {
+                    e.printStackTrace();
+                }
+                OfflinePlayer off = Bukkit.getOfflinePlayer(offUUID);
+                if (!off.hasPlayedBefore()) {
                     sendMessage(commandSender, lang.getLang(LangPath.ERROR_PLAYER_NEVER_PLAYED, null, true));
                     error(commandSender);
                     return;
                 }
-                success(commandSender);
-                OfflinePlayer off = Bukkit.getOfflinePlayer(offUUID);
                 reset(commandSender, off.getUniqueId());
                 sendMessage(commandSender, lang.getLang(LangPath.NORMAL_SHOP_CREATED_RESET, new TextPlaceholder(ItemMetaType.NONE, "%player", off.getName()), true));
                 return;

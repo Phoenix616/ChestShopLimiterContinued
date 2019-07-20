@@ -1,7 +1,6 @@
 package me.droreo002.cslimit.database;
 
 import me.droreo002.oreocore.database.DatabaseType;
-import org.bukkit.entity.Player;
 
 import java.util.UUID;
 

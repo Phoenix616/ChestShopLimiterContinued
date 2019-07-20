@@ -95,15 +95,4 @@ public final class LangManager extends CustomConfig {
     public ConfigurationSection asSection(LangPath path) {
         return getConfig().getConfigurationSection(path.getPath());
     }
-
-    public List<String> getAbout() {
-        List<String> result = new ArrayList<>();
-        result.add(StringUtils.color("&8&m---------------&7 [ &aChestShopLimiter &7] &8&m---------------"));
-        result.add(" ");
-        result.add(StringUtils.color("&fThis server is running on &bChestShopLimiter &fplugin version &c" + getPlugin().getDescription().getVersion()));
-        result.add(LicenseManager.getBuyerInformation());
-        result.add(" ");
-        result.add(StringUtils.color("&8&m---------------&7 [ &aChestShopLimiter &7] &8&m---------------"));
-        return result;
-    }
 }

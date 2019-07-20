@@ -1,21 +1,16 @@
 package me.droreo002.cslimit.inventory;
 
-import com.sun.org.apache.bcel.internal.generic.LADD;
 import me.droreo002.cslimit.ChestShopLimiter;
 import me.droreo002.cslimit.config.ConfigManager;
 import me.droreo002.cslimit.lang.LangManager;
 import me.droreo002.cslimit.lang.LangPath;
 import me.droreo002.cslimit.manager.logger.Debug;
-import me.droreo002.oreocore.enums.XMaterial;
 import me.droreo002.oreocore.inventory.api.CustomInventory;
 import me.droreo002.oreocore.inventory.api.GUIButton;
 import me.droreo002.oreocore.utils.item.CustomItem;
-import me.droreo002.oreocore.utils.item.CustomSkull;
 import me.droreo002.oreocore.utils.item.complex.UMaterial;
-import org.bukkit.Bukkit;
+import me.droreo002.oreocore.utils.misc.ThreadingUtils;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -37,23 +32,18 @@ public class MenuInventory extends CustomInventory {
         addButton(new GUIButton(editorButton, 2).setListener(inventoryClickEvent -> {
             Player player = (Player) inventoryClickEvent.getWhoClicked();
             closeInventory(player);
-            new SelectorInventory(lang.getLang(LangPath.INVENTORY_PLAYER_SELECTOR_TITLE, null, false), (e, item, targetPlayer) -> {
+
+            ThreadingUtils.makeChain().asyncFirst(() -> new SelectorInventory(lang.getLang(LangPath.INVENTORY_PLAYER_SELECTOR_TITLE,
+                    null,
+                    false),
+            (e, item, targetPlayer) -> {
                 if (item.getType().equals(UMaterial.PLAYER_HEAD_ITEM.getMaterial())) {
                     closeInventory(player);
-                    new EditorInventory(player, targetPlayer, plugin).openAsync(player); // In case that there's head
+                    ThreadingUtils.makeChain().asyncFirst(() -> new EditorInventory(player, targetPlayer, plugin)).asyncLast(input -> input.open(player)).execute();
                 }
-            }).openAsync(player, 1);
+            })).asyncLast(input -> input.open(player)).execute();
+
         }), true);
-    }
-
-    @Override
-    public void onClick(InventoryClickEvent inventoryClickEvent) {
-
-    }
-
-    @Override
-    public void onClose(InventoryCloseEvent inventoryCloseEvent) {
-
     }
 
     @Override

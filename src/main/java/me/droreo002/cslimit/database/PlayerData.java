@@ -84,6 +84,10 @@ public class PlayerData {
         this.shopCreated += value;
     }
 
+    public boolean isEmptyData() {
+        return maxShop == 0 && shopCreated == 0 && lastPermission.equals("empty") && lastRank.equals("empty") && lastShopLocation.equals("empty");
+    }
+
     /**
      * Setup the data
      *
@@ -102,17 +106,20 @@ public class PlayerData {
             if (player != null) {
                 boolean hasPermission = false;
                 for (String s : permLimit.getKeys(false)) {
+                    if (s.equalsIgnoreCase("default")) continue;
+                    if (s.equalsIgnoreCase("force-default")) continue;
                     int newLimit = permLimit.getInt(s + ".limit");
                     int playerLimit = getMaxShop();
 
                     if (player.hasPermission(PERMISSION_STRING + s)) {
+                        hasPermission = true;
                         // Don't update if player's perm is the same and the limit is also the same a.k.a no limit update on permission (We do this on sql only)
                         if (sql) {
                             if (getLastPermission().equalsIgnoreCase(PERMISSION_STRING + s) && (playerLimit == newLimit))
                                 continue;
                         }
                         setLastPermission(PERMISSION_STRING + s);
-                        hasPermission = true;
+                        setMaxShop(newLimit);
                         break;
                     }
                 }
@@ -120,6 +127,9 @@ public class PlayerData {
                     if (permLimit.getBoolean("force-default")) {
                         setLastPermission(PERMISSION_STRING + "default");
                         setMaxShop(permLimit.getInt("default.limit"));
+                    } else {
+                        setLastPermission("empty");
+                        setMaxShop(0);
                     }
                 }
                 if (player.hasPermission("csl.limit.unlimited")) {

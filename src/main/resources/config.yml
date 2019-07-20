@@ -29,7 +29,9 @@ Dependency:
   PlaceholderAPI: true
   # Should we hook to LuckPerms?, recommended to true. LuckPerms is great, trust me
   LuckPerms: false
-  # For Essentials and CMI you can only enable 1. So choose it wisely. By default Essentials will be used (Recommended)
+  # It's recommended to use one of these plugins on ur server. But if you don't want to
+  # you can disable this completely, the server should still works fine but please report
+  # if you found a problem!
   Essentials: true
   CMI: false
 
@@ -124,6 +126,8 @@ Debugging:
 ShopLimit:
   # You can name it whatever you want to. The permission will be csl.limit.<name>
   # Also, don't delete this default value if you set force-default to true
+  # It's also recommended to not set player's permission to csl.limit.default because it will not
+  # get checked by the plugin
   default:
     limit: 5
   vip:
