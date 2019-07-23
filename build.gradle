@@ -1,0 +1,83 @@
+plugins {
+    id 'com.github.johnrengelman.shadow' version '5.1.0'
+    id 'java'
+}
+
+apply plugin: 'java'
+apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'maven-publish'
+
+import org.apache.tools.ant.filters.ReplaceTokens
+
+repositories {
+    mavenLocal()
+    maven {
+        url = 'http://repo.extendedclip.com/content/repositories/placeholderapi/'
+    }
+
+    maven {
+        url = 'https://hub.spigotmc.org/nexus/content/groups/public/'
+    }
+
+    maven {
+        url = 'https://oss.sonatype.org/content/groups/public/'
+    }
+
+    maven {
+        url = 'https://repo1.maven.org/maven2/me/lucko/luckperms/luckperms-api/'
+    }
+
+    maven {
+        url = 'http://repo.maven.apache.org/maven2'
+    }
+}
+
+dependencies {
+    compileOnly 'org.spigotmc:spigot-api:1.14.2-R0.1-SNAPSHOT'
+    compileOnly 'me.lucko.luckperms:luckperms-api:4.1'
+    compileOnly 'com.Zrips:CMI:1.0'
+    compileOnly 'com.earth2me:essentials:2.15.0.52'
+    compileOnly 'me.clip:placeholderapi:2.9.2'
+    compileOnly 'org.projectlombok:lombok:1.18.4'
+    compileOnly 'me.droreo002:OreoCore:+'
+    compileOnly 'com.Acrobot:ChestShop:1.0'
+    
+    annotationProcessor 'org.projectlombok:lombok:1.18.4'
+}
+
+def pluginName = project.name
+def spigotDirectory = "Spigot 1.13"
+
+group = 'me.droreo002'
+version = '3.5'
+targetCompatibility = '1.8'
+
+shadowJar {
+    archiveFileName = pluginName + '-' + project.version + '.jar'
+    destinationDirectory = file("C:\\Users\\Anom\\Desktop\\" + spigotDirectory + "\\plugins")
+
+    mergeServiceFiles()
+    dependencies {
+        include(dependency('co.aikar:.*'))
+        include(dependency('com.zaxxer:.*'))
+    }
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+processResources {
+    from(sourceSets.main.resources.srcDirs) {
+        include '**/*.yml'
+        filter(ReplaceTokens, tokens: [version: project.version])
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+}

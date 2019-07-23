@@ -5,8 +5,8 @@ import me.droreo002.cslimit.ChestShopLimiter;
 import me.droreo002.cslimit.config.ConfigManager;
 import me.droreo002.cslimit.lang.LangManager;
 import me.droreo002.cslimit.lang.LangPath;
-import me.droreo002.oreocore.inventory.api.GUIButton;
-import me.droreo002.oreocore.inventory.api.paginated.PaginatedInventory;
+import me.droreo002.oreocore.inventory.button.GUIButton;
+import me.droreo002.oreocore.inventory.paginated.PaginatedInventory;
 import me.droreo002.oreocore.utils.item.CustomItem;
 import me.droreo002.oreocore.utils.item.CustomSkull;
 import me.droreo002.oreocore.utils.item.helper.ItemMetaType;
@@ -29,9 +29,9 @@ public class SelectorInventory extends PaginatedInventory {
         final LangManager lang = plugin.getLangManager();
         final ConfigManager.Memory mem = plugin.getConfigManager().getMemory();
 
-        setOpenSound(mem.getPSelectorOpenSound());
-        setClickSound(mem.getPSelectorClickSound());
-        setCloseSound(mem.getPSelectorCloseSound());
+        setSoundOnOpen(mem.getPSelectorOpenSound());
+        setSoundOnClick(mem.getPSelectorClickSound());
+        setSoundOnClose(mem.getPSelectorCloseSound());
 
         setSearchRow(4, true, CustomItem.GRAY_GLASSPANE);
         setItemRow(0, 1, 2, 3);
