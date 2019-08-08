@@ -1,0 +1,112 @@
+ConfigVersion: '1.0' # Do not change!
+Inventory:
+  # For button animation there's only 1 animation type atm. I'll add more later
+  # For openAnimation there's only 2 animation waveanimation and fillanimation (case sensitive)
+  # For animationData's animationName, there's only 2 animation wave_animation and fill_animation (case sensitive)
+  MainMenu:
+    title: 'Main Menu'
+    size: 9
+    openAnimation: 'waveanimation' # Remove this if you don't want animations
+    layout:
+      - 'CXE______'
+    layout-item:
+      # Close button
+      C:
+        material: WOOD_DOOR
+        name: '&aClose'
+        animated: true
+        animationData:
+          animationName: 'fill_animation'
+        lore:
+          - '&aClick &7to close this inventory'
+      # Border
+      X:
+        material: GRAY_STAINED_GLASS_PANE
+        name: ' '
+      # Edit button
+      E:
+        material: WRITABLE_BOOK
+        name: '&aEditor'
+        animated: true
+        animationData:
+          animationName: 'fill_animation'
+        lore:
+          - '&aClick &7to select a player and edit it'
+      _:
+        material: AIR
+  PlayerSelector:
+    title: 'Select Player'
+    size: 45
+    paginated: true
+    layout:
+      - '!-------!'
+      - '!-------!'
+      - '!-------!'
+      - 'XXXXXXXXX'
+      - 'P___I___N'
+    layout-item:
+      X:
+        name: ' '
+        material: IRON_BARS
+      P:
+        name: '&aPrevious Page'
+        material: ARROW
+        lore:
+          - '&aClick &7to go to previous page'
+      I:
+        name: '&aMenu Information'
+        material: BOOK
+        lore:
+          - '&7You''re currently in page &a%currPage'
+          - '&7there''s in total of &a%totalPage &7pages available'
+      N:
+        name: '&aNext Page'
+        material: ARROW
+        lore:
+          - '&aClick &7to go to next page'
+      _:
+        material: AIR
+    playerHeadButton:
+      material: PLAYER_HEAD
+      name: '%player'
+      animated: true
+      animationData:
+        animationName: 'fill_animation'
+      lore:
+        - '&7Select this player'
+  EditorInventory:
+    title: 'Editor'
+    size: 9
+    layout:
+      - 'IX12_____'
+    layout-item:
+      # Information button
+      I:
+        material: PLAYER_HEAD # DO NOT CHANGE THIS!
+        name: '&a%player'
+        lore:
+          - '&7You''re currently editing this player'
+          - '&7you can select any edit type you want to!'
+          - '&r'
+          - '&7Current &aMaxShop&7: &f%maxShop'
+          - '&7Current &aShopCount&7: &f%shopCount'
+      # Border
+      X:
+        material: GRAY_STAINED_GLASS_PANE
+        name: ' '
+      # Edit max shop count
+      1:
+        material: FEATHER
+        name: '&aEdit Max Shop'
+        lore:
+          - '&aLeft-Click &7to set value'
+          - '&aRight-Click &7to add value'
+      # Edit shop count
+      2:
+        material: FEATHER
+        name: '&aEdit Shop Count'
+        lore:
+          - '&aLeft-Click &7to set value'
+          - '&aRight-Click &7to add value'
+      _:
+        material: AIR

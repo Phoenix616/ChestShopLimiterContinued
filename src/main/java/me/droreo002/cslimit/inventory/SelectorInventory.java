@@ -3,11 +3,10 @@ package me.droreo002.cslimit.inventory;
 import lombok.Getter;
 import me.droreo002.cslimit.ChestShopLimiter;
 import me.droreo002.cslimit.config.ConfigManager;
-import me.droreo002.cslimit.lang.LangManager;
-import me.droreo002.cslimit.lang.LangPath;
+import me.droreo002.oreocore.inventory.InventoryTemplate;
+import me.droreo002.oreocore.inventory.animation.InventoryAnimation;
 import me.droreo002.oreocore.inventory.button.GUIButton;
 import me.droreo002.oreocore.inventory.paginated.PaginatedInventory;
-import me.droreo002.oreocore.utils.item.CustomItem;
 import me.droreo002.oreocore.utils.item.CustomSkull;
 import me.droreo002.oreocore.utils.item.helper.ItemMetaType;
 import me.droreo002.oreocore.utils.item.helper.TextPlaceholder;
@@ -22,32 +21,40 @@ public class SelectorInventory extends PaginatedInventory {
     @Getter
     private Selected selected;
 
-    public SelectorInventory(String title, Selected selected) {
-        super(45, title);
+    public SelectorInventory(InventoryTemplate template, ChestShopLimiter plugin, Selected selected) {
+        super(template);
         this.selected = selected;
-        final ChestShopLimiter plugin = ChestShopLimiter.getInstance();
-        final LangManager lang = plugin.getLangManager();
         final ConfigManager.Memory mem = plugin.getConfigManager().getMemory();
 
         setSoundOnOpen(mem.getPSelectorOpenSound());
         setSoundOnClick(mem.getPSelectorClickSound());
         setSoundOnClose(mem.getPSelectorCloseSound());
+        setInventoryAnimation(InventoryAnimation.builder().build()); // Default value
 
-        setSearchRow(4, true, CustomItem.GRAY_GLASSPANE);
-        setItemRow(0, 1, 2, 3);
-
-        // INFO : NO NEED ASYNC. BECAUSE WE"RE ALREADY OPENED THIS INVENTORY VIA ASYNC WAY
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            final TextPlaceholder placeholder = new TextPlaceholder(ItemMetaType.DISPLAY_NAME, "%player", player.getName());
-            ItemStack head = CustomItem.applyFromSection(CustomSkull.getHead(player.getUniqueId()), lang.asSection(LangPath.INVENTORY_PLAYER_SELECTOR_PLAYER_BUTTON), placeholder);
-            addPaginatedButton(new GUIButton(head).setListener(inventoryClickEvent -> {
+        for (Player online : Bukkit.getOnlinePlayers()) {
+            GUIButton pButton = plugin.getInventoryTemplates().getPlayerHeadButton();
+            pButton.applyTextPlaceholder(new TextPlaceholder(ItemMetaType.DISPLAY_NAME, "%player", online.getName()));
+            pButton.setItem(CustomSkull.toHead(pButton.getItem(), online.getUniqueId()), true, false);
+            pButton.setListener(inventoryClickEvent -> {
                 ItemStack curr = inventoryClickEvent.getCurrentItem();
-                selected.selected(inventoryClickEvent, curr, player);
-            }));
+                selected.selected(inventoryClickEvent, curr, online);
+            });
+            addPaginatedButton(pButton);
         }
     }
 
+    /**
+     * Simple interface callback
+     */
     public interface Selected {
+
+        /**
+         * Called when player selected something
+         *
+         * @param e The click event
+         * @param item The item player selected
+         * @param selected The selected player
+         */
         void selected(InventoryClickEvent e, ItemStack item, Player selected);
     }
 }

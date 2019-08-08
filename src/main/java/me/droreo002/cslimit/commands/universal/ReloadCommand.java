@@ -1,6 +1,7 @@
 package me.droreo002.cslimit.commands.universal;
 
 import me.droreo002.cslimit.ChestShopLimiter;
+import me.droreo002.cslimit.config.InventoryTemplates;
 import me.droreo002.cslimit.lang.LangManager;
 import me.droreo002.cslimit.lang.LangPath;
 import me.droreo002.cslimit.manager.logger.Debug;
@@ -13,11 +14,13 @@ public class ReloadCommand extends CommandArg {
 
     private final ChestShopLimiter plugin;
     private final LangManager lang;
+    private final InventoryTemplates inventoryTemplates;
 
     public ReloadCommand(CustomCommand parent, ChestShopLimiter plugin) {
         super("reload", parent);
         this.plugin = plugin;
         this.lang = plugin.getLangManager();
+        this.inventoryTemplates = plugin.getInventoryTemplates();
 
         setPermission("csl.admin.reload", lang.getLang(LangPath.NORMAL_NO_PERMISSION, null, true));
     }
@@ -43,6 +46,11 @@ public class ReloadCommand extends CommandArg {
                     lang.reloadConfig();
                     lang.loadData();
                     sendMessage(commandSender, lang.getLang(LangPath.NORMAL_LANG_RELOADED, null, true));
+                    return;
+                case "inventory-settings":
+                    success(commandSender);
+                    inventoryTemplates.reloadConfig();
+                    sendMessage(commandSender, lang.getLang(LangPath.NORMAL_INV_TEMPLATE_RELOADED, null, true));
                     return;
                 default:
                     success(commandSender);

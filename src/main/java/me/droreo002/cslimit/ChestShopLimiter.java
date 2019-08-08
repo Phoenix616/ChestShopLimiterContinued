@@ -4,6 +4,7 @@ import lombok.Getter;
 import me.droreo002.cslimit.api.ChestShopAPI;
 import me.droreo002.cslimit.commands.ChestShopLimiterCommand;
 import me.droreo002.cslimit.config.ConfigManager;
+import me.droreo002.cslimit.config.InventoryTemplates;
 import me.droreo002.cslimit.conversation.ConversationManager;
 import me.droreo002.cslimit.database.CSLDatabase;
 import me.droreo002.cslimit.hook.HookManager;
@@ -13,6 +14,7 @@ import me.droreo002.cslimit.listener.support.ShopListenerUniversal;
 import me.droreo002.cslimit.manager.logger.Debug;
 import me.droreo002.cslimit.manager.LicenseManager;
 import me.droreo002.cslimit.manager.logger.LogFile;
+import me.droreo002.cslimit.manager.logger.LogFormatter;
 import me.droreo002.cslimit.metrics.Metrics;
 import me.droreo002.cslimit.api.ChestShopLimiterHandler;
 import me.droreo002.cslimit.utils.CommonUtils;
@@ -43,6 +45,8 @@ public class ChestShopLimiter extends JavaPlugin {
     private ConversationManager conversationManager;
     @Getter
     private ChestShopLimiterCommand command;
+    @Getter
+    private InventoryTemplates inventoryTemplates;
 
     @Override
     public void onEnable() {
@@ -50,6 +54,7 @@ public class ChestShopLimiter extends JavaPlugin {
         instance = this;
         configManager = new ConfigManager(this);
         logFile = new LogFile();
+        inventoryTemplates = new InventoryTemplates(this);
         Debug.info("&fStarting the plugin...", true, Debug.LogType.BOTH);
 
         if (ServerUtils.getPlugin("ChestShop") == null) {

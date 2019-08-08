@@ -1,7 +1,6 @@
 package me.droreo002.cslimit.manager.logger;
 
 import lombok.Getter;
-import lombok.Setter;
 import me.droreo002.cslimit.ChestShopLimiter;
 import me.droreo002.oreocore.utils.io.FileUtils;
 import me.droreo002.oreocore.utils.misc.TimeStampUtils;
@@ -17,19 +16,16 @@ import java.util.logging.*;
 
 public final class LogFile {
 
-    @Getter
-    private final Logger logger = Logger.getLogger(Debug.class.getCanonicalName());
-    @Getter
-    private final TimeStampUtils utils = new TimeStampUtils("dd-MM-yyyy");
+    public static final TimeStampUtils TIME_STAMP_UTILS = new TimeStampUtils("dd-MM-yyyy");
 
     @Getter
-    @Setter
+    private final Logger logger = Logger.getLogger(Debug.class.getCanonicalName());
+
+    @Getter
     private String currentLogFileName;
     @Getter
-    @Setter
     private File logFile;
     @Getter
-    @Setter
     private FileHandler logHandler;
 
     public LogFile() {
@@ -56,9 +52,9 @@ public final class LogFile {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        logHandler.setFormatter(new CSLFormatter());
         logger.setLevel(Level.ALL);
         logger.setUseParentHandlers(false);
+        logHandler.setFormatter(new LogFormatter());
         for (Handler handler : logger.getHandlers()) {
             logger.removeHandler(handler);
         }
@@ -68,15 +64,15 @@ public final class LogFile {
     private String getNextLogName() {
         final ChestShopLimiter plugin = ChestShopLimiter.getInstance();
         final File logsFolder = new File(plugin.getDataFolder(), "logs");
-        if (logsFolder.listFiles() == null) return utils.getDateFormat().format(new Date()) + "_0";
+        if (logsFolder.listFiles() == null) return TIME_STAMP_UTILS.getDateFormat().format(new Date()) + "_0";
         File[] logs = logsFolder.listFiles();
         List<File> sameFile = new ArrayList<>();
         for (File f : logs) {
             String fileName = FileUtils.getFileName(f, false);
-            String date = utils.getDateFormat().format(new Date());
+            String date = TIME_STAMP_UTILS.getDateFormat().format(new Date());
             if (fileName.contains(date)) sameFile.add(f);
         }
-        String currentFileName = utils.getDateFormat().format(new Date());
+        String currentFileName = TIME_STAMP_UTILS.getDateFormat().format(new Date());
         int currentNumber = 0;
         for (File f : sameFile) {
             String fileName = FileUtils.getFileName(f, false);
@@ -92,33 +88,12 @@ public final class LogFile {
         return currentFileName + "_" + (currentNumber + 1);
     }
 
-    private class CSLFormatter extends Formatter {
-
-        private final String logFormat = ChestShopLimiter.getInstance().getConfigManager().getMemory().getLogFormat();
-
-        @Override
-        public String format(LogRecord record) {
-            return logFormat
-                    .replace("%date", utils.getCurrentTimestampString())
-                    .replace("%logLevel", String.valueOf(record.getLevel()))
-                    .replace("%message", formatMessage(record)) + System.lineSeparator();
-        }
-
-        public String getHead(Handler h) {
-            return super.getHead(h);
-        }
-
-        public String getTail(Handler h) {
-            return super.getTail(h);
-        }
-    }
-
     private class LogFileUpdater implements Runnable {
 
         @Override
         public void run() {
-            Timestamp before = utils.convertStringToTimestamp(currentLogFileName.split("_")[0]);
-            Timestamp now = utils.getCurrentTimestamp();
+            Timestamp before = TIME_STAMP_UTILS.convertStringToTimestamp(currentLogFileName.split("_")[0]);
+            Timestamp now = TIME_STAMP_UTILS.getCurrentTimestamp();
             if (before.after(now)) {
                 currentLogFileName = getNextLogName();
                 setup();

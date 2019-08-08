@@ -1,7 +1,7 @@
 # Lang file, please only edit the text. Do not edit anything more!
 # if you don't understand what is the message mean and when it fill fired. Please read carefully!
 # btw it will automatically add the csl prefix. Go to config.yml if you want to change it
-
+ConfigVersion: '1.0'
 Normal:
   # Fired when config file reloaded
   config-reloaded: 'Reloaded the config.yml file!'
@@ -29,6 +29,8 @@ Normal:
   data-save-success: 'Data for player with the name of &c%player &fhas been saved!'
   # Fired when the player data cannot be found
   data-not-found: '&fData for player &e%player &fcannot be found!'
+  # Fired when inventory template is reloaded
+  inv-template-reloaded: '&fInventory template successfully reloaded!'
 TextEditor:
   # Fired when non player trying to use the editor player
   player-only: 'Sorry but the text editor can only be used by &eplayer only'
@@ -133,85 +135,3 @@ List:
     - '&8&m-----------------&7 [ &aPlayer Status &7] &8&m-----------------'
     - '&r'
     - '&7(&b✿&7) &f» Buy a new rank if you want to increase your shop limit!'
-# Material can be 1.13 or 1.12 and below. It will automatically convert it
-# into ur server version's material.
-Inventory:
-  Universal:
-    information-button:
-      material: PAPER
-      name: '&7[ &bInformation &7]'
-      lore:
-        - '&8&m--------------'
-        - '&r'
-        - '&7(&b✿&7) &fYou''re currently on page &7(&e%currPage&7/&b%totalPage&7)'
-    next-button:
-      name: '&7[ &bNext Page &7]'
-      material: ARROW
-      lore:
-        - '&8&m--------------'
-        - '&r'
-        - '&7(&b✿&7) &fClick to go to next page'
-    prev-button:
-      name: '&7[ &bPrev Page &7]'
-      material: ARROW
-      lore:
-        - '&8&m--------------'
-        - '&r'
-        - '&7(&b✿&7) &fClick to go to previous page'
-  MainMenu:
-    title: '&8» Main Menu'
-    exit-button:
-      material: WOOD_DOOR
-      name: '&7[ &cExit &7]'
-      lore:
-        - '&8&m--------------'
-        - '&r'
-        - '&7(&b✿&7) &fClick to close this inventory'
-    editor-button:
-      material: WRITABLE_BOOK
-      name: '&7[ &eEditor &7]'
-      lore:
-        - '&8&m--------------'
-        - '&r'
-        - '&7(&b✿&7) &fClick to select a player and edit it!'
-  PlayerSelector:
-    title: '&8» Select Player'
-    player-button:
-      material: PLAYER_HEAD # DO NOT CHANGE THIS!
-      name: '&7[ &b%player &7]'
-      lore:
-        - '&8&m--------------'
-        - '&r'
-        - '&7(&b✿&7) &fClick to select this player'
-  EditorInventory:
-    title: '&8» Editor'
-    info-button:
-      material: PLAYER_HEAD # DO NOT CHANGE THIS!
-      name: '&7[ &b%player &7]'
-      lore:
-        - '&8&m--------------'
-        - '&r'
-        - '  &fNow editing &e%player'
-        - '  &fselect any options that you like'
-        - '  &fto start editing!'
-        - '&r'
-        - '&8&m--------------'
-        - '&r'
-        - '&7(&b✿&7) &fCurrent &eMaxShop &8» &f%maxShop'
-        - '&7(&b✿&7) &fCurrent &eShopCount &8» &f%shopCount'
-    edit-maxshop-button:
-      material: FEATHER
-      name: '&7[ &bEdit Max Shop &7]'
-      lore:
-        - '&8&m--------------'
-        - '&r'
-        - '&7(&b✿&7) &cLeft-Click &fto set player''s &emaxShop &fdata count'
-        - '&7(&b✿&7) &cRight-Click &fto add player''s &emaxShop &fdata count'
-    edit-shop-count:
-      material: FEATHER
-      name: '&7[ &bEdit Shop Count &7]'
-      lore:
-        - '&8&m--------------'
-        - '&r'
-        - '&7(&b✿&7) &cLeft-Click &fto set player''s &eshopCreated &fdata'
-        - '&7(&b✿&7) &cRight-Click &fto add player''s &eshopCreated &fdata'

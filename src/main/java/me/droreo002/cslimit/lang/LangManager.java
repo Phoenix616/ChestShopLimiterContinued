@@ -2,12 +2,11 @@ package me.droreo002.cslimit.lang;
 
 import me.droreo002.cslimit.ChestShopLimiter;
 import me.droreo002.cslimit.config.ConfigManager;
-import me.droreo002.cslimit.manager.LicenseManager;
+import me.droreo002.cslimit.manager.logger.Debug;
 import me.droreo002.oreocore.configuration.CustomConfig;
 import me.droreo002.oreocore.utils.item.helper.TextPlaceholder;
 import me.droreo002.oreocore.utils.strings.StringUtils;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -18,6 +17,8 @@ import java.util.stream.Collectors;
 
 public final class LangManager extends CustomConfig {
 
+    private static final String LATEST_VERSION = "1.0";
+
     // Object could be 2 things. List and String
     private final Map<LangPath, Object> values = new HashMap<>();
     private final ChestShopLimiter plugin;
@@ -25,6 +26,9 @@ public final class LangManager extends CustomConfig {
     public LangManager(ChestShopLimiter plugin) {
         super(plugin, new File(plugin.getDataFolder(), plugin.getConfigManager().getMemory().getLangFile()));
         this.plugin = plugin;
+        if (tryUpdate("ConfigVersion", LATEST_VERSION)) {
+            Debug.info("&7" + getYamlFile().getName() + " &fhas been updated!", true, Debug.LogType.BOTH);
+        }
         loadData();
     }
 

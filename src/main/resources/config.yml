@@ -7,6 +7,7 @@
 #                                              | |
 #                                              |_|
 
+ConfigVersion: '1.0' # Do not change
 # Plugin prefix!
 Prefix: '&7[ &bChestShopLimiter &7]&f '
 
@@ -50,6 +51,9 @@ Titles:
     fade-out: 20
     stay: 40
     soundOnSend: 'NOTE_PLING'
+
+Inventory:
+
 
 # This is the sound of "success" and "failure" when using a command. Required to reload / restart the server if you made changes
 # for the sound list, you can see it here https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html

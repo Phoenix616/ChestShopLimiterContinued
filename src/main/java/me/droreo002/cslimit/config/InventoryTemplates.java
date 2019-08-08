@@ -1,0 +1,47 @@
+package me.droreo002.cslimit.config;
+
+import lombok.Getter;
+import lombok.NonNull;
+import me.droreo002.cslimit.ChestShopLimiter;
+import me.droreo002.cslimit.manager.logger.Debug;
+import me.droreo002.oreocore.configuration.ConfigMemory;
+import me.droreo002.oreocore.configuration.CustomConfig;
+import me.droreo002.oreocore.configuration.annotations.ConfigVariable;
+import me.droreo002.oreocore.inventory.InventoryTemplate;
+import me.droreo002.oreocore.inventory.button.GUIButton;
+
+import java.io.File;
+
+public class InventoryTemplates extends CustomConfig implements ConfigMemory {
+
+    private static final String LATEST_VERSION = "1.0";
+
+    @Getter
+    @ConfigVariable(path = "Inventory.MainMenu", isSerializableObject = true)
+    private InventoryTemplate mainMenuTemplate = new InventoryTemplate();
+
+    @Getter
+    @ConfigVariable(path = "Inventory.PlayerSelector", isSerializableObject = true)
+    private InventoryTemplate playerSelectorTemplate = new InventoryTemplate();
+
+    @Getter
+    @ConfigVariable(path = "Inventory.EditorInventory", isSerializableObject = true)
+    private InventoryTemplate editorInventoryTemplate = new InventoryTemplate();
+
+    @Getter
+    @ConfigVariable(path = "Inventory.PlayerSelector.playerHeadButton", isSerializableObject = true)
+    private GUIButton playerHeadButton = new GUIButton();
+
+    public InventoryTemplates(ChestShopLimiter plugin) {
+        super(plugin, new File(plugin.getDataFolder(), "inventory-settings.yml"));
+        registerMemory(this);
+        if (tryUpdate("ConfigVersion", LATEST_VERSION)) {
+            Debug.info("&7inventory-settings.yml &fhas been updated!", true, Debug.LogType.BOTH);
+        }
+    }
+
+    @Override
+    public @NonNull CustomConfig getParent() {
+        return this;
+    }
+}

@@ -27,6 +27,6 @@ public class MenuCommand extends CommandArg {
     public void execute(CommandSender commandSender, String[] strings) {
         Debug.info("Command menu has been executed by " + commandSender.getName(), false, Debug.LogType.FILE);
         Player player = (Player) commandSender;
-        new MenuInventory(plugin).open(player);
+        new MenuInventory(plugin.getInventoryTemplates(), plugin).open(player);
     }
 }

@@ -45,8 +45,7 @@ public class FlatFileData extends DatabaseFlatFile implements DatabaseWrapper {
 
     @Override
     public void loadData() {
-        for (Map.Entry ent : getDataCache().entrySet()) {
-            Data data = (Data) ent.getValue();
+        for (DataCache data : getDataCaches()) {
             PlayerData pData = PlayerData.fromYaml(data.getConfig());
             playerData.put(pData.getPlayerUUID(), pData);
         }
@@ -73,7 +72,7 @@ public class FlatFileData extends DatabaseFlatFile implements DatabaseWrapper {
     @Override
     public void savePlayerData(PlayerData playerData) {
         if (playerData.getChanges().isEmpty()) return;
-        Data objectData = getDataClass(playerData.getPlayerUUID().toString());
+        DataCache objectData = getDataCache(playerData.getPlayerUUID().toString());
         FileConfiguration config = objectData.getConfig();
 
         for (DataProperty property : playerData.getChanges()) {
@@ -113,7 +112,7 @@ public class FlatFileData extends DatabaseFlatFile implements DatabaseWrapper {
     @Override
     public void removePlayerData(UUID uuid, boolean delete) {
         final PlayerData playerData = getPlayerData(uuid);
-        final Data data = getDataClass(uuid.toString());
+        final DataCache data = getDataCache(uuid.toString());
         if (playerData == null) throw new NullPointerException("Failed to get player data with the UUID of " + uuid.toString() + ", when trying to remove!");
         if (delete) {
             removeData(data, true);
@@ -133,7 +132,7 @@ public class FlatFileData extends DatabaseFlatFile implements DatabaseWrapper {
         if (!playerData.containsKey(key)) {
             setup(key.toString(), true, setupCallbackType -> {
                 // Try to generate new data
-                Data objectData = getDataClass(key.toString());
+                DataCache objectData = getDataCache(key.toString());
                 if (objectData == null)
                     throw new NullPointerException("No object data found for UUID " + key.toString() + " please contact administrator!");
                 FileConfiguration config = objectData.getConfig();
@@ -176,7 +175,7 @@ public class FlatFileData extends DatabaseFlatFile implements DatabaseWrapper {
         Debug.info("Trying to migrate &e" + playerData.getPlayerName() + " &fthis will take sometimes...", true, Debug.LogType.BOTH);
         UUID key = playerData.getPlayerUUID();
         setup(key.toString(), true, setupCallbackType -> {
-            Data objectData = getDataClass(key.toString());
+            DataCache objectData = getDataCache(key.toString());
             if (objectData == null) throw new NullPointerException("No object data found for UUID " + key.toString() + " please contact administrator!");
             FileConfiguration config = objectData.getConfig();
             // Update the new config
