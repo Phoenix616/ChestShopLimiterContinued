@@ -113,13 +113,9 @@ public class FlatFileData extends DatabaseFlatFile implements DatabaseWrapper {
     public void removePlayerData(UUID uuid, boolean delete) {
         final PlayerData playerData = getPlayerData(uuid);
         final DataCache data = getDataCache(uuid.toString());
-        if (playerData == null) throw new NullPointerException("Failed to get player data with the UUID of " + uuid.toString() + ", when trying to remove!");
-        if (delete) {
-            removeData(data, true);
-            this.playerData.remove(playerData.getPlayerUUID());
-        } else {
-            this.playerData.remove(playerData.getPlayerUUID());
-        }
+        if (playerData == null) return;
+        removeData(data, delete);
+        this.playerData.remove(playerData.getPlayerUUID());
     }
 
     @Override
@@ -136,6 +132,7 @@ public class FlatFileData extends DatabaseFlatFile implements DatabaseWrapper {
                 if (objectData == null)
                     throw new NullPointerException("No object data found for UUID " + key.toString() + " please contact administrator!");
                 FileConfiguration config = objectData.getConfig();
+                PlayerData data = null;
                 if (setupCallbackType == SetupCallbackType.CREATED_AND_LOADED) {
                     // If this is a new data. Process it in different way then
                     config.set("Data.uuid", key.toString());
@@ -146,24 +143,22 @@ public class FlatFileData extends DatabaseFlatFile implements DatabaseWrapper {
                     config.set("Data.lastRank", "{}");
                     config.set("Data.lastShopLocation", "{}");
 
-                    PlayerData data = PlayerData.fromYaml(config);
+                    data = PlayerData.fromYaml(config);
                     data.setupData(plugin, false);
 
                     config.set("Data.maxShop", data.getMaxShop());
                     config.set("Data.lastRank", data.getLastRank());
-                    saveData(objectData);
-                    playerData.put(key, data);
-                    return;
                 }
                 if (setupCallbackType == SetupCallbackType.LOADED) {
-                    PlayerData data = PlayerData.fromYaml(config);
+                    data = PlayerData.fromYaml(config);
                     data.setupData(plugin, false);
 
                     config.set("Data.maxShop", data.getMaxShop());
                     config.set("Data.lastRank", data.getLastRank());
-                    saveData(objectData);
-                    playerData.put(key, data);
                 }
+                if (data == null) throw new NullPointerException("Data is null!");
+                saveData(objectData);
+                playerData.put(key, data);
             });
         } else {
             updatePlayerData(playerData.get(key));
