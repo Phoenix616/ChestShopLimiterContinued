@@ -29,10 +29,10 @@ public class EditorInventory extends CustomInventory {
         setSoundOnOpen(mem.getEditorOpenSound());
         setSoundOnClose(mem.getEditorCloseSound());
 
-        TextPlaceholder infoPlaceholder = new TextPlaceholder(ItemMetaType.DISPLAY_NAME, "%player", targetPlayer.getName())
-                .add(ItemMetaType.LORE, "%player", targetPlayer.getName())
-                .add(ItemMetaType.LORE, "%maxShop", String.valueOf(data.getMaxShop()))
-                .add(ItemMetaType.LORE,"%shopCount", String.valueOf(data.getShopCreated()));
+        TextPlaceholder infoPlaceholder = new TextPlaceholder(ItemMetaType.DISPLAY_NAME, "%player%", targetPlayer.getName())
+                .add(ItemMetaType.LORE, "%player%", targetPlayer.getName())
+                .add(ItemMetaType.LORE, "%maxShop%", String.valueOf(data.getMaxShop()))
+                .add(ItemMetaType.LORE,"%shopCount%", String.valueOf(data.getShopCreated()));
 
         pInformation.applyTextPlaceholder(infoPlaceholder);
         pInformation.setItem(CustomSkull.toHead(pInformation.getItem(), targetPlayer.getUniqueId()), true, false);

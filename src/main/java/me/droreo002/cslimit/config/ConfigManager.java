@@ -18,7 +18,7 @@ import java.io.File;
 
 public final class ConfigManager extends CustomConfig {
 
-    private static final String LATEST_VERSION = "1.0";
+    private static final String LATEST_VERSION = "1.1";
 
     @Getter
     private Memory memory;

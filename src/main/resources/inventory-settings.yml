@@ -57,8 +57,8 @@ Inventory:
         name: '&aMenu Information'
         material: BOOK
         lore:
-          - '&7You''re currently in page &a%currPage'
-          - '&7there''s in total of &a%totalPage &7pages available'
+          - '&7You''re currently in page &a%currPage%'
+          - '&7there''s in total of &a%totalPage% &7pages available'
       N:
         name: '&aNext Page'
         material: ARROW
@@ -68,7 +68,7 @@ Inventory:
         material: AIR
     playerHeadButton:
       material: PLAYER_HEAD
-      name: '%player'
+      name: '%player%'
       animated: true
       animationData:
         animationName: 'fill_animation'
@@ -83,13 +83,13 @@ Inventory:
       # Information button
       I:
         material: PLAYER_HEAD # DO NOT CHANGE THIS!
-        name: '&a%player'
+        name: '&a%player%'
         lore:
           - '&7You''re currently editing this player'
           - '&7you can select any edit type you want to!'
           - '&r'
-          - '&7Current &aMaxShop&7: &f%maxShop'
-          - '&7Current &aShopCount&7: &f%shopCount'
+          - '&7Current &aMaxShop&7: &f%maxShop%'
+          - '&7Current &aShopCount&7: &f%shopCount%'
       # Border
       X:
         material: GRAY_STAINED_GLASS_PANE

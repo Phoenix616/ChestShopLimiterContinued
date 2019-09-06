@@ -49,7 +49,7 @@ def pluginName = project.name
 def spigotDirectory = "Spigot 1.13"
 
 group = 'me.droreo002'
-version = '3.9'
+version = '4.0'
 targetCompatibility = '1.8'
 
 shadowJar {

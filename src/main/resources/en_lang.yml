@@ -16,19 +16,19 @@ Normal:
   # Fired when the player uses to much args on any csl command
   too-much-args: '&cToo much args!'
   # Fired when the shop created
-  shop-created: 'Successfully created a shop! &7(&b%created&7/&e%max&7) &fusage left!'
+  shop-created: 'Successfully created a shop! &7(&b%created%&7/&e%max%&7) &fusage left!'
   # Fired when the player removed his / her shop!. Also it will only fire if RefundOnShopRemove is set to true on config.yml
-  shop-removed: 'Successfully removed a shop! &7(&b%created&7/&e%max&7) &fusage left!'
+  shop-removed: 'Successfully removed a shop! &7(&b%created%&7/&e%max%&7) &fusage left!'
   # Fired when the player tried to run console command
   console-only: 'Console command only!. Please use &6/csl &finstead!'
   # Fired when using the reset command
-  shop-created-reset: 'You''ve set %player''s shop created value into 0'
+  shop-created-reset: 'You''ve set %player%''s shop created value into 0'
   # Fired when the player got his shop created reset ed. Executor could be a player or a console
-  shop-created-reset-other: '%executor , has set your shop created value into 0'
+  shop-created-reset-other: '%executor% , has set your shop created value into 0'
   # Fired when player successfully saved the specified player's data
-  data-save-success: 'Data for player with the name of &c%player &fhas been saved!'
+  data-save-success: 'Data for player with the name of &c%player% &fhas been saved!'
   # Fired when the player data cannot be found
-  data-not-found: '&fData for player &e%player &fcannot be found!'
+  data-not-found: '&fData for player &e%player% &fcannot be found!'
   # Fired when inventory template is reloaded
   inv-template-reloaded: '&fInventory template successfully reloaded!'
 TextEditor:
@@ -38,13 +38,13 @@ TextEditor:
   closed: 'Text editor has been closed successfully!'
   entry:
     # Fired when player is changing the MaxShop value
-    change-max-shop: 'Now editing &e%target&f''s &fmax shop. Type an integer into the chat box to specify the new value'
+    change-max-shop: 'Now editing &e%target%&f''s &fmax shop. Type an integer into the chat box to specify the new value'
     # Fired when player is changing the CurrentShop value
-    change-curr-shop: 'Now editing &e%target&f''s &fcurrent shop created. Type an integer into the chat box to specify the new value'
+    change-curr-shop: 'Now editing &e%target%&f''s &fcurrent shop created. Type an integer into the chat box to specify the new value'
     # Fired when player is adding value to the CurrentShop value
-    add-max-shop: 'Now editing &e%target&f''s &fmax shop. Type an integer into the chat box to specify the value that will get added'
+    add-max-shop: 'Now editing &e%target%&f''s &fmax shop. Type an integer into the chat box to specify the value that will get added'
     # Fired when player is adding value to the CurrentShopCreated value
-    add-curr-shop: 'Now editing &e%target&f''s &fcurrent shop created. Type an integer into the chat box to specify the value that will get added'
+    add-curr-shop: 'Now editing &e%target%&f''s &fcurrent shop created. Type an integer into the chat box to specify the value that will get added'
   error:
     # Fired when executor inputted a invalid integer
     not-integer: 'Invalid integer!, please redo it again!'
@@ -52,13 +52,13 @@ TextEditor:
     shop-created-greater: 'Shop created amount cannot be greater than the &eShopLimit &famount!'
   success:
     # Fired when the max shop is successfully changed
-    change-max-shop: 'Max shop value has been changed to &e%value'
+    change-max-shop: 'Max shop value has been changed to &e%value%'
     # Fired when the current shop is successfully changed
-    change-current-shop: 'Current shop value has been changed to &e%value'
+    change-current-shop: 'Current shop value has been changed to &e%value%'
     # Fired when the value was successfully added into the max shop
-    add-max-shop: '&e%value &fhas been added to the max shop value'
+    add-max-shop: '&e%value% &fhas been added to the max shop value'
     # Fired when the value was successfully added into the max shop
-    add-current-shop: '&e%value &fhas been added to the current shop value'
+    add-current-shop: '&e%value% &fhas been added to the current shop value'
 Misc:
   # Used when the user see the check format
   teleport-button-text: '&7[ &aTeleport &7]'
@@ -67,7 +67,7 @@ Misc:
   # Used when the last shop location is not available
   teleport-no-location-found: '&cUnavailable'
   # Used if player have permission of csl.limit.unlimited and this will replace the
-  # %shoplimit placeholder
+  # %shoplimit% placeholder
   shop-limit-unlimited: '&eUnlimited'
 Error:
   # For invalid command usage only!
@@ -89,7 +89,7 @@ Error:
   # Fired when the targeted player is never player on the server
   player-never-played: 'That player is never played on this server!. Please enter the name correctly!'
   # Fired then the shop limit has been reached by the player
-  limit-reached: 'Shop limit reached!. Please upgrade your rank to create more shops! &7(&b%created&7/&e%max&7)'
+  limit-reached: 'Shop limit reached!. Please upgrade your rank to create more shops! &7(&b%created%&7/&e%max%&7)'
   # When the command sender send invalid reload type
   invalid-reload-type: 'Invalid reload type!, Available type is : config and lang!'
   # When player tried to use tab-complete without the csl.admin permission. Also this would not work on 1.13 and 1.14
@@ -114,14 +114,14 @@ List:
   #- %lastshop
   #- %uuid
   check-message:
-    - '&8&m--------------&7 [ &a%player''s Information &7] &8&m--------------'
+    - '&8&m--------------&7 [ &a%player%''s Information &7] &8&m--------------'
     - '&r'
-    - '&7(&b✿&7) &fUUID &7» &a%uuid'
-    - '&7(&b✿&7) &fShop Created &7» &c%shopcreated'
-    - '&7(&b✿&7) &fShop Limit &7» &c%shoplimit'
-    - '&7(&b✿&7) &fLatest Shop &7» &c%lastshop'
+    - '&7(&b✿&7) &fUUID &7» &a%uuid%'
+    - '&7(&b✿&7) &fShop Created &7» &c%shopcreated%'
+    - '&7(&b✿&7) &fShop Limit &7» &c%shoplimit%'
+    - '&7(&b✿&7) &fLatest Shop &7» &c%lastshop%'
     - '&r'
-    - '&8&m--------------&7 [ &a%player''s Information &7] &8&m--------------'
+    - '&8&m--------------&7 [ &a%player%''s Information &7] &8&m--------------'
 
   #Available placeholder
   #- %shopcreated
@@ -129,8 +129,8 @@ List:
   player-status-message:
     - '&8&m-----------------&7 [ &aPlayer Status &7] &8&m-----------------'
     - '&r'
-    - '&7(&b✿&7) &fShop Created &7» &c%shopcreated'
-    - '&7(&b✿&7) &fShop Limit &7» &c%shoplimit'
+    - '&7(&b✿&7) &fShop Created &7» &c%shopcreated%'
+    - '&7(&b✿&7) &fShop Limit &7» &c%shoplimit%'
     - '&r'
     - '&8&m-----------------&7 [ &aPlayer Status &7] &8&m-----------------'
     - '&r'

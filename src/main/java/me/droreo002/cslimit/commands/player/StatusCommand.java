@@ -47,8 +47,8 @@ public class StatusCommand extends CommandArg {
         String shopLimit = String.valueOf(data.getMaxShop());
         if (sender.hasPermission("csl.limit.unlimited")) shopLimit = lang.getLang(LangPath.MISC_SHOP_LIMIT_UNLIMITED, null, false);
         List<String> message = lang.getLangList(LangPath.LIST_PLAYER_STATUS_MESSAGE,
-                new TextPlaceholder(ItemMetaType.NONE, "%shopcreated", String.valueOf(data.getShopCreated()))
-                .add(ItemMetaType.NONE, "%shoplimit", shopLimit));
+                new TextPlaceholder(ItemMetaType.NONE, "%shopcreated%", String.valueOf(data.getShopCreated()))
+                .add(ItemMetaType.NONE, "%shoplimit%", shopLimit));
         message.forEach(sender::sendMessage);
     }
 }

@@ -83,7 +83,7 @@ public class CheckCommand extends CommandArg {
         final String targetName = target.getName();
 
         if (data == null || data.isEmptyData()) {
-            sendMessage(sender, lang.getLang(LangPath.NORMAL_DATA_NOT_FOUND, new TextPlaceholder(ItemMetaType.NONE, "%player", targetName), true));
+            sendMessage(sender, lang.getLang(LangPath.NORMAL_DATA_NOT_FOUND, new TextPlaceholder(ItemMetaType.NONE, "%player%", targetName), true));
             error(sender);
             return;
         }
@@ -99,19 +99,19 @@ public class CheckCommand extends CommandArg {
                     lastShop = lang.getLang(LangPath.MISC_TELEPORT_NO_LOCATION_FOUND, null, false);
                 }
                 String result = s
-                        .replace("%player", targetName)
-                        .replace("%uuid", target.getUniqueId().toString())
-                        .replace("%shopcreated", String.valueOf(data.getShopCreated()))
-                        .replace("%shoplimit", shopLimit)
-                        .replace("%lastshop", lastShop);
+                        .replace("%player%", targetName)
+                        .replace("%uuid%", target.getUniqueId().toString())
+                        .replace("%shopcreated%", String.valueOf(data.getShopCreated()))
+                        .replace("%shoplimit%", shopLimit)
+                        .replace("%lastshop%", lastShop);
                 sender.sendMessage(color(result));
             }
             return;
         }
         for (String s : lang.getLangList(LangPath.LIST_CHECK_MESSAGE, null)) {
             if (location != null) {
-                if (s.contains("%lastshop")) {
-                    String result = s.replace("%lastshop", "");
+                if (s.contains("%lastshop%")) {
+                    String result = s.replace("%lastshop%", "");
                     TextBuilder builder = TextBuilder.of(result).addText(lang.getLang(LangPath.MISC_TELEPORT_BUTTON_TEXT, null, false));
                     builder.setHoverEvent(HoverEvent.Action.SHOW_TEXT, lang.getLang(LangPath.MISC_TELEPORT_BUTTON_HOVER_TEXT, null, false));
                     // Setup the click event
@@ -124,8 +124,8 @@ public class CheckCommand extends CommandArg {
                     continue;
                 }
             } else {
-                if (s.contains("%lastshop")) {
-                    sender.sendMessage(s.replace("%lastshop", lang.getLang(LangPath.MISC_TELEPORT_NO_LOCATION_FOUND, null, false)));
+                if (s.contains("%lastshop%")) {
+                    sender.sendMessage(s.replace("%lastshop%", lang.getLang(LangPath.MISC_TELEPORT_NO_LOCATION_FOUND, null, false)));
                     continue;
                 }
             }
@@ -134,10 +134,10 @@ public class CheckCommand extends CommandArg {
                 shopLimit = lang.getLang(LangPath.MISC_SHOP_LIMIT_UNLIMITED, null, false);
             }
             String result = s
-                .replace("%player", targetName)
-                .replace("%uuid", target.getUniqueId().toString())
-                .replace("%shopcreated", String.valueOf(data.getShopCreated()))
-                .replace("%shoplimit", shopLimit);
+                .replace("%player%", targetName)
+                .replace("%uuid%", target.getUniqueId().toString())
+                .replace("%shopcreated%", String.valueOf(data.getShopCreated()))
+                .replace("%shoplimit%", shopLimit);
             sender.sendMessage(color(result));
         }
     }

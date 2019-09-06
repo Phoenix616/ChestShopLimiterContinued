@@ -31,7 +31,7 @@ public class CIntegerConversation extends StringPrompt {
         ConversationType type = (ConversationType) context.getSessionData(SessionDataKey.CONVERSATION_TYPE);
         PlayerData targetData = (PlayerData) context.getSessionData(SessionDataKey.PLAYER_DATA);
         String targetName = Bukkit.getOfflinePlayer(targetData.getPlayerUUID()).getName();
-        TextPlaceholder pl = new TextPlaceholder(ItemMetaType.NONE, "%target", targetName);
+        TextPlaceholder pl = new TextPlaceholder(ItemMetaType.NONE, "%target%", targetName);
         String result;
         switch (type) {
             case CHANGE_MAX_SHOP:
@@ -67,7 +67,7 @@ public class CIntegerConversation extends StringPrompt {
             memory.getTEditorFailureSound().send(player);
             return Prompt.END_OF_CONVERSATION;
         }
-        TextPlaceholder pl = new TextPlaceholder(ItemMetaType.NONE, "%value", String.valueOf(numberInput));
+        TextPlaceholder pl = new TextPlaceholder(ItemMetaType.NONE, "%value%", String.valueOf(numberInput));
         switch (type) {
             /*
             Change shop value

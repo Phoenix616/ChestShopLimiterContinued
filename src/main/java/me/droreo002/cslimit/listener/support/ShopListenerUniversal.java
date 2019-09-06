@@ -55,7 +55,7 @@ public class ShopListenerUniversal implements Listener {
             }
             int created = data.getShopCreated();
             int limit = data.getMaxShop();
-            TextPlaceholder pl = new TextPlaceholder(ItemMetaType.NONE, "%created", String.valueOf(created)).add(ItemMetaType.NONE, "%max", String.valueOf(limit));
+            TextPlaceholder pl = new TextPlaceholder(ItemMetaType.NONE, "%created%", String.valueOf(created)).add(ItemMetaType.NONE, "%max%", String.valueOf(limit));
 
             if (created >= limit) {
                 ShopMaxAmountReachedEvent event = new ShopMaxAmountReachedEvent(player, data);
@@ -70,7 +70,7 @@ public class ShopListenerUniversal implements Listener {
                 data.setShopCreated(data.getShopCreated() + 1);
                 created = data.getShopCreated();
                 limit = data.getMaxShop();
-                pl = new TextPlaceholder(ItemMetaType.NONE, "%created", String.valueOf(created)).add(ItemMetaType.NONE, "%max", String.valueOf(limit));
+                pl = new TextPlaceholder(ItemMetaType.NONE, "%created%", String.valueOf(created)).add(ItemMetaType.NONE, "%max%", String.valueOf(limit)); // Update
 
                 player.sendMessage(lang.getLang(LangPath.NORMAL_SHOP_CREATED, pl, true));
                 data.setLastShopLocation(LocationUtils.convertToString(shopLoc));
@@ -101,7 +101,7 @@ public class ShopListenerUniversal implements Listener {
             data.setShopCreated(data.getShopCreated() - 1);
             int created = data.getShopCreated();
             int limit = data.getMaxShop();
-            TextPlaceholder pl = new TextPlaceholder(ItemMetaType.NONE, "%created", String.valueOf(created)).add(ItemMetaType.NONE, "%max", String.valueOf(limit));
+            TextPlaceholder pl = new TextPlaceholder(ItemMetaType.NONE, "%created%", String.valueOf(created)).add(ItemMetaType.NONE, "%max%", String.valueOf(limit));
             player.sendMessage(lang.getLang(LangPath.NORMAL_SHOP_REMOVED, pl, true));
 
             // Remove last shop created

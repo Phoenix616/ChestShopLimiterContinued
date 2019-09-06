@@ -59,13 +59,13 @@ public class ResetCommand extends CommandArg {
                     return;
                 }
                 reset(commandSender, off.getUniqueId());
-                sendMessage(commandSender, lang.getLang(LangPath.NORMAL_SHOP_CREATED_RESET, new TextPlaceholder(ItemMetaType.NONE, "%player", off.getName()), true));
+                sendMessage(commandSender, lang.getLang(LangPath.NORMAL_SHOP_CREATED_RESET, new TextPlaceholder(ItemMetaType.NONE, "%player%", off.getName()), true));
                 return;
             }
             success(commandSender);
             reset(commandSender, target.getUniqueId());
-            sendMessage(commandSender, lang.getLang(LangPath.NORMAL_SHOP_CREATED_RESET, new TextPlaceholder(ItemMetaType.NONE, "%player", target.getName()), true));
-            sendMessage(target, lang.getLang(LangPath.NORMAL_SHOP_CREATED_RESET_OTHER, new TextPlaceholder(ItemMetaType.NONE,"%executor", commandSender.getName()), true));
+            sendMessage(commandSender, lang.getLang(LangPath.NORMAL_SHOP_CREATED_RESET, new TextPlaceholder(ItemMetaType.NONE, "%player%", target.getName()), true));
+            sendMessage(target, lang.getLang(LangPath.NORMAL_SHOP_CREATED_RESET_OTHER, new TextPlaceholder(ItemMetaType.NONE,"%executor%", commandSender.getName()), true));
         } else {
             sendMessage(commandSender, lang.getLang(LangPath.NORMAL_TOO_MUCH_ARGS, null, true));
             error(commandSender);
