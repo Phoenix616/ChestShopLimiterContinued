@@ -3,7 +3,8 @@ package me.droreo002.cslimit.manager.logger;
 import lombok.Getter;
 import me.droreo002.cslimit.ChestShopLimiter;
 import me.droreo002.oreocore.utils.io.FileUtils;
-import me.droreo002.oreocore.utils.misc.TimeStampUtils;
+import me.droreo002.oreocore.utils.misc.TimestampBuilder;
+import me.droreo002.oreocore.utils.misc.TimestampUtils;
 import org.bukkit.Bukkit;
 
 import java.io.File;
@@ -16,7 +17,7 @@ import java.util.logging.*;
 
 public final class LogFile {
 
-    public static final TimeStampUtils TIME_STAMP_UTILS = new TimeStampUtils("dd-MM-yyyy");
+    static final TimestampBuilder TIMESTAMP_BUILDER = TimestampBuilder.builder("dd-MM-yyyy");
 
     @Getter
     private final Logger logger = Logger.getLogger(Debug.class.getCanonicalName());
@@ -64,15 +65,16 @@ public final class LogFile {
     private String getNextLogName() {
         final ChestShopLimiter plugin = ChestShopLimiter.getInstance();
         final File logsFolder = new File(plugin.getDataFolder(), "logs");
-        if (logsFolder.listFiles() == null) return TIME_STAMP_UTILS.getDateFormat().format(new Date()) + "_0";
+        if (logsFolder.listFiles() == null) return TIMESTAMP_BUILDER.getDateFormat().format(new Date()) + "_0";
         File[] logs = logsFolder.listFiles();
         List<File> sameFile = new ArrayList<>();
         for (File f : logs) {
             String fileName = FileUtils.getFileName(f, false);
-            String date = TIME_STAMP_UTILS.getDateFormat().format(new Date());
+            String date = TIMESTAMP_BUILDER.getDateFormat().format(new Date());
             if (fileName.contains(date)) sameFile.add(f);
         }
-        String currentFileName = TIME_STAMP_UTILS.getDateFormat().format(new Date());
+
+        String currentFileName = TIMESTAMP_BUILDER.getDateFormat().format(new Date());
         int currentNumber = 0;
         for (File f : sameFile) {
             String fileName = FileUtils.getFileName(f, false);
@@ -92,8 +94,8 @@ public final class LogFile {
 
         @Override
         public void run() {
-            Timestamp before = TIME_STAMP_UTILS.convertStringToTimestamp(currentLogFileName.split("_")[0]);
-            Timestamp now = TIME_STAMP_UTILS.getCurrentTimestamp();
+            Timestamp before = TimestampUtils.convertStringToTimestamp(currentLogFileName.split("_")[0], TIMESTAMP_BUILDER.getDateFormat());
+            Timestamp now = TIMESTAMP_BUILDER.build();
             if (before.after(now)) {
                 currentLogFileName = getNextLogName();
                 setup();

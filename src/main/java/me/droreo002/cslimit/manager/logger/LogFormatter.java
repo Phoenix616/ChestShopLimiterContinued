@@ -13,9 +13,9 @@ public class LogFormatter extends Formatter {
     @Override
     public String format(LogRecord record) {
         return logFormat
-                .replace("%date", LogFile.TIME_STAMP_UTILS.getCurrentTimestampString())
-                .replace("%logLevel", String.valueOf(record.getLevel()))
-                .replace("%message", formatMessage(record)) + System.lineSeparator();
+                .replace("%date%", LogFile.TIMESTAMP_BUILDER.buildAsString())
+                .replace("%logLevel%", String.valueOf(record.getLevel()))
+                .replace("%message%", formatMessage(record)) + System.lineSeparator();
     }
 
     public String getHead(Handler h) {

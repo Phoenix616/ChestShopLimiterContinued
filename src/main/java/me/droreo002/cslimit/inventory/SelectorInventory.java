@@ -35,7 +35,7 @@ public class SelectorInventory extends PaginatedInventory {
             GUIButton pButton = plugin.getInventoryTemplates().getPlayerHeadButton();
             pButton.applyTextPlaceholder(new TextPlaceholder(ItemMetaType.DISPLAY_NAME, "%player%", online.getName()));
             pButton.setItem(CustomSkull.toHead(pButton.getItem(), online.getUniqueId()), true, false);
-            pButton.setListener(inventoryClickEvent -> {
+            pButton.addListener(inventoryClickEvent -> {
                 ItemStack curr = inventoryClickEvent.getCurrentItem();
                 selected.selected(inventoryClickEvent, curr, online);
             });

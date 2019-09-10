@@ -25,7 +25,7 @@ public class MenuInventory extends CustomInventory {
         setSoundOnClose(mem.getMainMenuCloseSound());
         setSoundOnOpen(mem.getMainMenuOpenSound());
 
-        exitButton.setListener(GUIButton.CLOSE_LISTENER);
+        exitButton.addListener(GUIButton.CLOSE_LISTENER);
         template.applyListener("E", inventoryClickEvent -> {
             Player player = (Player) inventoryClickEvent.getWhoClicked();
             closeInventory(player);

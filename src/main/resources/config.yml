@@ -119,7 +119,7 @@ Debugging:
   # Allow logging to file?
   LogToFile: true
   # Log file format (No color code support)
-  LogFormat: '[%date] [LOG] - [%logLevel] %message'
+  LogFormat: '[%date%] [LOG] - [%logLevel%] %message%'
 
 # Will be used if you have Dependency.LuckPerms disabled
 # Shop limit will be needed if the player that is checked didn't have the csl.limit.unlimited permission.
