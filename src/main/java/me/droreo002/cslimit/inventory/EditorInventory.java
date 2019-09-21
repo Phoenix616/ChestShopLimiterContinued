@@ -7,12 +7,14 @@ import me.droreo002.cslimit.conversation.helper.SessionDataKey;
 import me.droreo002.cslimit.database.PlayerData;
 import me.droreo002.oreocore.inventory.CustomInventory;
 import me.droreo002.oreocore.inventory.InventoryTemplate;
+import me.droreo002.oreocore.inventory.button.ButtonListener;
 import me.droreo002.oreocore.inventory.button.GUIButton;
 import me.droreo002.oreocore.utils.item.CustomSkull;
 import me.droreo002.oreocore.utils.item.helper.ItemMetaType;
 import me.droreo002.oreocore.utils.item.helper.TextPlaceholder;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
+import org.bukkit.event.inventory.InventoryClickEvent;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,9 +38,15 @@ public class EditorInventory extends CustomInventory {
 
         pInformation.applyTextPlaceholder(infoPlaceholder);
         pInformation.setItem(CustomSkull.toHead(pInformation.getItem(), targetPlayer.getUniqueId()), true, false);
-        template.applyListener("1", inventoryClickEvent -> {
-            ClickType click = inventoryClickEvent.getClick();
-            if (click == ClickType.LEFT) {
+        template.applyListener("1", new ButtonListener() {
+
+            @Override
+            public ClickType getClickType() {
+                return ClickType.LEFT;
+            }
+
+            @Override
+            public void onClick(InventoryClickEvent inventoryClickEvent) {
                 Map<SessionDataKey, Object> sessionData = new HashMap<>();
                 sessionData.put(SessionDataKey.CONVERSATION_TYPE, ConversationType.CHANGE_MAX_SHOP);
                 sessionData.put(SessionDataKey.PLAYER_DATA, data);
@@ -46,7 +54,16 @@ public class EditorInventory extends CustomInventory {
                 plugin.getConversationManager().sendConversation(opener, ConversationType.CHANGE_MAX_SHOP, sessionData);
                 closeInventory(opener);
             }
-            if (click == ClickType.RIGHT) {
+        });
+        template.applyListener("1", new ButtonListener() {
+
+            @Override
+            public ClickType getClickType() {
+                return ClickType.RIGHT;
+            }
+
+            @Override
+            public void onClick(InventoryClickEvent inventoryClickEvent) {
                 Map<SessionDataKey, Object> sessionData = new HashMap<>();
                 sessionData.put(SessionDataKey.CONVERSATION_TYPE, ConversationType.ADD_MAX_SHOP);
                 sessionData.put(SessionDataKey.PLAYER_DATA, data);
@@ -55,9 +72,16 @@ public class EditorInventory extends CustomInventory {
                 closeInventory(opener);
             }
         });
-        template.applyListener("2", inventoryClickEvent -> {
-            ClickType click = inventoryClickEvent.getClick();
-            if (click == ClickType.LEFT) {
+
+        template.applyListener("2", new ButtonListener() {
+
+            @Override
+            public ClickType getClickType() {
+                return ClickType.LEFT;
+            }
+
+            @Override
+            public void onClick(InventoryClickEvent inventoryClickEvent) {
                 Map<SessionDataKey, Object> sessionData = new HashMap<>();
                 sessionData.put(SessionDataKey.CONVERSATION_TYPE, ConversationType.CHANGE_CURRENT_SHOP);
                 sessionData.put(SessionDataKey.PLAYER_DATA, data);
@@ -65,7 +89,16 @@ public class EditorInventory extends CustomInventory {
                 plugin.getConversationManager().sendConversation(opener, ConversationType.CHANGE_CURRENT_SHOP, sessionData);
                 closeInventory(opener);
             }
-            if (click == ClickType.RIGHT) {
+        });
+        template.applyListener("2", new ButtonListener() {
+
+            @Override
+            public ClickType getClickType() {
+                return ClickType.RIGHT;
+            }
+
+            @Override
+            public void onClick(InventoryClickEvent inventoryClickEvent) {
                 Map<SessionDataKey, Object> sessionData = new HashMap<>();
                 sessionData.put(SessionDataKey.CONVERSATION_TYPE, ConversationType.ADD_CURRENT_SHOP);
                 sessionData.put(SessionDataKey.PLAYER_DATA, data);

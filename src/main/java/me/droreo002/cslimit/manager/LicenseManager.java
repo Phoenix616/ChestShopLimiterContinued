@@ -33,8 +33,8 @@ public final class LicenseManager {
             registeredTo = buyerName;
             return StringUtils.color("Plugin is currently registered to &e" + buyerName);
         } catch (IOException ex) {
-            ex.printStackTrace();
-            return ex.getMessage();
+            registeredTo = "&cError on retrieving data!";
+            return StringUtils.color("&cError on retrieving data!. Private user page?!");
         }
     }
 }
