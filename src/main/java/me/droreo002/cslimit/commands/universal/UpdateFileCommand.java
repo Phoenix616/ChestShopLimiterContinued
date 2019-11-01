@@ -33,19 +33,11 @@ public class UpdateFileCommand extends CommandArg {
             error(commandSender);
             return;
         }
-        try {
-            ConfigUpdater.update(lang.getYamlFile(), plugin, "en_lang.yml");
-            ConfigUpdater.update(configManager.getYamlFile(), plugin, "config.yml");
+        configManager.saveConfig(true);
+        lang.saveConfig(true);
 
-            configManager.reloadConfig();
-            lang.reloadConfig();
-            lang.loadData();
-
-            String message = lang.getLang(LangPath.NORMAL_FILE_UPDATED, null, true);
-            sendMessage(commandSender, (message.contains("Error.") ? configManager.getMemory().getPrefix() + "Files has been updated successfully!" : message));
-            success(commandSender);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        String message = lang.getLang(LangPath.NORMAL_FILE_UPDATED, null, true);
+        sendMessage(commandSender, (message.contains("Error.") ? configManager.getMemory().getPrefix() + "Files has been updated successfully!" : message));
+        success(commandSender);
     }
 }

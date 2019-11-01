@@ -18,6 +18,7 @@ import me.droreo002.cslimit.manager.logger.LogFormatter;
 import me.droreo002.cslimit.metrics.Metrics;
 import me.droreo002.cslimit.api.ChestShopLimiterHandler;
 import me.droreo002.cslimit.utils.CommonUtils;
+import me.droreo002.oreocore.DependedPluginProperties;
 import me.droreo002.oreocore.OreoCore;
 import me.droreo002.oreocore.utils.bridge.ServerUtils;
 import org.bukkit.Bukkit;
@@ -72,7 +73,11 @@ public class ChestShopLimiter extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new PlayerConnectionListener(this), this);
         Bukkit.getPluginManager().registerEvents(new ShopListenerUniversal(this), this);
 
-        OreoCore.getInstance().dependPlugin(this, true);
+        OreoCore.getInstance().dependPlugin(this, DependedPluginProperties.builder()
+                .privatePlugin(false)
+                .premiumPlugin(true)
+                .enableLogging(false)
+                .build());
         printInformation();
     }
 

@@ -6,7 +6,7 @@ Inventory:
   MainMenu:
     title: 'Main Menu'
     size: 9
-    openAnimation: 'waveanimation' # Remove this if you don't want animations
+    openAnimation: 'ITEM_WAVE_ANIMATION' # Remove this if you don't want animations
     layout:
       - 'CXE______'
     layout-item:
@@ -16,7 +16,7 @@ Inventory:
         name: '&aClose'
         animated: true
         animationData:
-          animationName: 'fill_animation'
+          animationName: 'FILL_ANIMATION'
         lore:
           - '&aClick &7to close this inventory'
       # Border
@@ -29,7 +29,7 @@ Inventory:
         name: '&aEditor'
         animated: true
         animationData:
-          animationName: 'fill_animation'
+          animationName: 'FILL_ANIMATION'
         lore:
           - '&aClick &7to select a player and edit it'
       _:
@@ -71,7 +71,7 @@ Inventory:
       name: '%player%'
       animated: true
       animationData:
-        animationName: 'fill_animation'
+        animationName: 'FILL_ANIMATION'
       lore:
         - '&7Select this player'
   EditorInventory:
