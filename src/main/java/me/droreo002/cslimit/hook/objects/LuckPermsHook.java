@@ -1,24 +1,24 @@
 package me.droreo002.cslimit.hook.objects;
 
+import lombok.Getter;
 import me.droreo002.cslimit.ChestShopLimiter;
 import me.droreo002.cslimit.config.ConfigManager;
-import me.droreo002.cslimit.database.DatabaseWrapper;
 import me.droreo002.cslimit.database.PlayerData;
 import me.droreo002.cslimit.hook.ChestShopHook;
 import me.droreo002.cslimit.manager.logger.Debug;
-import me.lucko.luckperms.LuckPerms;
-import me.lucko.luckperms.api.LuckPermsApi;
-import me.lucko.luckperms.api.User;
+import net.luckperms.api.LuckPerms;
+import net.luckperms.api.LuckPermsProvider;
+import net.luckperms.api.model.user.User;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.UUID;
 
 public class LuckPermsHook implements ChestShopHook {
 
-    private LuckPermsApi luckPerms;
+    @Getter
+    private LuckPerms luckPerms;
 
     @Override
     public String getPluginName() {
@@ -28,7 +28,7 @@ public class LuckPermsHook implements ChestShopHook {
     @Override
     public boolean process() {
         if (Bukkit.getPluginManager().getPlugin("LuckPerms") != null) {
-            luckPerms = LuckPerms.getApi();
+            luckPerms = LuckPermsProvider.get();
             return true;
         } else {
             return false;
@@ -50,10 +50,6 @@ public class LuckPermsHook implements ChestShopHook {
         return false;
     }
 
-    public LuckPermsApi getLuckPerms() {
-        return luckPerms;
-    }
-
     /**
      * Setup the data's 'ShopLimit'
      *
@@ -62,7 +58,7 @@ public class LuckPermsHook implements ChestShopHook {
     public void setupData(PlayerData playerData) {
         final ChestShopLimiter plugin = ChestShopLimiter.getInstance();
         final UUID playerUUID = playerData.getPlayerUUID();
-        User user = getLuckPerms().getUser(playerUUID);
+        User user = getLuckPerms().getUserManager().getUser(playerUUID);
         if (user == null) {
             user = luckPerms.getUserManager().loadUser(playerUUID).join();
             Debug.info("&eLuckPerms &fplayer data &7(&e" + playerData.toString() + "&7)&f has been force loaded, because plugin is trying to access a non cached player!", true, Debug.LogType.BOTH);

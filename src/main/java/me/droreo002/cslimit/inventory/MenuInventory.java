@@ -6,7 +6,6 @@ import me.droreo002.cslimit.config.InventoryTemplates;
 import me.droreo002.cslimit.manager.logger.Debug;
 import me.droreo002.oreocore.inventory.CustomInventory;
 import me.droreo002.oreocore.inventory.InventoryTemplate;
-import me.droreo002.oreocore.inventory.animation.InventoryAnimation;
 import me.droreo002.oreocore.inventory.button.GUIButton;
 import me.droreo002.oreocore.utils.item.complex.UMaterial;
 import me.droreo002.oreocore.utils.misc.ThreadingUtils;
