@@ -1,4 +1,4 @@
-package me.droreo002.cslimit.hook.objects;
+package me.droreo002.cslimit.hook.models;
 
 import com.earth2me.essentials.Essentials;
 import com.earth2me.essentials.User;

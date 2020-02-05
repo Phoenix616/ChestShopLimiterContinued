@@ -37,7 +37,7 @@ public final class ConfigManager extends CustomConfig {
         }, 40L);
     }
 
-    public class Memory implements ConfigMemory {
+    public static class Memory implements ConfigMemory {
 
         @Getter
         private final CustomConfig customConfig;

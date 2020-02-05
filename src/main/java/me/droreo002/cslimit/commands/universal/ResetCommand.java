@@ -2,8 +2,6 @@ package me.droreo002.cslimit.commands.universal;
 
 import me.droreo002.cslimit.ChestShopLimiter;
 import me.droreo002.cslimit.database.PlayerData;
-import me.droreo002.cslimit.hook.objects.CMIHook;
-import me.droreo002.cslimit.hook.objects.EssentialsHook;
 import me.droreo002.cslimit.lang.LangManager;
 import me.droreo002.cslimit.lang.LangPath;
 import me.droreo002.cslimit.manager.logger.Debug;

@@ -4,10 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 import me.droreo002.cslimit.ChestShopLimiter;
 import me.droreo002.cslimit.config.ConfigManager;
-import me.droreo002.cslimit.hook.objects.CMIHook;
-import me.droreo002.cslimit.hook.objects.EssentialsHook;
-import me.droreo002.cslimit.hook.objects.LuckPermsHook;
-import me.droreo002.cslimit.hook.objects.PlaceholderAPIHook;
+import me.droreo002.cslimit.hook.models.CMIHook;
+import me.droreo002.cslimit.hook.models.EssentialsHook;
+import me.droreo002.cslimit.hook.models.LuckPermsHook;
+import me.droreo002.cslimit.hook.models.PlaceholderAPIHook;
 import me.droreo002.cslimit.manager.logger.Debug;
 import org.bukkit.Bukkit;
 

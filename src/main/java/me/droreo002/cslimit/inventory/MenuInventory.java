@@ -6,13 +6,14 @@ import me.droreo002.cslimit.config.InventoryTemplates;
 import me.droreo002.cslimit.manager.logger.Debug;
 import me.droreo002.oreocore.inventory.CustomInventory;
 import me.droreo002.oreocore.inventory.InventoryTemplate;
+import me.droreo002.oreocore.inventory.OreoInventory;
 import me.droreo002.oreocore.inventory.button.GUIButton;
 import me.droreo002.oreocore.utils.item.complex.UMaterial;
 import me.droreo002.oreocore.utils.misc.ThreadingUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 
-public class MenuInventory extends CustomInventory {
+public class MenuInventory extends OreoInventory {
 
     public MenuInventory(InventoryTemplates templates, ChestShopLimiter plugin) {
         super(templates.getMainMenuTemplate());

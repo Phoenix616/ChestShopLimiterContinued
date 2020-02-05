@@ -4,7 +4,7 @@ import lombok.Getter;
 import me.droreo002.cslimit.ChestShopLimiter;
 import me.droreo002.cslimit.config.ConfigManager;
 import me.droreo002.cslimit.database.object.DataProperty;
-import me.droreo002.cslimit.hook.objects.LuckPermsHook;
+import me.droreo002.cslimit.hook.models.LuckPermsHook;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;

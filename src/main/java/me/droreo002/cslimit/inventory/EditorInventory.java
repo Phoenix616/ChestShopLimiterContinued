@@ -37,7 +37,7 @@ public class EditorInventory extends CustomInventory {
                 .add(ItemMetaType.LORE,"%shopCount%", String.valueOf(data.getShopCreated()));
 
         pInformation.applyTextPlaceholder(infoPlaceholder);
-        pInformation.setItem(CustomSkull.toHead(pInformation.getItem(), targetPlayer.getUniqueId()), true, false);
+        pInformation.setItem(CustomSkull.toHeadUuid(pInformation.getItem(), targetPlayer.getUniqueId()), true, false);
         template.applyListener("1", new ButtonListener() {
 
             @Override

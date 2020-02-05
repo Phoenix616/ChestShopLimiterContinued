@@ -5,10 +5,8 @@ import com.google.common.base.Stopwatch;
 import me.droreo002.cslimit.ChestShopLimiter;
 import me.droreo002.oreocore.commands.CommandArg;
 import me.droreo002.oreocore.commands.CustomCommand;
-import me.droreo002.oreocore.enums.XMaterial;
 import me.droreo002.oreocore.utils.item.CustomSkull;
 import me.droreo002.oreocore.utils.misc.ThreadingUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -31,7 +29,7 @@ public class DebugCommand extends CommandArg {
         success(player);
         Stopwatch timer = Stopwatch.createStarted();
         TaskChain<ItemStack> chain = ThreadingUtils.makeChain();
-        chain.asyncFirst(() -> CustomSkull.getHead(player.getUniqueId())).abortIfNull().syncLast((item) -> {
+        chain.asyncFirst(() -> CustomSkull.fromUniqueId(player.getUniqueId())).abortIfNull().syncLast((item) -> {
             player.sendMessage("Sending item...");
             player.getInventory().addItem(item);
         }).execute();

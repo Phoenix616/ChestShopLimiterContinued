@@ -1,4 +1,4 @@
-package me.droreo002.cslimit.hook.objects;
+package me.droreo002.cslimit.hook.models;
 
 import me.droreo002.cslimit.hook.ChestShopHook;
 import me.droreo002.cslimit.hook.papi.CSLPlaceholder;

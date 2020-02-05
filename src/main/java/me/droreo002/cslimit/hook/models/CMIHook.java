@@ -1,4 +1,4 @@
-package me.droreo002.cslimit.hook.objects;
+package me.droreo002.cslimit.hook.models;
 
 import com.Zrips.CMI.CMI;
 import com.Zrips.CMI.PlayerManager;

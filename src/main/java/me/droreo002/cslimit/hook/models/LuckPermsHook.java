@@ -1,4 +1,4 @@
-package me.droreo002.cslimit.hook.objects;
+package me.droreo002.cslimit.hook.models;
 
 import lombok.Getter;
 import me.droreo002.cslimit.ChestShopLimiter;
@@ -6,14 +6,23 @@ import me.droreo002.cslimit.config.ConfigManager;
 import me.droreo002.cslimit.database.PlayerData;
 import me.droreo002.cslimit.hook.ChestShopHook;
 import me.droreo002.cslimit.manager.logger.Debug;
+import me.droreo002.oreocore.database.DatabaseType;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
+import net.luckperms.api.event.EventBus;
+import net.luckperms.api.event.node.NodeAddEvent;
+import net.luckperms.api.model.group.Group;
 import net.luckperms.api.model.user.User;
+import net.luckperms.api.node.types.InheritanceNode;
+import net.luckperms.api.node.types.PermissionNode;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.event.EventHandler;
 
 import java.util.UUID;
+import java.util.function.Consumer;
 
 public class LuckPermsHook implements ChestShopHook {
 
@@ -38,6 +47,23 @@ public class LuckPermsHook implements ChestShopHook {
     @Override
     public void hookSuccess() {
         Debug.info("     &f> &aLuckPerms &fhas been hooked!", false, Debug.LogType.BOTH);
+        // Subscribe to event
+        EventBus eventBus = luckPerms.getEventBus();
+        eventBus.subscribe(NodeAddEvent.class, event -> {
+            boolean update = false;
+            if (event.getNode() instanceof InheritanceNode) update = true;
+            if (event.getNode() instanceof PermissionNode) update = true;
+
+            if (update) {
+                // Try update player data
+                ChestShopLimiter plugin = ChestShopLimiter.getInstance();
+                User user = (User) event.getTarget();
+                PlayerData playerData = plugin.getDatabase().getWrapper().getPlayerData(user.getUniqueId());
+                if (playerData == null) return;
+                playerData.setupData(plugin, plugin.getDatabase().getDatabaseType().isSql());
+                plugin.getDatabase().getWrapper().savePlayerData(playerData);
+            }
+        });
     }
 
     @Override
@@ -53,7 +79,7 @@ public class LuckPermsHook implements ChestShopHook {
     /**
      * Setup the data's 'ShopLimit'
      *
-     * @param playerData : The player data
+     * @param playerData The player data
      */
     public void setupData(PlayerData playerData) {
         final ChestShopLimiter plugin = ChestShopLimiter.getInstance();

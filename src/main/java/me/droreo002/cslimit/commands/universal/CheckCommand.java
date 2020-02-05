@@ -1,10 +1,7 @@
 package me.droreo002.cslimit.commands.universal;
 
-import com.Acrobot.Breeze.Utils.LocationUtil;
 import me.droreo002.cslimit.ChestShopLimiter;
 import me.droreo002.cslimit.database.PlayerData;
-import me.droreo002.cslimit.hook.objects.CMIHook;
-import me.droreo002.cslimit.hook.objects.EssentialsHook;
 import me.droreo002.cslimit.lang.LangManager;
 import me.droreo002.cslimit.lang.LangPath;
 import me.droreo002.cslimit.manager.logger.Debug;
@@ -15,10 +12,8 @@ import me.droreo002.oreocore.utils.item.helper.ItemMetaType;
 import me.droreo002.oreocore.utils.item.helper.TextPlaceholder;
 import me.droreo002.oreocore.utils.strings.TextBuilder;
 import me.droreo002.oreocore.utils.world.LocationUtils;
-import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;

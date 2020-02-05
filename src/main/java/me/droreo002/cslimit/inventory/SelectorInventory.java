@@ -34,7 +34,7 @@ public class SelectorInventory extends PaginatedInventory {
         for (Player online : Bukkit.getOnlinePlayers()) {
             GUIButton pButton = plugin.getInventoryTemplates().getPlayerHeadButton();
             pButton.applyTextPlaceholder(new TextPlaceholder(ItemMetaType.DISPLAY_NAME, "%player%", online.getName()));
-            pButton.setItem(CustomSkull.toHead(pButton.getItem(), online.getUniqueId()), true, false);
+            pButton.setItem(CustomSkull.toHeadUuid(pButton.getItem(), online.getUniqueId()), true, false);
             pButton.addListener(inventoryClickEvent -> {
                 ItemStack curr = inventoryClickEvent.getCurrentItem();
                 selected.selected(inventoryClickEvent, curr, online);

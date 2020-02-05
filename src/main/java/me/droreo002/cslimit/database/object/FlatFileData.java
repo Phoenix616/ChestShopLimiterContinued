@@ -5,20 +5,12 @@ import me.droreo002.cslimit.ChestShopLimiter;
 import me.droreo002.cslimit.config.ConfigManager;
 import me.droreo002.cslimit.database.DatabaseWrapper;
 import me.droreo002.cslimit.database.PlayerData;
-import me.droreo002.cslimit.hook.objects.LuckPermsHook;
 import me.droreo002.cslimit.manager.logger.Debug;
-import me.droreo002.oreocore.configuration.ConfigMemory;
 import me.droreo002.oreocore.database.DatabaseManager;
 import me.droreo002.oreocore.database.DatabaseType;
 import me.droreo002.oreocore.database.object.DatabaseFlatFile;
 import me.droreo002.oreocore.utils.entity.PlayerUtils;
-import me.droreo002.oreocore.utils.io.FileUtils;
-import org.apache.commons.lang.Validate;
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.util.HashMap;
@@ -133,7 +125,7 @@ public class FlatFileData extends DatabaseFlatFile implements DatabaseWrapper {
                     throw new NullPointerException("No object data found for UUID " + key.toString() + " please contact administrator!");
                 FileConfiguration config = objectData.getConfig();
                 PlayerData data = null;
-                if (setupCallbackType == SetupCallbackType.CREATED_AND_LOADED) {
+                if (setupCallbackType == SetupCallback.Type.CREATED_AND_LOADED) {
                     // If this is a new data. Process it in different way then
                     config.set("Data.uuid", key.toString());
                     config.set("Data.playerName", PlayerUtils.getPlayerName(key));
@@ -149,7 +141,7 @@ public class FlatFileData extends DatabaseFlatFile implements DatabaseWrapper {
                     config.set("Data.maxShop", data.getMaxShop());
                     config.set("Data.lastRank", data.getLastRank());
                 }
-                if (setupCallbackType == SetupCallbackType.LOADED) {
+                if (setupCallbackType == SetupCallback.Type.LOADED) {
                     data = PlayerData.fromYaml(config);
                     data.setupData(plugin, false);
 

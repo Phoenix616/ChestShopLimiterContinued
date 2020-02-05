@@ -34,7 +34,7 @@ public class UpdateFileCommand extends CommandArg {
             return;
         }
         configManager.saveConfig(true);
-        lang.saveConfig(true);
+        lang.saveConfig(false);
 
         String message = lang.getLang(LangPath.NORMAL_FILE_UPDATED, null, true);
         sendMessage(commandSender, (message.contains("Error.") ? configManager.getMemory().getPrefix() + "Files has been updated successfully!" : message));
