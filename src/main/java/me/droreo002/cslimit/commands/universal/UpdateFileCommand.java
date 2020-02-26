@@ -6,10 +6,7 @@ import me.droreo002.cslimit.lang.LangManager;
 import me.droreo002.cslimit.lang.LangPath;
 import me.droreo002.oreocore.commands.CommandArg;
 import me.droreo002.oreocore.commands.CustomCommand;
-import me.droreo002.oreocore.configuration.ConfigUpdater;
 import org.bukkit.command.CommandSender;
-
-import java.io.IOException;
 
 public class UpdateFileCommand extends CommandArg {
 

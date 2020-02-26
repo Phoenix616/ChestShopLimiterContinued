@@ -57,6 +57,8 @@ public class HookManager {
                 if (registerHook("CMI", new CMIHook())) {
                     setCMI(true);
                 }
+            } else {
+                Debug.info(" &fNot hooking to &cCMI &fbecause we're already hooking to &aEssentials", false, Debug.LogType.BOTH);
             }
         }
         // Just in case

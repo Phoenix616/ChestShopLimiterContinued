@@ -4,7 +4,6 @@ import me.droreo002.cslimit.ChestShopLimiter;
 import me.droreo002.cslimit.config.ConfigManager;
 import me.droreo002.cslimit.config.InventoryTemplates;
 import me.droreo002.cslimit.manager.logger.Debug;
-import me.droreo002.oreocore.inventory.CustomInventory;
 import me.droreo002.oreocore.inventory.InventoryTemplate;
 import me.droreo002.oreocore.inventory.OreoInventory;
 import me.droreo002.oreocore.inventory.button.GUIButton;
@@ -34,7 +33,8 @@ public class MenuInventory extends OreoInventory {
                 (e, item, targetPlayer) -> {
                     if (item.getType().equals(UMaterial.PLAYER_HEAD_ITEM.getMaterial())) {
                         closeInventory(player);
-                        ThreadingUtils.makeChain().asyncFirst(() -> new EditorInventory(player, targetPlayer, plugin, templates.getEditorInventoryTemplate())).asyncLast(input -> input.open(player)).execute();
+                        ThreadingUtils.makeChain().asyncFirst(() -> new EditorInventory(player, targetPlayer, plugin, templates.getEditorInventoryTemplate()))
+                                .asyncLast(input -> input.open(player)).execute();
                     }
                 }
             )).asyncLast(input -> input.open(player)).execute();

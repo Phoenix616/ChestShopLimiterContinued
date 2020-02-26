@@ -3,20 +3,20 @@ package me.droreo002.cslimit.config;
 import lombok.Getter;
 import me.droreo002.cslimit.ChestShopLimiter;
 import me.droreo002.cslimit.manager.logger.Debug;
-import me.droreo002.oreocore.configuration.ConfigMemory;
-import me.droreo002.oreocore.configuration.CustomConfig;
+import me.droreo002.oreocore.configuration.ConfigurationMemory;
+import me.droreo002.oreocore.configuration.CustomConfiguration;
 import me.droreo002.oreocore.configuration.annotations.ConfigVariable;
 import me.droreo002.oreocore.database.DatabaseType;
 import me.droreo002.oreocore.database.SQLType;
 import me.droreo002.oreocore.database.utils.MySqlConnection;
+import me.droreo002.oreocore.title.OreoTitle;
 import me.droreo002.oreocore.utils.misc.SoundObject;
-import me.droreo002.oreocore.utils.misc.TitleObject;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.io.File;
 
-public final class ConfigManager extends CustomConfig {
+public final class ConfigManager extends CustomConfiguration {
 
     private static final String LATEST_VERSION = "1.1";
 
@@ -37,10 +37,10 @@ public final class ConfigManager extends CustomConfig {
         }, 40L);
     }
 
-    public static class Memory implements ConfigMemory {
+    public static class Memory implements ConfigurationMemory {
 
         @Getter
-        private final CustomConfig customConfig;
+        private final CustomConfiguration customConfig;
 
         // Only add @Setter for those variables that needed
 
@@ -226,14 +226,14 @@ public final class ConfigManager extends CustomConfig {
         // Object
         @ConfigVariable(path = "Titles.MaxShopReached", isSerializableObject = true)
         @Getter
-        private TitleObject tMaxShopReached = new TitleObject();
+        private OreoTitle tMaxShopReached;
 
-        Memory(CustomConfig customConfig) {
+        Memory(CustomConfiguration customConfig) {
             this.customConfig = customConfig;
         }
 
         @Override
-        public CustomConfig getParent() {
+        public CustomConfiguration getParent() {
             return customConfig;
         }
     }

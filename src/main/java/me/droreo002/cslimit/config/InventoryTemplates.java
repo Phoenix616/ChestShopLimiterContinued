@@ -4,15 +4,15 @@ import lombok.Getter;
 import lombok.NonNull;
 import me.droreo002.cslimit.ChestShopLimiter;
 import me.droreo002.cslimit.manager.logger.Debug;
-import me.droreo002.oreocore.configuration.ConfigMemory;
-import me.droreo002.oreocore.configuration.CustomConfig;
+import me.droreo002.oreocore.configuration.ConfigurationMemory;
+import me.droreo002.oreocore.configuration.CustomConfiguration;
 import me.droreo002.oreocore.configuration.annotations.ConfigVariable;
 import me.droreo002.oreocore.inventory.InventoryTemplate;
 import me.droreo002.oreocore.inventory.button.GUIButton;
 
 import java.io.File;
 
-public class InventoryTemplates extends CustomConfig implements ConfigMemory {
+public class InventoryTemplates extends CustomConfiguration implements ConfigurationMemory {
 
     private static final String LATEST_VERSION = "1.0";
 
@@ -41,7 +41,7 @@ public class InventoryTemplates extends CustomConfig implements ConfigMemory {
     }
 
     @Override
-    public @NonNull CustomConfig getParent() {
+    public @NonNull CustomConfiguration getParent() {
         return this;
     }
 }

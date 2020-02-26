@@ -3,7 +3,7 @@ package me.droreo002.cslimit.lang;
 import me.droreo002.cslimit.ChestShopLimiter;
 import me.droreo002.cslimit.config.ConfigManager;
 import me.droreo002.cslimit.manager.logger.Debug;
-import me.droreo002.oreocore.configuration.CustomConfig;
+import me.droreo002.oreocore.configuration.CustomConfiguration;
 import me.droreo002.oreocore.utils.item.helper.TextPlaceholder;
 import me.droreo002.oreocore.utils.strings.StringUtils;
 import org.bukkit.configuration.ConfigurationSection;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public final class LangManager extends CustomConfig {
+public final class LangManager extends CustomConfiguration {
 
     private static final String LATEST_VERSION = "1.0";
 

@@ -3,7 +3,6 @@ package me.droreo002.cslimit.commands;
 import lombok.Getter;
 import me.droreo002.cslimit.ChestShopLimiter;
 import me.droreo002.cslimit.commands.console.MigrateCommand;
-import me.droreo002.cslimit.commands.dev.DebugCommand;
 import me.droreo002.cslimit.commands.player.MenuCommand;
 import me.droreo002.cslimit.commands.player.StatusCommand;
 import me.droreo002.cslimit.commands.universal.CheckCommand;
@@ -26,7 +25,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class ChestShopLimiterCommand extends CustomCommand {

@@ -107,6 +107,9 @@ public class ShopListenerUniversal implements Listener {
             // Remove last shop created
             Location lastShop = LocationUtils.toLocation(data.getLastShopLocation());
             Location currentShopLocation = BlockUtils.getFacedLocation(e.getSign().getBlock(), UMaterial.CHEST.getMaterial(), true);
+            if (currentShopLocation == null) currentShopLocation = BlockUtils.getFacedLocation(e.getSign().getBlock(), UMaterial.TRAPPED_CHEST.getMaterial(), true);
+            if (currentShopLocation == null) currentShopLocation = BlockUtils.getFacedLocation(e.getSign().getBlock(), UMaterial.ENDER_CHEST.getMaterial(), true);
+            if (currentShopLocation == null) throw new NullPointerException("Failed to get current shop location on sign " + e.getSign().getLocation().toString());
             if (lastShop == null) {
                 plugin.getChestShopAPI().saveData(data);
                 return;

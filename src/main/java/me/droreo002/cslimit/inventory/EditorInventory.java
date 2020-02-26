@@ -5,8 +5,9 @@ import me.droreo002.cslimit.config.ConfigManager;
 import me.droreo002.cslimit.conversation.helper.ConversationType;
 import me.droreo002.cslimit.conversation.helper.SessionDataKey;
 import me.droreo002.cslimit.database.PlayerData;
-import me.droreo002.oreocore.inventory.CustomInventory;
 import me.droreo002.oreocore.inventory.InventoryTemplate;
+import me.droreo002.oreocore.inventory.OreoInventory;
+import me.droreo002.oreocore.inventory.button.ButtonClickEvent;
 import me.droreo002.oreocore.inventory.button.ButtonListener;
 import me.droreo002.oreocore.inventory.button.GUIButton;
 import me.droreo002.oreocore.utils.item.CustomSkull;
@@ -14,12 +15,11 @@ import me.droreo002.oreocore.utils.item.helper.ItemMetaType;
 import me.droreo002.oreocore.utils.item.helper.TextPlaceholder;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryClickEvent;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class EditorInventory extends CustomInventory {
+public class EditorInventory extends OreoInventory {
 
     public EditorInventory(Player opener, Player targetPlayer, ChestShopLimiter plugin, InventoryTemplate template) {
         super(template);
@@ -46,7 +46,7 @@ public class EditorInventory extends CustomInventory {
             }
 
             @Override
-            public void onClick(InventoryClickEvent inventoryClickEvent) {
+            public void onClick(ButtonClickEvent inventoryClickEvent) {
                 Map<SessionDataKey, Object> sessionData = new HashMap<>();
                 sessionData.put(SessionDataKey.CONVERSATION_TYPE, ConversationType.CHANGE_MAX_SHOP);
                 sessionData.put(SessionDataKey.PLAYER_DATA, data);
@@ -63,7 +63,7 @@ public class EditorInventory extends CustomInventory {
             }
 
             @Override
-            public void onClick(InventoryClickEvent inventoryClickEvent) {
+            public void onClick(ButtonClickEvent inventoryClickEvent) {
                 Map<SessionDataKey, Object> sessionData = new HashMap<>();
                 sessionData.put(SessionDataKey.CONVERSATION_TYPE, ConversationType.ADD_MAX_SHOP);
                 sessionData.put(SessionDataKey.PLAYER_DATA, data);
@@ -81,7 +81,7 @@ public class EditorInventory extends CustomInventory {
             }
 
             @Override
-            public void onClick(InventoryClickEvent inventoryClickEvent) {
+            public void onClick(ButtonClickEvent inventoryClickEvent) {
                 Map<SessionDataKey, Object> sessionData = new HashMap<>();
                 sessionData.put(SessionDataKey.CONVERSATION_TYPE, ConversationType.CHANGE_CURRENT_SHOP);
                 sessionData.put(SessionDataKey.PLAYER_DATA, data);
@@ -98,7 +98,7 @@ public class EditorInventory extends CustomInventory {
             }
 
             @Override
-            public void onClick(InventoryClickEvent inventoryClickEvent) {
+            public void onClick(ButtonClickEvent inventoryClickEvent) {
                 Map<SessionDataKey, Object> sessionData = new HashMap<>();
                 sessionData.put(SessionDataKey.CONVERSATION_TYPE, ConversationType.ADD_CURRENT_SHOP);
                 sessionData.put(SessionDataKey.PLAYER_DATA, data);
