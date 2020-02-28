@@ -53,6 +53,7 @@ public class LuckPermsHook implements ChestShopHook {
             boolean update = false;
             if (event.getNode() instanceof InheritanceNode) update = true;
             if (event.getNode() instanceof PermissionNode) update = true;
+            if (event.getTarget() instanceof Group) update = false;
 
             if (update) {
                 // Try update player data
