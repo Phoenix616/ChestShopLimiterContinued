@@ -13,6 +13,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class SqlData extends DatabaseSQL implements DatabaseWrapper {
 
@@ -28,7 +29,7 @@ public class SqlData extends DatabaseSQL implements DatabaseWrapper {
     public SqlData(JavaPlugin plugin, ConfigManager.Memory memory) {
         super(plugin, memory.getSqlDatabaseName(), new File(plugin.getDataFolder(), memory.getSqlDatabaseFolder()), memory.getSqlDatabaseType());
         this.memory = memory;
-        this.playerData = new HashMap<>();
+        this.playerData = new ConcurrentHashMap<>();
         this.column = new ArrayList<>();
         column.addAll(new ArrayList<>(Arrays.asList(DataProperty.values())));
         loadData();

@@ -12,6 +12,7 @@ import me.droreo002.oreocore.utils.entity.PlayerUtils;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -28,7 +29,7 @@ public class MySQLData extends DatabaseMySQL implements DatabaseWrapper {
 
     public MySQLData(JavaPlugin plugin, ConfigManager.Memory memory) {
         super(plugin, memory.getMySqlConnection(), memory.getMysqlSaveTime(), memory.getMySqlDatabaseType());
-        this.playerData = new HashMap<>();
+        this.playerData = new ConcurrentHashMap<>();
         this.memory = memory;
         this.column = new ArrayList<>();
         column.addAll(new ArrayList<>(Arrays.asList(DataProperty.values())));

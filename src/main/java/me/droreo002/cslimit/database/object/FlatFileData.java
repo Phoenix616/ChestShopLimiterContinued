@@ -14,15 +14,18 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class FlatFileData extends DatabaseFlatFile implements DatabaseWrapper {
 
     @Getter
     private final ConfigManager.Memory memory;
     @Getter
-    private final Map<UUID, PlayerData> playerData;
+    private final List<PlayerData> playerDataList;
     @Getter
     private final ChestShopLimiter plugin;
 
@@ -30,17 +33,8 @@ public class FlatFileData extends DatabaseFlatFile implements DatabaseWrapper {
         super(plugin, new File(plugin.getDataFolder(), memory.getFlatFileDatabaseFolder()), false);
         this.plugin = plugin;
         this.memory = memory;
-        this.playerData = new HashMap<>();
-
+        this.playerDataList = new CopyOnWriteArrayList<>();
         DatabaseManager.registerDatabase(plugin, this);
-    }
-
-    @Override
-    public void loadData() {
-        for (DataCache data : getDataCaches()) {
-            PlayerData pData = PlayerData.fromYaml(data.getConfig());
-            playerData.put(pData.getPlayerUUID(), pData);
-        }
     }
 
     @Override
@@ -52,13 +46,13 @@ public class FlatFileData extends DatabaseFlatFile implements DatabaseWrapper {
      * Get the player data, where the key is the player's UUID
      * Will auto setup if not contains.
      *
-     * @param key : The key UUID
+     * @param key The key UUID
      * @return the PlayerData object if there's any, null otherwise
      */
     @Override
     public PlayerData getPlayerData(UUID key) {
         load(key);
-        return playerData.get(key);
+        return this.playerDataList.stream().filter(playerData -> playerData.getPlayerUUID().equals(key)).findAny().orElse(null);
     }
 
     @Override
@@ -98,7 +92,6 @@ public class FlatFileData extends DatabaseFlatFile implements DatabaseWrapper {
     @Override
     public void updatePlayerData(PlayerData playerData) {
         playerData.setupData(plugin, false);
-        savePlayerData(playerData);
     }
 
     @Override
@@ -107,7 +100,7 @@ public class FlatFileData extends DatabaseFlatFile implements DatabaseWrapper {
         final DataCache data = getDataCache(uuid.toString());
         if (playerData == null) return;
         removeData(data, delete);
-        this.playerData.remove(playerData.getPlayerUUID());
+        this.playerDataList.removeIf(pData -> pData.getPlayerUUID().equals(uuid));
     }
 
     @Override
@@ -117,16 +110,13 @@ public class FlatFileData extends DatabaseFlatFile implements DatabaseWrapper {
 
     @Override
     public void load(UUID key) {
-        if (!playerData.containsKey(key)) {
-            setup(key.toString(), true, setupCallbackType -> {
-                // Try to generate new data
+        PlayerData pData = this.playerDataList.stream().filter(p -> p.getPlayerUUID().equals(key)).findAny().orElse(null);
+        if (pData == null) {
+            createData(key.toString(), true, createResult -> {
                 DataCache objectData = getDataCache(key.toString());
-                if (objectData == null)
-                    throw new NullPointerException("No object data found for UUID " + key.toString() + " please contact administrator!");
                 FileConfiguration config = objectData.getConfig();
-                PlayerData data = null;
-                if (setupCallbackType == SetupCallback.Type.CREATED_AND_LOADED) {
-                    // If this is a new data. Process it in different way then
+                PlayerData data;
+                if (createResult == CreateResult.CREATED_AND_LOADED) {
                     config.set("Data.uuid", key.toString());
                     config.set("Data.playerName", PlayerUtils.getPlayerName(key));
                     config.set("Data.shopCreated", 0);
@@ -134,49 +124,22 @@ public class FlatFileData extends DatabaseFlatFile implements DatabaseWrapper {
                     config.set("Data.lastPermission", "{}");
                     config.set("Data.lastRank", "{}");
                     config.set("Data.lastShopLocation", "{}");
-
-                    data = PlayerData.fromYaml(config);
-                    data.setupData(plugin, false);
-
-                    config.set("Data.maxShop", data.getMaxShop());
-                    config.set("Data.lastRank", data.getLastRank());
                 }
-                if (setupCallbackType == SetupCallback.Type.LOADED) {
-                    data = PlayerData.fromYaml(config);
-                    data.setupData(plugin, false);
+                data = PlayerData.fromYaml(config);
+                data.setupData(plugin, false);
+                config.set("Data.maxShop", data.getMaxShop());
+                config.set("Data.lastRank", data.getLastRank());
 
-                    config.set("Data.maxShop", data.getMaxShop());
-                    config.set("Data.lastRank", data.getLastRank());
-                }
-                if (data == null) throw new NullPointerException("Data is null!");
                 saveData(objectData);
-                playerData.put(key, data);
+                this.playerDataList.add(data);
             });
         } else {
-            updatePlayerData(playerData.get(key));
+            updatePlayerData(pData);
         }
     }
 
     @Override
     public void migrate(PlayerData playerData) {
-        Debug.info("Trying to migrate &e" + playerData.getPlayerName() + " &fthis will take sometimes...", true, Debug.LogType.BOTH);
-        UUID key = playerData.getPlayerUUID();
-        setup(key.toString(), true, setupCallbackType -> {
-            DataCache objectData = getDataCache(key.toString());
-            if (objectData == null) throw new NullPointerException("No object data found for UUID " + key.toString() + " please contact administrator!");
-            FileConfiguration config = objectData.getConfig();
-            // Update the new config
-            config.set("Data.uuid", playerData.getPlayerUUID().toString());
-            config.set("Data.playerName", playerData.getPlayerName());
-            config.set("Data.shopCreated", playerData.getShopCreated());
-            config.set("Data.maxShop", playerData.getMaxShop());
-            config.set("Data.lastPermission", playerData.getLastPermission());
-            config.set("Data.lastRank", playerData.getLastRank());
-            config.set("Data.lastShopLocation", playerData.getLastShopLocation());
-            // Update the data
-            objectData.setConfig(config);
-            saveData(objectData);
-            this.playerData.put(key, playerData);
-        });
+        Debug.info("&cMigration is no longer supported", true, Debug.LogType.BOTH);
     }
 }

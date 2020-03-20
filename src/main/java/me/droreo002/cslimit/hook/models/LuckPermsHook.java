@@ -56,13 +56,12 @@ public class LuckPermsHook implements ChestShopHook {
             if (event.getTarget() instanceof Group) update = false;
 
             if (update) {
-                // Try update player data
+                // TODO: 14/03/2020 Concurrent shit
                 ChestShopLimiter plugin = ChestShopLimiter.getInstance();
                 User user = (User) event.getTarget();
                 PlayerData playerData = plugin.getDatabase().getWrapper().getPlayerData(user.getUniqueId());
                 if (playerData == null) return;
                 playerData.setupData(plugin, plugin.getDatabase().getDatabaseType().isSql());
-                plugin.getDatabase().getWrapper().savePlayerData(playerData);
             }
         });
     }

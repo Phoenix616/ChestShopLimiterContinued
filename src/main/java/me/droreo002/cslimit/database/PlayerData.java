@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class PlayerData {
 
@@ -46,7 +47,7 @@ public class PlayerData {
         this.lastPermission = lastPermission;
         this.lastRank = lastRank;
         this.lastShopLocation = lastShopLocation;
-        this.changes = new ArrayList<>();
+        this.changes = new CopyOnWriteArrayList<>();
     }
 
     public void setMaxShop(int maxShop) {

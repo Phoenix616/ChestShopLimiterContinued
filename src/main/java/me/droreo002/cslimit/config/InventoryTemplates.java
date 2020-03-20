@@ -18,19 +18,19 @@ public class InventoryTemplates extends CustomConfiguration implements Configura
 
     @Getter
     @ConfigVariable(path = "Inventory.MainMenu", isSerializableObject = true)
-    private InventoryTemplate mainMenuTemplate = new InventoryTemplate();
+    private InventoryTemplate mainMenuTemplate;
 
     @Getter
     @ConfigVariable(path = "Inventory.PlayerSelector", isSerializableObject = true)
-    private InventoryTemplate playerSelectorTemplate = new InventoryTemplate();
+    private InventoryTemplate playerSelectorTemplate;
 
     @Getter
     @ConfigVariable(path = "Inventory.EditorInventory", isSerializableObject = true)
-    private InventoryTemplate editorInventoryTemplate = new InventoryTemplate();
+    private InventoryTemplate editorInventoryTemplate;
 
     @Getter
     @ConfigVariable(path = "Inventory.PlayerSelector.playerHeadButton", isSerializableObject = true)
-    private GUIButton playerHeadButton = new GUIButton();
+    private GUIButton playerHeadButton;
 
     public InventoryTemplates(ChestShopLimiter plugin) {
         super(plugin, new File(plugin.getDataFolder(), "inventory-settings.yml"));
