@@ -8,6 +8,8 @@ import me.droreo002.cslimit.database.PlayerData;
 import me.droreo002.oreocore.database.DatabaseManager;
 import me.droreo002.oreocore.database.DatabaseType;
 import me.droreo002.oreocore.database.object.DatabaseSQL;
+import me.droreo002.oreocore.database.utils.SqlDataKey;
+import me.droreo002.oreocore.database.utils.SqlDatabaseTable;
 import me.droreo002.oreocore.utils.entity.PlayerUtils;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -32,27 +34,7 @@ public class SqlData extends DatabaseSQL implements DatabaseWrapper {
         this.playerData = new ConcurrentHashMap<>();
         this.column = new ArrayList<>();
         column.addAll(new ArrayList<>(Arrays.asList(DataProperty.values())));
-        loadData();
         DatabaseManager.registerDatabase(plugin, this);
-    }
-
-    @Override
-    public void loadData() {
-        // We do nothing here
-    }
-
-    @Override
-    public String getFirstCommand() {
-        // Change the column variable if you made change here
-        return "CREATE TABLE IF NOT EXISTS `csl` (\n"
-                + "  `UUID` VARCHAR(36) NOT NULL,\n" // UUID Length is 36 according to google
-                + "  `name` VARCHAR(16) NOT NULL,\n" // Minecraft usename length is 16 according to google
-                + "  `shopCreated` int(11) NOT NULL DEFAULT '0',\n"
-                + "  `maxShop` int(11) NOT NULL DEFAULT '0',\n"
-                + "  `lastPermission` TEXT NOT NULL,\n"
-                + "  `lastRank` TEXT NOT NULL,\n"
-                + "  `lastShopLocation` TEXT NOT NULL,\n"
-                + " PRIMARY KEY (UUID));";
     }
 
     @Override
@@ -197,5 +179,23 @@ public class SqlData extends DatabaseSQL implements DatabaseWrapper {
         if (playerName == null) throw new NullPointerException("Could not find any player name data from " + uuid + " UUID!");
         execute("INSERT INTO `csl` (UUID,name,shopCreated,maxShop,lastPermission,lastRank,lastShopLocation) " +
                 "VALUES ('" + uuid.toString() + "','" + playerName + "',0,0,'empty','empty','empty');");
+    }
+
+    @Override
+    public void loadAllData() {
+        // Do nothing
+    }
+
+    @Override
+    public SqlDatabaseTable getSqlDatabaseTable() {
+        return new SqlDatabaseTable("csl",
+                new SqlDataKey("UUID", true, SqlDataKey.KeyType.UUID, false, null),
+                new SqlDataKey("name", false, SqlDataKey.KeyType.MINECRAFT_USERNAME, false, null),
+                new SqlDataKey("shopCreated", false, SqlDataKey.KeyType.OPTIMIZED_INTEGER, false, "0"),
+                new SqlDataKey("maxShop", false, SqlDataKey.KeyType.OPTIMIZED_INTEGER, false, "0"),
+                new SqlDataKey("lastPermission", false, SqlDataKey.KeyType.TEXT, false, null),
+                new SqlDataKey("lastRank", false, SqlDataKey.KeyType.TEXT, false, null),
+                new SqlDataKey("lastShopLocation", false, SqlDataKey.KeyType.TEXT, false, null)
+        );
     }
 }

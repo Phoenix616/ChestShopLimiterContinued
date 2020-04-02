@@ -4,7 +4,7 @@ import lombok.Getter;
 import me.droreo002.cslimit.ChestShopLimiter;
 import me.droreo002.cslimit.config.ConfigManager;
 import me.droreo002.oreocore.inventory.InventoryTemplate;
-import me.droreo002.oreocore.inventory.animation.InventoryAnimation;
+import me.droreo002.oreocore.inventory.animation.InventoryAnimationManager;
 import me.droreo002.oreocore.inventory.button.GUIButton;
 import me.droreo002.oreocore.inventory.paginated.PaginatedInventory;
 import me.droreo002.oreocore.utils.item.CustomSkull;
@@ -29,7 +29,7 @@ public class SelectorInventory extends PaginatedInventory {
         setSoundOnOpen(mem.getPSelectorOpenSound());
         setSoundOnClick(mem.getPSelectorClickSound());
         setSoundOnClose(mem.getPSelectorCloseSound());
-        setInventoryAnimation(InventoryAnimation.builder().build()); // Default value
+        setInventoryAnimationManager(InventoryAnimationManager.getDefault());
 
         for (Player online : Bukkit.getOnlinePlayers()) {
             GUIButton pButton = plugin.getInventoryTemplates().getPlayerHeadButton();
