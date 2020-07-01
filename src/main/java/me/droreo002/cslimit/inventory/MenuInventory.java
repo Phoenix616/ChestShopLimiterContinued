@@ -7,7 +7,7 @@ import me.droreo002.cslimit.manager.logger.Debug;
 import me.droreo002.oreocore.inventory.InventoryTemplate;
 import me.droreo002.oreocore.inventory.OreoInventory;
 import me.droreo002.oreocore.inventory.button.GUIButton;
-import me.droreo002.oreocore.utils.item.complex.UMaterial;
+import me.droreo002.oreocore.utils.item.complex.XMaterial;
 import me.droreo002.oreocore.utils.misc.ThreadingUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryOpenEvent;
@@ -31,7 +31,7 @@ public class MenuInventory extends OreoInventory {
 
             ThreadingUtils.makeChain().asyncFirst(() -> new SelectorInventory(templates.getPlayerSelectorTemplate(), plugin,
                 (e, item, targetPlayer) -> {
-                    if (item.getType().equals(UMaterial.PLAYER_HEAD_ITEM.getMaterial())) {
+                    if (item.getType().equals(XMaterial.PLAYER_HEAD.getMaterial())) {
                         closeInventory(player);
                         ThreadingUtils.makeChain().asyncFirst(() -> new EditorInventory(player, targetPlayer, plugin, templates.getEditorInventoryTemplate()))
                                 .asyncLast(input -> input.open(player)).execute();

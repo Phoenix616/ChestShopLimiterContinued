@@ -11,6 +11,7 @@ import org.apache.tools.ant.filters.ReplaceTokens
 
 repositories {
     mavenLocal()
+    mavenCentral()
     maven {
         url = 'http://repo.extendedclip.com/content/repositories/placeholderapi/'
     }
@@ -39,17 +40,17 @@ dependencies {
     compileOnly 'com.earth2me:essentials:2.15.0.52'
     compileOnly 'me.clip:placeholderapi:2.9.2'
     compileOnly 'org.projectlombok:lombok:1.18.4'
-    compileOnly 'me.droreo002:OreoCore:14.1'
+    compileOnly 'me.droreo002:OreoCore:15.5'
     compileOnly 'com.Acrobot:ChestShop:1.0'
     
     annotationProcessor 'org.projectlombok:lombok:1.18.4'
 }
 
 def pluginName = project.name
-def spigotDirectory = "Spigot 1.13"
+def spigotDirectory = "Spigot 1.16"
 
 group = 'me.droreo002'
-version = '6.2'
+version = '6.3'
 targetCompatibility = '1.8'
 
 shadowJar {

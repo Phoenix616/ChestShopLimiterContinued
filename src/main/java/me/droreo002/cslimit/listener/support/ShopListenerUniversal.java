@@ -12,7 +12,7 @@ import me.droreo002.cslimit.lang.LangManager;
 import me.droreo002.cslimit.lang.LangPath;
 import me.droreo002.cslimit.manager.logger.Debug;
 import me.droreo002.oreocore.utils.bridge.ServerUtils;
-import me.droreo002.oreocore.utils.item.complex.UMaterial;
+import me.droreo002.oreocore.utils.item.complex.XMaterial;
 import me.droreo002.oreocore.utils.item.helper.ItemMetaType;
 import me.droreo002.oreocore.utils.item.helper.TextPlaceholder;
 import me.droreo002.oreocore.utils.world.BlockUtils;
@@ -22,7 +22,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.material.Sign;
 
 import java.util.UUID;
 
@@ -43,7 +42,7 @@ public class ShopListenerUniversal implements Listener {
             Player player = e.getPlayer();
             String[] line = e.getSignLines();
             UUID uuid = player.getUniqueId();
-            Location shopLoc = BlockUtils.getFacedLocation(e.getSign().getBlock(), UMaterial.CHEST.getMaterial(), true);
+            Location shopLoc = BlockUtils.getFacedLocation(e.getSign().getBlock(), XMaterial.CHEST.getMaterial(), true);
             // Ignore if the shop created is admin shop
             if (ChestShopSign.isAdminShop(line[0])) return;
             if (player.hasPermission("csl.limit.unlimited")) return;
@@ -106,9 +105,9 @@ public class ShopListenerUniversal implements Listener {
 
             // Remove last shop created
             Location lastShop = LocationUtils.toLocation(data.getLastShopLocation());
-            Location currentShopLocation = BlockUtils.getFacedLocation(e.getSign().getBlock(), UMaterial.CHEST.getMaterial(), true);
-            if (currentShopLocation == null) currentShopLocation = BlockUtils.getFacedLocation(e.getSign().getBlock(), UMaterial.TRAPPED_CHEST.getMaterial(), true);
-            if (currentShopLocation == null) currentShopLocation = BlockUtils.getFacedLocation(e.getSign().getBlock(), UMaterial.ENDER_CHEST.getMaterial(), true);
+            Location currentShopLocation = BlockUtils.getFacedLocation(e.getSign().getBlock(), XMaterial.CHEST.getMaterial(), true);
+            if (currentShopLocation == null) currentShopLocation = BlockUtils.getFacedLocation(e.getSign().getBlock(), XMaterial.TRAPPED_CHEST.getMaterial(), true);
+            if (currentShopLocation == null) currentShopLocation = BlockUtils.getFacedLocation(e.getSign().getBlock(), XMaterial.ENDER_CHEST.getMaterial(), true);
             if (currentShopLocation == null) throw new NullPointerException("Failed to get current shop location on sign " + e.getSign().getLocation().toString());
             if (lastShop == null) {
                 plugin.getChestShopAPI().saveData(data);

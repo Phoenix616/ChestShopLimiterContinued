@@ -3,6 +3,7 @@ package me.droreo002.cslimit.config;
 import lombok.Getter;
 import me.droreo002.cslimit.ChestShopLimiter;
 import me.droreo002.cslimit.manager.logger.Debug;
+import me.droreo002.oreocore.configuration.Configuration;
 import me.droreo002.oreocore.configuration.ConfigurationMemory;
 import me.droreo002.oreocore.configuration.CustomConfiguration;
 import me.droreo002.oreocore.configuration.annotations.ConfigVariable;
@@ -233,7 +234,7 @@ public final class ConfigManager extends CustomConfiguration {
         }
 
         @Override
-        public CustomConfiguration getParent() {
+        public Configuration getParent() {
             return customConfig;
         }
     }
