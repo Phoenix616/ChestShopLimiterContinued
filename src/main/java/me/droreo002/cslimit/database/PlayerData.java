@@ -19,7 +19,6 @@ public class PlayerData {
 
     private static final String PERMISSION_STRING = "csl.limit.";
 
-    // Final var
     @Getter
     private final UUID playerUUID;
     @Getter
@@ -27,17 +26,10 @@ public class PlayerData {
     @Getter
     private final List<DataProperty> changes;
 
-    // Non final
     @Getter
-    private int maxShop;
+    private int maxShop, shopCreated;
     @Getter
-    private int shopCreated;
-    @Getter
-    private String lastPermission;
-    @Getter
-    private String lastRank;
-    @Getter
-    private String lastShopLocation;
+    private String lastPermission, lastRank, lastShopLocation;
 
     public PlayerData(UUID playerUUID, String playerName, int maxShop, int shopCreated, String lastPermission, String lastRank, String lastShopLocation) {
         this.playerUUID = playerUUID;

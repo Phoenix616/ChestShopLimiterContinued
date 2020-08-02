@@ -103,20 +103,19 @@ public class ShopListenerUniversal implements Listener {
             TextPlaceholder pl = new TextPlaceholder(ItemMetaType.NONE, "%created%", String.valueOf(created)).add(ItemMetaType.NONE, "%max%", String.valueOf(limit));
             player.sendMessage(lang.getLang(LangPath.NORMAL_SHOP_REMOVED, pl, true));
 
-            // Remove last shop created
+            /*
+            This will remove the last shop created data
+             */
             Location lastShop = LocationUtils.toLocation(data.getLastShopLocation());
             Location currentShopLocation = BlockUtils.getFacedLocation(e.getSign().getBlock(), XMaterial.CHEST.getMaterial(), true);
             if (currentShopLocation == null) currentShopLocation = BlockUtils.getFacedLocation(e.getSign().getBlock(), XMaterial.TRAPPED_CHEST.getMaterial(), true);
             if (currentShopLocation == null) currentShopLocation = BlockUtils.getFacedLocation(e.getSign().getBlock(), XMaterial.ENDER_CHEST.getMaterial(), true);
-            if (currentShopLocation == null) throw new NullPointerException("Failed to get current shop location on sign " + e.getSign().getLocation().toString());
-            if (lastShop == null) {
-                plugin.getChestShopAPI().saveData(data);
-                return;
+            if (currentShopLocation != null) {
+                if (currentShopLocation.equals(lastShop)) {
+                    data.setLastShopLocation("empty");
+                }
             }
-            if (currentShopLocation.equals(lastShop)) {
-                data.setLastShopLocation("empty");
-                plugin.getChestShopAPI().saveData(data);
-            }
+            plugin.getChestShopAPI().saveData(data);
             Debug.info("Successfully refunded 1 shop for player " + player.getName(), false, Debug.LogType.FILE);
         }
     }

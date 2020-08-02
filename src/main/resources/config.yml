@@ -140,8 +140,8 @@ ShopLimit:
   force-default: true
 
 # Will be used if you have Dependency.LuckPerms enabled
-# Shop limit will be needed if the player that is checked didn't have the csl.limit.unlimited permission.
-# It is recommended to change this once
+# keep in mind that shop limit be retrieved from user's primary group! so using set command will update the limit
+# but if you're using add command it will not update the limit!
 ShopLimitLuckPerms:
   # Please name it exactly the SAME name on the luckperms group! (Case sensitive!)
   # You can rename this, I use iron, gold, diamond because that is the group that I use for my test server
