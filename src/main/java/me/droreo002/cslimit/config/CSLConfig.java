@@ -153,16 +153,10 @@ public final class CSLConfig extends CustomConfiguration implements Configuratio
     @Getter
     private DatabaseType databaseType;
 
-    // MySQL
     @ConfigVariable(path = "Database.Sql", isSerializableObject = true)
     @Getter
     private SQLConfiguration sqlConfiguration;
 
-    @ConfigVariable(path = "Database.Sql.async")
-    @Getter
-    private boolean sqlAsyncMode;
-
-    // FLAT_FILE
     @ConfigVariable(path = "Database.FlatFile.DatabaseFolder")
     @Getter
     private String flatFileDatabaseFolder;

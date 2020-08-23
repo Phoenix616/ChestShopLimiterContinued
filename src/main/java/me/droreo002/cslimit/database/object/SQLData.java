@@ -58,6 +58,7 @@ public class SQLData extends SQLDatabase implements DatabaseWrapper {
     }
 
     @Override
+    @SneakyThrows
     public void savePlayerData(PlayerData playerData) {
         StringBuilder builder = new StringBuilder();
         builder.append("UPDATE `csl` SET ");
@@ -82,7 +83,7 @@ public class SQLData extends SQLDatabase implements DatabaseWrapper {
         }
         builder.setCharAt(builder.toString().length() - 1, ' '); // Remove last
         builder.append("WHERE UUID = '").append(playerData.getPlayerUUID().toString()).append("';");
-        runStatement(builder.toString());
+        executeUpdate(builder.toString());
     }
 
     @Override
@@ -92,13 +93,14 @@ public class SQLData extends SQLDatabase implements DatabaseWrapper {
     }
 
     @Override
+    @SneakyThrows
     public void removePlayerData(UUID uuid, boolean delete) {
         if (!playerData.containsKey(uuid)) {
             if (delete) {
                 Future<Boolean> exists = isExistsAsync("UUID", uuid.toString(), "csl");
                 try {
                     if (exists.get()) {
-                        runStatement("DELETE FROM `csl` WHERE UUID = '" + uuid.toString() + "'");
+                        executeUpdate("DELETE FROM `csl` WHERE UUID = '" + uuid.toString() + "'");
                     }
                 } catch (InterruptedException | ExecutionException e) {
                     e.printStackTrace();
@@ -107,7 +109,7 @@ public class SQLData extends SQLDatabase implements DatabaseWrapper {
         } else {
             if (delete) {
                 playerData.remove(uuid);
-                runStatement("DELETE FROM `csl` WHERE UUID = '" + uuid.toString() + "'");
+                executeUpdate("DELETE FROM `csl` WHERE UUID = '" + uuid.toString() + "'");
             } else {
                 playerData.remove(uuid);
             }
@@ -168,24 +170,16 @@ public class SQLData extends SQLDatabase implements DatabaseWrapper {
         }
         builder.setCharAt(builder.toString().length() - 1, ' '); // Remove last
         builder.append("WHERE UUID = '").append(playerData.getPlayerUUID().toString()).append("';");
-        runStatement(builder.toString());
+        executeUpdate(builder.toString());
         this.playerData.put(playerData.getPlayerUUID(), playerData);
     }
 
+    @SneakyThrows
     private void insertNew(UUID uuid) {
         String playerName = PlayerUtils.getPlayerName(uuid);
         if (playerName == null) throw new NullPointerException("Could not find any player name data from " + uuid + " UUID!");
-        runStatement("INSERT INTO `csl` (UUID,name,shopCreated,maxShop,lastPermission,lastRank,lastShopLocation) " +
+        executeUpdate("INSERT INTO `csl` (UUID,name,shopCreated,maxShop,lastPermission,lastRank,lastShopLocation) " +
                 "VALUES ('" + uuid.toString() + "','" + playerName + "',0,0,'empty','empty','empty');");
-    }
-
-    @SneakyThrows
-    private void runStatement(String sql) {
-        if (config.isSqlAsyncMode()) {
-            executeQueryAsync(sql);
-        } else {
-            executeQuery(sql);
-        }
     }
 
     @Override

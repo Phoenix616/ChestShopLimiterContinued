@@ -171,14 +171,12 @@ Database:
   DatabaseType: 'FLAT_FILE'
   # Configuration for SQL type database (SQL and MYSQL)
   Sql:
-    # Should we use always use async method?
-    async: true
     # The database address (MYSQL Only)
     address: "localhost:3306"
     # The database name. You can use this as file path only if the database type is SQL
-    database: "database/playerData"
-    # The database user (MYSQL Only)
-    user: "admin"
+    database: "database/playerdata"
+    # The database username (MYSQL Only)
+    username: "admin"
     # The database password (MYSQL Only)
     password: "admin"
   FlatFile:
