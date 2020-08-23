@@ -7,7 +7,6 @@ import me.droreo002.cslimit.lang.LangPath;
 import me.droreo002.cslimit.manager.logger.Debug;
 import me.droreo002.oreocore.commands.CommandArg;
 import me.droreo002.oreocore.commands.CustomCommand;
-import me.droreo002.oreocore.commands.object.CustomCommandArg;
 import org.bukkit.command.CommandSender;
 
 public class ReloadCommand extends CommandArg {
@@ -38,7 +37,7 @@ public class ReloadCommand extends CommandArg {
             switch (type.toLowerCase()) {
                 case "config":
                     success(commandSender);
-                    plugin.getConfigManager().reloadConfig();
+                    plugin.getCslConfig().reloadConfig();
                     sendMessage(commandSender, lang.getLang(LangPath.NORMAL_CONFIG_RELOADED, null, true));
                     return;
                 case "lang":

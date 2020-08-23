@@ -1,7 +1,7 @@
 package me.droreo002.cslimit.conversation.prompts;
 
 import me.droreo002.cslimit.ChestShopLimiter;
-import me.droreo002.cslimit.config.ConfigManager;
+import me.droreo002.cslimit.config.CSLConfig;
 import me.droreo002.cslimit.conversation.helper.ConversationType;
 import me.droreo002.cslimit.conversation.helper.SessionDataKey;
 import me.droreo002.cslimit.database.PlayerData;
@@ -12,28 +12,31 @@ import me.droreo002.oreocore.utils.item.helper.TextPlaceholder;
 import org.bukkit.Bukkit;
 import org.bukkit.conversations.*;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
 
 public class CIntegerConversation extends StringPrompt {
 
     private final ChestShopLimiter plugin;
     private final LangManager lang;
-    private final ConfigManager.Memory memory;
+    private final CSLConfig config;
 
     public CIntegerConversation(ChestShopLimiter plugin) {
         this.plugin = plugin;
         this.lang = plugin.getLangManager();
-        this.memory = plugin.getConfigManager().getMemory();
+        this.config = plugin.getCslConfig();
     }
 
     @Override
-    public String getPromptText(ConversationContext context) {
+    public @NotNull String getPromptText(ConversationContext context) {
         Player forWhom = (Player) context.getForWhom();
         ConversationType type = (ConversationType) context.getSessionData(SessionDataKey.CONVERSATION_TYPE);
         PlayerData targetData = (PlayerData) context.getSessionData(SessionDataKey.PLAYER_DATA);
         String targetName = Bukkit.getOfflinePlayer(targetData.getPlayerUUID()).getName();
         TextPlaceholder pl = new TextPlaceholder(ItemMetaType.NONE, "%target%", targetName);
         String result;
-        switch (type) {
+        switch (Objects.requireNonNull(type)) {
             case CHANGE_MAX_SHOP:
                 result = lang.getLang(LangPath.TE_CHANGE_MAX_SHOP, pl, true);
                 break;
@@ -47,10 +50,10 @@ public class CIntegerConversation extends StringPrompt {
                 result = lang.getLang(LangPath.TE_ADD_CURR_SHOP, pl, true);
                 break;
             default:
-                memory.getTEditorFailureSound().send(forWhom);
+                config.getTEditorFailureSound().send(forWhom);
                 return "An internal error occurred, please contact admin!";
         }
-        memory.getTEditorSuccessSound().send(forWhom);
+        config.getTEditorSuccessSound().send(forWhom);
         return result;
     }
 
@@ -64,7 +67,7 @@ public class CIntegerConversation extends StringPrompt {
             numberInput = Integer.parseInt(input);
         } catch (NumberFormatException e) {
             player.sendMessage(lang.getLang(LangPath.TE_ERROR_NOT_INTEGER, null, true));
-            memory.getTEditorFailureSound().send(player);
+            config.getTEditorFailureSound().send(player);
             return Prompt.END_OF_CONVERSATION;
         }
         TextPlaceholder pl = new TextPlaceholder(ItemMetaType.NONE, "%value%", String.valueOf(numberInput));
@@ -79,7 +82,7 @@ public class CIntegerConversation extends StringPrompt {
             case CHANGE_CURRENT_SHOP:
                 if (numberInput > targetData.getMaxShop()) {
                     player.sendMessage(lang.getLang(LangPath.TE_SHOP_CREATED_GREATER, null, true));
-                    memory.getTEditorFailureSound().send(player);
+                    config.getTEditorFailureSound().send(player);
                     return Prompt.END_OF_CONVERSATION;
                 }
                 player.sendMessage(lang.getLang(LangPath.TE_SUCCESS_CHANGE_CURR_SHOP, pl, true));
@@ -92,7 +95,7 @@ public class CIntegerConversation extends StringPrompt {
             case ADD_CURRENT_SHOP:
                 if ((numberInput + targetData.getShopCreated()) > targetData.getMaxShop()) {
                     player.sendMessage(lang.getLang(LangPath.TE_SHOP_CREATED_GREATER, null, true));
-                    memory.getTEditorFailureSound().send(player);
+                    config.getTEditorFailureSound().send(player);
                     return Prompt.END_OF_CONVERSATION;
                 }
                 player.sendMessage(lang.getLang(LangPath.TE_ADD_CURR_SHOP, pl, true));
@@ -103,7 +106,7 @@ public class CIntegerConversation extends StringPrompt {
                 targetData.addMaxShop(numberInput);
                 break;
         }
-        memory.getTEditorSuccessSound().send(player);
+        config.getTEditorSuccessSound().send(player);
         plugin.getDatabase().getWrapper().savePlayerData(targetData);
         return Prompt.END_OF_CONVERSATION;
     }

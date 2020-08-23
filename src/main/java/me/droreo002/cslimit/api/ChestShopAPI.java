@@ -1,6 +1,6 @@
 package me.droreo002.cslimit.api;
 
-import me.droreo002.cslimit.config.ConfigManager;
+import me.droreo002.cslimit.config.CSLConfig;
 import me.droreo002.cslimit.database.CSLDatabase;
 import me.droreo002.cslimit.database.PlayerData;
 import me.droreo002.cslimit.lang.LangManager;
@@ -61,12 +61,11 @@ public interface ChestShopAPI {
     void setShopLimit(UUID uuid, int value);
 
     /**
-     * Get the plugin's config memory. This will give access
-     * to config datas
+     * Get the plugin's config
      *
      * @return The config memory
      */
-    ConfigManager.Memory getConfigMemory();
+    CSLConfig getConfig();
 
     /**
      * Get the plugin's lang manager. This will give access

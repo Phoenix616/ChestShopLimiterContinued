@@ -6,7 +6,7 @@ import com.Acrobot.ChestShop.Signs.ChestShopSign;
 import me.droreo002.cslimit.ChestShopLimiter;
 import me.droreo002.cslimit.api.ChestShopAPI;
 import me.droreo002.cslimit.api.events.ShopMaxAmountReachedEvent;
-import me.droreo002.cslimit.config.ConfigManager;
+import me.droreo002.cslimit.config.CSLConfig;
 import me.droreo002.cslimit.database.PlayerData;
 import me.droreo002.cslimit.lang.LangManager;
 import me.droreo002.cslimit.lang.LangPath;
@@ -38,7 +38,7 @@ public class ShopListenerUniversal implements Listener {
         if (!e.isCancelled()) {
             final ChestShopAPI api = plugin.getChestShopAPI();
             final LangManager lang = plugin.getLangManager();
-            final ConfigManager.Memory memory = plugin.getConfigManager().getMemory();
+            final CSLConfig config = plugin.getCslConfig();
             Player player = e.getPlayer();
             String[] line = e.getSignLines();
             UUID uuid = player.getUniqueId();
@@ -61,7 +61,7 @@ public class ShopListenerUniversal implements Listener {
                 ServerUtils.callEvent(event);
 
                 if (!event.isCancelled()) {
-                    if (memory.isTMaxShopReachedEnable()) memory.getTMaxShopReached().send(player);
+                    if (config.isTMaxShopReachedEnable()) config.getTMaxShopReached().send(player);
                     player.sendMessage(lang.getLang(LangPath.ERROR_LIMIT_REACHED, pl, true));
                     e.setOutcome(PreShopCreationEvent.CreationOutcome.NO_PERMISSION);
                 }
@@ -82,15 +82,15 @@ public class ShopListenerUniversal implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH) // Event call is of high importance, javadoc said so
     public void onDestroy(ShopDestroyedEvent e) {
-        final ConfigManager.Memory mem = plugin.getConfigManager().getMemory();
+        final CSLConfig config = plugin.getCslConfig();
         final LangManager lang = plugin.getLangManager();
         Player player = e.getDestroyer();
         if (player == null) return; // Because player is null able here
         String[] lines = e.getSign().getLines();
         if (ChestShopSign.isAdminShop(lines[0])) return;
 
-        if (!mem.isRefundOnUnlimited() && player.hasPermission("csl.limit.unlimited")) return;
-        if (mem.isRefundOnRemove()) {
+        if (!config.isRefundOnUnlimited() && player.hasPermission("csl.limit.unlimited")) return;
+        if (config.isRefundOnRemove()) {
             final PlayerData data = plugin.getChestShopAPI().getData(player.getUniqueId());
             if (data == null) {
                 player.kickPlayer("There was an unexpected error occurred when trying to get your data class");
@@ -103,20 +103,19 @@ public class ShopListenerUniversal implements Listener {
             TextPlaceholder pl = new TextPlaceholder(ItemMetaType.NONE, "%created%", String.valueOf(created)).add(ItemMetaType.NONE, "%max%", String.valueOf(limit));
             player.sendMessage(lang.getLang(LangPath.NORMAL_SHOP_REMOVED, pl, true));
 
-            // Remove last shop created
+            /*
+            This will remove the last shop created data
+             */
             Location lastShop = LocationUtils.toLocation(data.getLastShopLocation());
             Location currentShopLocation = BlockUtils.getFacedLocation(e.getSign().getBlock(), XMaterial.CHEST.getMaterial(), true);
             if (currentShopLocation == null) currentShopLocation = BlockUtils.getFacedLocation(e.getSign().getBlock(), XMaterial.TRAPPED_CHEST.getMaterial(), true);
             if (currentShopLocation == null) currentShopLocation = BlockUtils.getFacedLocation(e.getSign().getBlock(), XMaterial.ENDER_CHEST.getMaterial(), true);
-            if (currentShopLocation == null) throw new NullPointerException("Failed to get current shop location on sign " + e.getSign().getLocation().toString());
-            if (lastShop == null) {
-                plugin.getChestShopAPI().saveData(data);
-                return;
+            if (currentShopLocation != null) {
+                if (currentShopLocation.equals(lastShop)) {
+                    data.setLastShopLocation("empty");
+                }
             }
-            if (currentShopLocation.equals(lastShop)) {
-                data.setLastShopLocation("empty");
-                plugin.getChestShopAPI().saveData(data);
-            }
+            plugin.getChestShopAPI().saveData(data);
             Debug.info("Successfully refunded 1 shop for player " + player.getName(), false, Debug.LogType.FILE);
         }
     }

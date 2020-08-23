@@ -1,8 +1,7 @@
 package me.droreo002.cslimit.api;
 
 import me.droreo002.cslimit.ChestShopLimiter;
-import me.droreo002.cslimit.api.ChestShopAPI;
-import me.droreo002.cslimit.config.ConfigManager;
+import me.droreo002.cslimit.config.CSLConfig;
 import me.droreo002.cslimit.database.CSLDatabase;
 import me.droreo002.cslimit.database.PlayerData;
 import me.droreo002.cslimit.lang.LangManager;
@@ -62,8 +61,8 @@ public final class ChestShopLimiterHandler implements ChestShopAPI {
     }
 
     @Override
-    public ConfigManager.Memory getConfigMemory() {
-        return plugin.getConfigManager().getMemory();
+    public CSLConfig getConfig() {
+        return plugin.getCslConfig();
     }
 
     @Override

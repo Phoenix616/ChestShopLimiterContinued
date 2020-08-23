@@ -1,7 +1,7 @@
 package me.droreo002.cslimit.inventory;
 
 import me.droreo002.cslimit.ChestShopLimiter;
-import me.droreo002.cslimit.config.ConfigManager;
+import me.droreo002.cslimit.config.CSLConfig;
 import me.droreo002.cslimit.conversation.helper.ConversationType;
 import me.droreo002.cslimit.conversation.helper.SessionDataKey;
 import me.droreo002.cslimit.database.PlayerData;
@@ -23,13 +23,13 @@ public class EditorInventory extends OreoInventory {
 
     public EditorInventory(Player opener, Player targetPlayer, ChestShopLimiter plugin, InventoryTemplate template) {
         super(template);
-        final ConfigManager.Memory mem = plugin.getConfigManager().getMemory();
+        final CSLConfig config = plugin.getCslConfig();
         final PlayerData data = plugin.getChestShopAPI().getData(targetPlayer.getUniqueId());
         GUIButton pInformation = template.getGUIButtons("I").get(0);
         if (data == null) throw new NullPointerException("Data cannot be null!. Please contact dev!");
-        setSoundOnClick(mem.getEditorClickSound());
-        setSoundOnOpen(mem.getEditorOpenSound());
-        setSoundOnClose(mem.getEditorCloseSound());
+        setSoundOnClick(config.getEditorClickSound());
+        setSoundOnOpen(config.getEditorOpenSound());
+        setSoundOnClose(config.getEditorCloseSound());
 
         TextPlaceholder infoPlaceholder = new TextPlaceholder(ItemMetaType.DISPLAY_NAME, "%player%", targetPlayer.getName())
                 .add(ItemMetaType.LORE, "%player%", targetPlayer.getName())

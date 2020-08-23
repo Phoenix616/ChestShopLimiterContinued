@@ -2,39 +2,31 @@ package me.droreo002.cslimit.database.object;
 
 import lombok.Getter;
 import me.droreo002.cslimit.ChestShopLimiter;
-import me.droreo002.cslimit.config.ConfigManager;
+import me.droreo002.cslimit.config.CSLConfig;
 import me.droreo002.cslimit.database.DatabaseWrapper;
 import me.droreo002.cslimit.database.PlayerData;
 import me.droreo002.cslimit.manager.logger.Debug;
-import me.droreo002.oreocore.database.DatabaseManager;
 import me.droreo002.oreocore.database.DatabaseType;
-import me.droreo002.oreocore.database.object.DatabaseFlatFile;
+import me.droreo002.oreocore.database.FlatFileDatabase;
 import me.droreo002.oreocore.utils.entity.PlayerUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class FlatFileData extends DatabaseFlatFile implements DatabaseWrapper {
+public class FlatFileData extends FlatFileDatabase implements DatabaseWrapper {
 
-    @Getter
-    private final ConfigManager.Memory memory;
     @Getter
     private final List<PlayerData> playerDataList;
     @Getter
     private final ChestShopLimiter plugin;
 
-    public FlatFileData(ChestShopLimiter plugin, ConfigManager.Memory memory) {
-        super(plugin, new File(plugin.getDataFolder(), memory.getFlatFileDatabaseFolder()), false);
+    public FlatFileData(ChestShopLimiter plugin, CSLConfig cslConfig) {
+        super(plugin, new File(plugin.getDataFolder(), cslConfig.getFlatFileDatabaseFolder()), false);
         this.plugin = plugin;
-        this.memory = memory;
         this.playerDataList = new CopyOnWriteArrayList<>();
-        DatabaseManager.registerDatabase(plugin, this);
     }
 
     @Override

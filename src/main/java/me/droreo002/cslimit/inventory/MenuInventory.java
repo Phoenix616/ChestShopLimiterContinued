@@ -1,7 +1,7 @@
 package me.droreo002.cslimit.inventory;
 
 import me.droreo002.cslimit.ChestShopLimiter;
-import me.droreo002.cslimit.config.ConfigManager;
+import me.droreo002.cslimit.config.CSLConfig;
 import me.droreo002.cslimit.config.InventoryTemplates;
 import me.droreo002.cslimit.manager.logger.Debug;
 import me.droreo002.oreocore.inventory.InventoryTemplate;
@@ -16,13 +16,13 @@ public class MenuInventory extends OreoInventory {
 
     public MenuInventory(InventoryTemplates templates, ChestShopLimiter plugin) {
         super(templates.getMainMenuTemplate());
-        final ConfigManager.Memory mem = plugin.getConfigManager().getMemory();
+        final CSLConfig config = plugin.getCslConfig();
         final InventoryTemplate template = templates.getMainMenuTemplate();
         GUIButton exitButton = template.getGUIButtons("C").get(0);
 
-        setSoundOnClick(mem.getMainMenuClickSound());
-        setSoundOnClose(mem.getMainMenuCloseSound());
-        setSoundOnOpen(mem.getMainMenuOpenSound());
+        setSoundOnClick(config.getMainMenuClickSound());
+        setSoundOnClose(config.getMainMenuCloseSound());
+        setSoundOnOpen(config.getMainMenuOpenSound());
 
         exitButton.addListener(GUIButton.CLOSE_LISTENER);
         template.applyListener("E", inventoryClickEvent -> {

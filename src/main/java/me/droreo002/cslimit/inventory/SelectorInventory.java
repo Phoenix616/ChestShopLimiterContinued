@@ -2,7 +2,7 @@ package me.droreo002.cslimit.inventory;
 
 import lombok.Getter;
 import me.droreo002.cslimit.ChestShopLimiter;
-import me.droreo002.cslimit.config.ConfigManager;
+import me.droreo002.cslimit.config.CSLConfig;
 import me.droreo002.oreocore.inventory.InventoryTemplate;
 import me.droreo002.oreocore.inventory.animation.InventoryAnimationManager;
 import me.droreo002.oreocore.inventory.button.GUIButton;
@@ -24,11 +24,11 @@ public class SelectorInventory extends PaginatedInventory {
     public SelectorInventory(InventoryTemplate template, ChestShopLimiter plugin, Selected selected) {
         super(template);
         this.selected = selected;
-        final ConfigManager.Memory mem = plugin.getConfigManager().getMemory();
+        final CSLConfig config = plugin.getCslConfig();
 
-        setSoundOnOpen(mem.getPSelectorOpenSound());
-        setSoundOnClick(mem.getPSelectorClickSound());
-        setSoundOnClose(mem.getPSelectorCloseSound());
+        setSoundOnOpen(config.getPSelectorOpenSound());
+        setSoundOnClick(config.getPSelectorClickSound());
+        setSoundOnClose(config.getPSelectorCloseSound());
         setInventoryAnimationManager(InventoryAnimationManager.getDefault());
 
         for (Player online : Bukkit.getOnlinePlayers()) {

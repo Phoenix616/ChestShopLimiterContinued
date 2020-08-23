@@ -18,7 +18,7 @@ public class Debug {
      */
     public static void info(String text, boolean addPrefix, LogType logType) {
         final ChestShopLimiter plugin = ChestShopLimiter.getInstance();
-        boolean allowFileLogging = plugin.getConfigManager().getMemory().isLogToFile();
+        boolean allowFileLogging = plugin.getCslConfig().isLogToFile();
         switch (logType) {
             case FILE:
                 if (allowFileLogging) plugin.getLogFile().getLogger().log(Level.INFO, ChatColor.stripColor(StringUtils.color(text)));
@@ -51,7 +51,7 @@ public class Debug {
      */
     public static void error(String text, boolean addPrefix, LogType logType) {
         final ChestShopLimiter plugin = ChestShopLimiter.getInstance();
-        boolean allowFileLogging = plugin.getConfigManager().getMemory().isLogToFile();
+        boolean allowFileLogging = plugin.getCslConfig().isLogToFile();
         switch (logType) {
             case FILE:
                 if (allowFileLogging) plugin.getLogFile().getLogger().log(Level.WARNING, ChatColor.stripColor(StringUtils.color(text)));

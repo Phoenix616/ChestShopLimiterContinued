@@ -2,11 +2,10 @@ package me.droreo002.cslimit.hook.models;
 
 import lombok.Getter;
 import me.droreo002.cslimit.ChestShopLimiter;
-import me.droreo002.cslimit.config.ConfigManager;
+import me.droreo002.cslimit.config.CSLConfig;
 import me.droreo002.cslimit.database.PlayerData;
 import me.droreo002.cslimit.hook.ChestShopHook;
 import me.droreo002.cslimit.manager.logger.Debug;
-import me.droreo002.oreocore.database.DatabaseType;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
 import net.luckperms.api.event.EventBus;
@@ -17,12 +16,9 @@ import net.luckperms.api.node.types.InheritanceNode;
 import net.luckperms.api.node.types.PermissionNode;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.event.EventHandler;
 
 import java.util.UUID;
-import java.util.function.Consumer;
 
 public class LuckPermsHook implements ChestShopHook {
 
@@ -56,7 +52,6 @@ public class LuckPermsHook implements ChestShopHook {
             if (event.getTarget() instanceof Group) update = false;
 
             if (update) {
-                // TODO: 14/03/2020 Concurrent shit
                 ChestShopLimiter plugin = ChestShopLimiter.getInstance();
                 User user = (User) event.getTarget();
                 PlayerData playerData = plugin.getDatabase().getWrapper().getPlayerData(user.getUniqueId());
@@ -89,8 +84,8 @@ public class LuckPermsHook implements ChestShopHook {
             user = luckPerms.getUserManager().loadUser(playerUUID).join();
             Debug.info("&eLuckPerms &fplayer data &7(&e" + playerData.toString() + "&7)&f has been force loaded, because plugin is trying to access a non cached player!", true, Debug.LogType.BOTH);
         }
-        ConfigManager.Memory memory = plugin.getConfigManager().getMemory();
-        ConfigurationSection lpLimit = memory.getShopLimitLuckPerms();
+        CSLConfig config = plugin.getCslConfig();
+        ConfigurationSection lpLimit = config.getShopLimitLuckPerms();
         Validate.notNull(user, "LuckPerms user cannot be null!");
         String currGroup = user.getPrimaryGroup();
 

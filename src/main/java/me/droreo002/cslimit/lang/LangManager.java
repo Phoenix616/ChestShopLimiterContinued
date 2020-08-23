@@ -1,7 +1,7 @@
 package me.droreo002.cslimit.lang;
 
 import me.droreo002.cslimit.ChestShopLimiter;
-import me.droreo002.cslimit.config.ConfigManager;
+import me.droreo002.cslimit.config.CSLConfig;
 import me.droreo002.cslimit.manager.logger.Debug;
 import me.droreo002.oreocore.configuration.CustomConfiguration;
 import me.droreo002.oreocore.utils.item.helper.TextPlaceholder;
@@ -24,7 +24,7 @@ public final class LangManager extends CustomConfiguration {
     private final ChestShopLimiter plugin;
 
     public LangManager(ChestShopLimiter plugin) {
-        super(plugin, new File(plugin.getDataFolder(), plugin.getConfigManager().getMemory().getLangFile()));
+        super(plugin, new File(plugin.getDataFolder(), plugin.getCslConfig().getLangFile()));
         this.plugin = plugin;
         if (tryUpdate("ConfigVersion", LATEST_VERSION)) {
             Debug.info("&7" + getYamlFile().getName() + " &fhas been updated!", true, Debug.LogType.BOTH);
@@ -50,7 +50,7 @@ public final class LangManager extends CustomConfiguration {
      */
     public String getLang(LangPath path, TextPlaceholder placeholder, boolean addPrefix) {
         if (values.get(path) == null) return "Error. Lang " + path.getPath() + " cannot be found!";
-        ConfigManager.Memory mem = plugin.getConfigManager().getMemory();
+        CSLConfig config = plugin.getCslConfig();
         if (placeholder != null) {
             // Process placeholder
             String result = (String) values.get(path);
@@ -59,9 +59,9 @@ public final class LangManager extends CustomConfiguration {
                 String to = place.getTo();
                 result = result.replace(from, to);
             }
-            return (addPrefix) ? StringUtils.color(mem.getPrefix() + result) : StringUtils.color(result);
+            return (addPrefix) ? StringUtils.color(config.getPrefix() + result) : StringUtils.color(result);
         }
-        return (addPrefix) ? StringUtils.color(mem.getPrefix() + values.get(path)) : StringUtils.color((String) values.get(path));
+        return (addPrefix) ? StringUtils.color(config.getPrefix() + values.get(path)) : StringUtils.color((String) values.get(path));
     }
 
     /**

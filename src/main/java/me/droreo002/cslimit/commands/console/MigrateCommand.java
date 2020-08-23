@@ -7,7 +7,6 @@ import me.droreo002.cslimit.lang.LangPath;
 import me.droreo002.cslimit.manager.logger.Debug;
 import me.droreo002.oreocore.commands.CommandArg;
 import me.droreo002.oreocore.commands.CustomCommand;
-import me.droreo002.oreocore.utils.bridge.ServerUtils;
 import me.droreo002.oreocore.utils.io.FileUtils;
 import me.droreo002.oreocore.utils.strings.StringUtils;
 import org.bukkit.Bukkit;
@@ -27,7 +26,7 @@ public class MigrateCommand extends CommandArg {
     public MigrateCommand(CustomCommand parent, ChestShopLimiter plugin) {
         super("migrate", parent);
         this.plugin = plugin;
-        this.prefix = StringUtils.color(plugin.getConfigManager().getMemory().getPrefix());
+        this.prefix = StringUtils.color(plugin.getCslConfig().getPrefix());
         setConsoleOnly(true, plugin.getLangManager().getLang(LangPath.NORMAL_CONSOLE_ONLY, null, true));
     }
 

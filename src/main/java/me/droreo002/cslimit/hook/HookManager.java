@@ -3,7 +3,7 @@ package me.droreo002.cslimit.hook;
 import lombok.Getter;
 import lombok.Setter;
 import me.droreo002.cslimit.ChestShopLimiter;
-import me.droreo002.cslimit.config.ConfigManager;
+import me.droreo002.cslimit.config.CSLConfig;
 import me.droreo002.cslimit.hook.models.CMIHook;
 import me.droreo002.cslimit.hook.models.EssentialsHook;
 import me.droreo002.cslimit.hook.models.LuckPermsHook;
@@ -44,14 +44,14 @@ public class HookManager {
             throw new IllegalStateException("Cannot create a new hook manager instance anymore!. Please get this instance on the ChestShopLimiter's main class!");
         }
         // Setup all hooks here
-        ConfigManager.Memory mem = plugin.getConfigManager().getMemory();
-        if (mem.isEnableEssentialsHook()) {
+        CSLConfig config = plugin.getCslConfig();
+        if (config.isEnableEssentialsHook()) {
             Debug.info(" &fTrying to hook into &cEssentials", false, Debug.LogType.BOTH);
             if (registerHook("Essentials", new EssentialsHook())) {
                 setEssentials(true);
             }
         }
-        if (mem.isEnableCMIHook()) {
+        if (config.isEnableCMIHook()) {
             if (!isEssentials()) {
                 Debug.info(" &fTrying to hook into &bCMI", false, Debug.LogType.BOTH);
                 if (registerHook("CMI", new CMIHook())) {
@@ -65,13 +65,13 @@ public class HookManager {
         if (!isCMI && !isEssentials) {
             Debug.error(" &cCMI or Essentials is not installed!, it's recommended to install one of them!", false, Debug.LogType.BOTH);
         }
-        if (mem.isEnableLuckPermsHook()) {
+        if (config.isEnableLuckPermsHook()) {
             Debug.info(" &fTrying to hook into &aLuckperms", false, Debug.LogType.BOTH);
             if (registerHook("LuckPerms", new LuckPermsHook())) {
                 setLuckPerms(true);
             }
         }
-        if (mem.isEnablePapiHook()) {
+        if (config.isEnablePapiHook()) {
             Debug.info(" &fTrying to hook into &bPlaceholderAPI", false, Debug.LogType.BOTH);
             if (registerHook("PlaceholderAPI", new PlaceholderAPIHook())) {
                 setPlaceHolderAPI(true);

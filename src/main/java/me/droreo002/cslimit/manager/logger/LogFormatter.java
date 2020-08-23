@@ -8,7 +8,7 @@ import java.util.logging.LogRecord;
 
 public class LogFormatter extends Formatter {
 
-    private final String logFormat = ChestShopLimiter.getInstance().getConfigManager().getMemory().getLogFormat();
+    private final String logFormat = ChestShopLimiter.getInstance().getCslConfig().getLogFormat();
 
     @Override
     public String format(LogRecord record) {

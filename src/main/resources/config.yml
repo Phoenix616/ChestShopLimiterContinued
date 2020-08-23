@@ -7,7 +7,7 @@
 #                                              | |
 #                                              |_|
 
-ConfigVersion: '1.1' # Do not change
+ConfigVersion: '1.2' # Do not change
 # Plugin prefix!
 Prefix: '&7[ &bChestShopLimiter &7]&f '
 
@@ -140,8 +140,8 @@ ShopLimit:
   force-default: true
 
 # Will be used if you have Dependency.LuckPerms enabled
-# Shop limit will be needed if the player that is checked didn't have the csl.limit.unlimited permission.
-# It is recommended to change this once
+# keep in mind that shop limit be retrieved from user's primary group! so using set command will update the limit
+# but if you're using add command it will not update the limit!
 ShopLimitLuckPerms:
   # Please name it exactly the SAME name on the luckperms group! (Case sensitive!)
   # You can rename this, I use iron, gold, diamond because that is the group that I use for my test server
@@ -167,40 +167,20 @@ ShopLimitLuckPerms:
 # the plugin for the first time. Because currently there're no migration support
 # from other database type to another
 Database:
-  DatabaseType: 'FLAT_FILE'
   # Available type is 'SQL' 'MYSQL' 'FLAT_FILE'
-
-  # For FLAT_FILE only
+  DatabaseType: 'FLAT_FILE'
+  # Configuration for SQL type database (SQL and MYSQL)
+  Sql:
+    # Should we use always use async method?
+    async: true
+    # The database address (MYSQL Only)
+    address: "localhost:3306"
+    # The database name. You can use this as file path only if the database type is SQL
+    database: "database/playerData"
+    # The database user (MYSQL Only)
+    user: "admin"
+    # The database password (MYSQL Only)
+    password: "admin"
   FlatFile:
     # The save location for the database. Please only change this once. This will be ChestShopLimiter/database/<yaml_file_list>
     DatabaseFolder: "database"
-  # For SQL Only
-  SQL:
-    # The type of this 'SQL' database. HIKARI_CP is really recommended!
-    # Available type is : HIKARI_CP, SQL
-    Type: HIKARI_CP
-    # The database name. This will be playerData.db
-    DatabaseName: 'playerData'
-    # The save location for the database. Please only change this once. This will be ChestShopLimiter/database/playerData.db
-    DatabaseFolder: 'database'
-    # Force the data update even if there's no changes?. Will probably removed if there's no impact happening when updating the data
-    ForceUpdate: false
-  # For MySQL only
-  MySQL:
-    CompletelyAsync: true
-    # Should all the task be ran on Async thread? (This will save performance, keep in mind that not every of the task is Async-able!)
-    Type: HIKARI_CP
-    # The type of this 'SQL' database. HIKARI_CP is really recommended!
-    # Available type is : HIKARI_CP, SQL
-    saveEvery: 300
-    # Period save database in seconds
-    host: "localhost"
-    # The host / IP for the MySQL server
-    port: 3306
-    # The port for the server
-    databaseName: "database"
-    # The database name that will be created
-    user: "root"
-    # The username for the server
-    password: ""
-    # The password for the server

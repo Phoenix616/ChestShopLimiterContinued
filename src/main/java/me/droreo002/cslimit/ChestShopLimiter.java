@@ -3,7 +3,7 @@ package me.droreo002.cslimit;
 import lombok.Getter;
 import me.droreo002.cslimit.api.ChestShopAPI;
 import me.droreo002.cslimit.commands.ChestShopLimiterCommand;
-import me.droreo002.cslimit.config.ConfigManager;
+import me.droreo002.cslimit.config.CSLConfig;
 import me.droreo002.cslimit.config.InventoryTemplates;
 import me.droreo002.cslimit.conversation.ConversationManager;
 import me.droreo002.cslimit.database.CSLDatabase;
@@ -14,7 +14,6 @@ import me.droreo002.cslimit.listener.support.ShopListenerUniversal;
 import me.droreo002.cslimit.manager.logger.Debug;
 import me.droreo002.cslimit.manager.LicenseManager;
 import me.droreo002.cslimit.manager.logger.LogFile;
-import me.droreo002.cslimit.manager.logger.LogFormatter;
 import me.droreo002.cslimit.metrics.Metrics;
 import me.droreo002.cslimit.api.ChestShopLimiterHandler;
 import me.droreo002.cslimit.utils.CommonUtils;
@@ -31,7 +30,7 @@ public class ChestShopLimiter extends JavaPlugin {
     @Getter
     private HookManager hookManager;
     @Getter
-    private ConfigManager configManager;
+    private CSLConfig cslConfig;
     @Getter
     private LangManager langManager;
     @Getter
@@ -53,7 +52,7 @@ public class ChestShopLimiter extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
         instance = this;
-        configManager = new ConfigManager(this);
+        cslConfig = new CSLConfig(this);
         logFile = new LogFile();
         inventoryTemplates = new InventoryTemplates(this);
         Debug.info("&fStarting the plugin...", true, Debug.LogType.BOTH);
@@ -65,7 +64,7 @@ public class ChestShopLimiter extends JavaPlugin {
         }
 
         langManager = new LangManager(this);
-        database = new CSLDatabase(this, configManager.getMemory().getDatabaseType());
+        database = new CSLDatabase(this, cslConfig.getDatabaseType());
         chestShopAPI = new ChestShopLimiterHandler();
         conversationManager = new ConversationManager(this);
         command = new ChestShopLimiterCommand(this, this);
@@ -111,15 +110,15 @@ public class ChestShopLimiter extends JavaPlugin {
         Debug.info("&fEnabling &eChestShopLimiter-API", false, Debug.LogType.BOTH);
         Debug.info("&fHooking to some plugins...", false, Debug.LogType.BOTH);
         hookManager = new HookManager();
-        Debug.info("&fPlugin is currently using &b" + configManager.getMemory().getDatabaseType() + "&f database type!", false, Debug.LogType.BOTH);
+        Debug.info("&fPlugin is currently using &b" + cslConfig.getDatabaseType() + "&f database type!", false, Debug.LogType.BOTH);
         Debug.info("&bDatabase &fhas been successfully initialized!", false, Debug.LogType.BOTH);
         Debug.info("&fRegistering &eCommands...", false, Debug.LogType.BOTH);
         command.getArgs().forEach(arg ->  Debug.info("     &fSub-Command with the id of &e" + arg.getTrigger() + " &fhas been registered!", false, Debug.LogType.BOTH));
         Debug.info("&fRegisteting &eTabCompleters...", false, Debug.LogType.BOTH);
         command.getTabComplete().forEach(s -> Debug.info("     &fTab completer with the id of &e" + s + " &fhas been registered!", false, Debug.LogType.BOTH));
-        if (configManager.getMemory().isUseBstats()) {
+        if (cslConfig.isUseBstats()) {
             Debug.info("&fConnecting to &bBSTATS", false, Debug.LogType.BOTH);
-            if (configManager.getConfig().getBoolean("use-bstats")) {
+            if (cslConfig.getConfig().getBoolean("use-bstats")) {
                 Debug.info("&fPlugin has been connected to &bBSTATS &fserver", false, Debug.LogType.BOTH);
                 met = new Metrics(this);
                 met.addCustomChart(new Metrics.SimplePie("plugintype", () -> "Premium"));

@@ -2,7 +2,7 @@ package me.droreo002.cslimit.database;
 
 import lombok.Getter;
 import me.droreo002.cslimit.ChestShopLimiter;
-import me.droreo002.cslimit.config.ConfigManager;
+import me.droreo002.cslimit.config.CSLConfig;
 import me.droreo002.cslimit.database.object.DataProperty;
 import me.droreo002.cslimit.hook.models.LuckPermsHook;
 import org.bukkit.Bukkit;
@@ -10,7 +10,6 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -19,7 +18,6 @@ public class PlayerData {
 
     private static final String PERMISSION_STRING = "csl.limit.";
 
-    // Final var
     @Getter
     private final UUID playerUUID;
     @Getter
@@ -27,17 +25,10 @@ public class PlayerData {
     @Getter
     private final List<DataProperty> changes;
 
-    // Non final
     @Getter
-    private int maxShop;
+    private int maxShop, shopCreated;
     @Getter
-    private int shopCreated;
-    @Getter
-    private String lastPermission;
-    @Getter
-    private String lastRank;
-    @Getter
-    private String lastShopLocation;
+    private String lastPermission, lastRank, lastShopLocation;
 
     public PlayerData(UUID playerUUID, String playerName, int maxShop, int shopCreated, String lastPermission, String lastRank, String lastShopLocation) {
         this.playerUUID = playerUUID;
@@ -96,9 +87,9 @@ public class PlayerData {
      */
     public void setupData(ChestShopLimiter plugin, boolean sql) {
         Player player = Bukkit.getPlayer(playerUUID);
-        ConfigManager.Memory mem = plugin.getConfigManager().getMemory();
+        CSLConfig config = plugin.getCslConfig();
         DatabaseWrapper database = plugin.getDatabase().getWrapper();
-        ConfigurationSection permLimit = mem.getShopLimit();
+        ConfigurationSection permLimit = config.getShopLimit();
 
         if (plugin.getHookManager().isLuckPerms()) {
             LuckPermsHook hook = (LuckPermsHook) plugin.getHookManager().getHookMap().get("LuckPerms");

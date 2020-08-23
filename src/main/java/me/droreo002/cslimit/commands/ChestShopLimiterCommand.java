@@ -10,7 +10,7 @@ import me.droreo002.cslimit.commands.universal.HelpCommand;
 import me.droreo002.cslimit.commands.universal.ReloadCommand;
 import me.droreo002.cslimit.commands.universal.ResetCommand;
 import me.droreo002.cslimit.commands.universal.UpdateFileCommand;
-import me.droreo002.cslimit.config.ConfigManager;
+import me.droreo002.cslimit.config.CSLConfig;
 import me.droreo002.cslimit.lang.LangManager;
 import me.droreo002.cslimit.lang.LangPath;
 import me.droreo002.cslimit.manager.LicenseManager;
@@ -37,11 +37,11 @@ public class ChestShopLimiterCommand extends CustomCommand {
     public ChestShopLimiterCommand(JavaPlugin owner, ChestShopLimiter plugin) {
         super(owner, "chestshoplimiter", "csl");
         this.plugin = plugin;
-        final ConfigManager.Memory memory = plugin.getConfigManager().getMemory();
+        final CSLConfig config = plugin.getCslConfig();
         final LangManager langManager = plugin.getLangManager();
 
-        setErrorSound(memory.getFailureSound());
-        setSuccessSound(memory.getSuccessSound());
+        setErrorSound(config.getFailureSound());
+        setSuccessSound(config.getSuccessSound());
         setArgumentNotFoundMessage(langManager.getLang(LangPath.ERROR_USAGE_COMMAND_UNKNOWN, null, true));
         setTabCompletePermission("csl.admin", langManager.getLang(LangPath.ERROR_TAB_COMPLETE_NO_PERM, null, true));
 
