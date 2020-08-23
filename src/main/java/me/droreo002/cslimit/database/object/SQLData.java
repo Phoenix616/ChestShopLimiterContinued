@@ -124,18 +124,12 @@ public class SQLData extends SQLDatabase implements DatabaseWrapper {
     @Override
     public void load(UUID uuid) throws Exception {
         if (!playerData.containsKey(uuid)) {
-            if (!isExists("UUID", uuid.toString(), "csl")) insertNew(uuid);
-            List<Object> values;
-            if (config.isSqlAsyncMode()) {
-                final Future<Object> v = queryRowAsync("SELECT * FROM `csl` WHERE UUID = '" + uuid.toString() + "'", column.stream().map(DataProperty::getAsString).toArray(String[]::new));
-                values = (List<Object>) v.get();
-            } else {
-                values = queryRow("SELECT * FROM `csl` WHERE UUID = '" + uuid.toString() + "'", column.stream().map(DataProperty::getAsString).toArray(String[]::new));
-            }
-            final PlayerData resData = PlayerData.fromSql(values);
+            if (!isExists("csl", "UUID", uuid.toString())) insertNew(uuid);
+            List<Object> values = queryRow("SELECT * FROM `csl` WHERE UUID = '" + uuid.toString() + "'",
+                    column.stream().map(DataProperty::getAsString).toArray(String[]::new));
+            PlayerData resData = PlayerData.fromSql(values);
             if (resData == null)
                 throw new NullPointerException("An error occurred when trying to load data from " + uuid.toString() + " UUID!");
-
             resData.setupData(plugin, true);
             playerData.put(resData.getPlayerUUID(), resData);
         } else {
