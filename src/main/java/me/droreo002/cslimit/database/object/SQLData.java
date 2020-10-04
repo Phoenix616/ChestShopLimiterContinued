@@ -5,7 +5,6 @@ import lombok.SneakyThrows;
 import me.droreo002.cslimit.ChestShopLimiter;
 import me.droreo002.cslimit.config.CSLConfig;
 import me.droreo002.cslimit.database.DatabaseWrapper;
-import me.droreo002.cslimit.database.PlayerData;
 import me.droreo002.oreocore.database.DatabaseType;
 import me.droreo002.oreocore.database.SQLDatabase;
 import me.droreo002.oreocore.database.utils.SQLTableBuilder;
@@ -88,8 +87,7 @@ public class SQLData extends SQLDatabase implements DatabaseWrapper {
 
     @Override
     public void updatePlayerData(PlayerData playerData) {
-        playerData.setupData(plugin, true);
-        savePlayerData(playerData);
+        playerData.updateLimit(plugin, true);
     }
 
     @Override
@@ -130,7 +128,7 @@ public class SQLData extends SQLDatabase implements DatabaseWrapper {
             PlayerData resData = PlayerData.fromSql(values);
             if (resData == null)
                 throw new NullPointerException("An error occurred when trying to load data from " + uuid.toString() + " UUID!");
-            resData.setupData(plugin, true);
+            resData.updateLimit(plugin, true);
             playerData.put(resData.getPlayerUUID(), resData);
         } else {
             updatePlayerData(playerData.get(uuid));

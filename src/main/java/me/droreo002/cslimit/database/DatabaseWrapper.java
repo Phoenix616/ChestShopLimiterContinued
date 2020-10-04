@@ -1,5 +1,6 @@
 package me.droreo002.cslimit.database;
 
+import me.droreo002.cslimit.database.object.PlayerData;
 import me.droreo002.oreocore.database.DatabaseType;
 
 import java.util.UUID;

@@ -1,8 +1,7 @@
 package me.droreo002.cslimit.api.events;
 
 import lombok.Getter;
-import me.droreo002.cslimit.database.PlayerData;
-import org.bukkit.Location;
+import me.droreo002.cslimit.database.object.PlayerData;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;

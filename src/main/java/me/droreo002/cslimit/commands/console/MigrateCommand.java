@@ -2,7 +2,7 @@ package me.droreo002.cslimit.commands.console;
 
 import me.droreo002.cslimit.ChestShopLimiter;
 import me.droreo002.cslimit.database.DatabaseWrapper;
-import me.droreo002.cslimit.database.PlayerData;
+import me.droreo002.cslimit.database.object.PlayerData;
 import me.droreo002.cslimit.lang.LangPath;
 import me.droreo002.cslimit.manager.logger.Debug;
 import me.droreo002.oreocore.commands.CommandArg;

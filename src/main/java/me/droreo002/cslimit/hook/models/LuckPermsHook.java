@@ -3,7 +3,7 @@ package me.droreo002.cslimit.hook.models;
 import lombok.Getter;
 import me.droreo002.cslimit.ChestShopLimiter;
 import me.droreo002.cslimit.config.CSLConfig;
-import me.droreo002.cslimit.database.PlayerData;
+import me.droreo002.cslimit.database.object.PlayerData;
 import me.droreo002.cslimit.hook.ChestShopHook;
 import me.droreo002.cslimit.manager.logger.Debug;
 import net.luckperms.api.LuckPerms;
@@ -56,7 +56,7 @@ public class LuckPermsHook implements ChestShopHook {
                 User user = (User) event.getTarget();
                 PlayerData playerData = plugin.getDatabase().getWrapper().getPlayerData(user.getUniqueId());
                 if (playerData == null) return;
-                playerData.setupData(plugin, plugin.getDatabase().getDatabaseType().isSql());
+                plugin.getDatabase().getWrapper().updatePlayerData(playerData);
             }
         });
     }

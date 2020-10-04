@@ -1,9 +1,9 @@
-package me.droreo002.cslimit.database;
+package me.droreo002.cslimit.database.object;
 
 import lombok.Getter;
 import me.droreo002.cslimit.ChestShopLimiter;
 import me.droreo002.cslimit.config.CSLConfig;
-import me.droreo002.cslimit.database.object.DataProperty;
+import me.droreo002.cslimit.database.DatabaseWrapper;
 import me.droreo002.cslimit.hook.models.LuckPermsHook;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
@@ -81,11 +81,11 @@ public class PlayerData {
     }
 
     /**
-     * Setup the data
+     * Update the limit data
      *
      * @param plugin ChestShopLimiter plugin instance
      */
-    public void setupData(ChestShopLimiter plugin, boolean sql) {
+    protected void updateLimit(ChestShopLimiter plugin, boolean sql) {
         Player player = Bukkit.getPlayer(playerUUID);
         CSLConfig config = plugin.getCslConfig();
         DatabaseWrapper database = plugin.getDatabase().getWrapper();

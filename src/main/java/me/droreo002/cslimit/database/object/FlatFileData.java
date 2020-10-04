@@ -4,7 +4,6 @@ import lombok.Getter;
 import me.droreo002.cslimit.ChestShopLimiter;
 import me.droreo002.cslimit.config.CSLConfig;
 import me.droreo002.cslimit.database.DatabaseWrapper;
-import me.droreo002.cslimit.database.PlayerData;
 import me.droreo002.cslimit.manager.logger.Debug;
 import me.droreo002.oreocore.database.DatabaseType;
 import me.droreo002.oreocore.database.FlatFileDatabase;
@@ -83,7 +82,7 @@ public class FlatFileData extends FlatFileDatabase implements DatabaseWrapper {
 
     @Override
     public void updatePlayerData(PlayerData playerData) {
-        playerData.setupData(plugin, false);
+        playerData.updateLimit(plugin, false);
     }
 
     @Override
@@ -102,32 +101,24 @@ public class FlatFileData extends FlatFileDatabase implements DatabaseWrapper {
 
     @Override
     public void load(UUID key) {
-        PlayerData pData = this.playerDataList.stream().filter(p -> p.getPlayerUUID().equals(key)).findAny().orElse(null);
-        if (pData == null) {
-            createData(key.toString(), true, createResult -> {
-                DataCache objectData = getDataCache(key.toString());
-                FileConfiguration config = objectData.getConfig();
-                PlayerData data;
-                if (createResult == CreateResult.CREATED_AND_LOADED) {
-                    config.set("Data.uuid", key.toString());
-                    config.set("Data.playerName", PlayerUtils.getPlayerName(key));
-                    config.set("Data.shopCreated", 0);
-                    config.set("Data.maxShop", 0);
-                    config.set("Data.lastPermission", "{}");
-                    config.set("Data.lastRank", "{}");
-                    config.set("Data.lastShopLocation", "{}");
-                }
-                data = PlayerData.fromYaml(config);
-                data.setupData(plugin, false);
-                config.set("Data.maxShop", data.getMaxShop());
-                config.set("Data.lastRank", data.getLastRank());
-
-                saveData(objectData);
-                this.playerDataList.add(data);
-            });
-        } else {
-            updatePlayerData(pData);
-        }
+        createData(key.toString(), true, createResult -> {
+            DataCache objectData = getDataCache(key.toString());
+            FileConfiguration config = objectData.getConfig();
+            // Setup default value
+            if (createResult == CreateResult.CREATED_AND_LOADED) {
+                config.set("Data.uuid", key.toString());
+                config.set("Data.playerName", PlayerUtils.getPlayerName(key));
+                config.set("Data.shopCreated", 0);
+                config.set("Data.maxShop", 0);
+                config.set("Data.lastPermission", "{}");
+                config.set("Data.lastRank", "{}");
+                config.set("Data.lastShopLocation", "{}");
+            }
+            PlayerData data = PlayerData.fromYaml(config);
+            data.updateLimit(plugin, false); // Setup other value
+            saveData(objectData);
+            this.playerDataList.add(data);
+        });
     }
 
     @Override

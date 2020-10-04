@@ -147,11 +147,6 @@ ShopLimitLuckPerms:
   # You can rename this, I use iron, gold, diamond because that is the group that I use for my test server
   # so you may ask how this thing work. Well its simple, it just check what group that the player is on. And then set the limit for it,
   # simple as that. You don't need other permission things for this
-
-  # This is different from the default-value. This is basically a group that is generated automatically by LuckPerms. And what I know is
-  # you cannot remove or rename this group
-  default:
-    limit: 5
   iron:
     limit: 10
   gold:

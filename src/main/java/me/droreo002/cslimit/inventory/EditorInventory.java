@@ -4,7 +4,7 @@ import me.droreo002.cslimit.ChestShopLimiter;
 import me.droreo002.cslimit.config.CSLConfig;
 import me.droreo002.cslimit.conversation.helper.ConversationType;
 import me.droreo002.cslimit.conversation.helper.SessionDataKey;
-import me.droreo002.cslimit.database.PlayerData;
+import me.droreo002.cslimit.database.object.PlayerData;
 import me.droreo002.oreocore.inventory.InventoryTemplate;
 import me.droreo002.oreocore.inventory.OreoInventory;
 import me.droreo002.oreocore.inventory.button.ButtonClickEvent;

@@ -2,7 +2,7 @@ package me.droreo002.cslimit.api;
 
 import me.droreo002.cslimit.config.CSLConfig;
 import me.droreo002.cslimit.database.CSLDatabase;
-import me.droreo002.cslimit.database.PlayerData;
+import me.droreo002.cslimit.database.object.PlayerData;
 import me.droreo002.cslimit.lang.LangManager;
 import me.droreo002.oreocore.database.DatabaseType;
 

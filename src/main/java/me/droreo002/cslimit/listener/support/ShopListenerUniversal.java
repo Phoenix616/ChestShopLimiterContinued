@@ -7,7 +7,7 @@ import me.droreo002.cslimit.ChestShopLimiter;
 import me.droreo002.cslimit.api.ChestShopAPI;
 import me.droreo002.cslimit.api.events.ShopMaxAmountReachedEvent;
 import me.droreo002.cslimit.config.CSLConfig;
-import me.droreo002.cslimit.database.PlayerData;
+import me.droreo002.cslimit.database.object.PlayerData;
 import me.droreo002.cslimit.lang.LangManager;
 import me.droreo002.cslimit.lang.LangPath;
 import me.droreo002.cslimit.manager.logger.Debug;
