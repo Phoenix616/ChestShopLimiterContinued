@@ -88,7 +88,6 @@ public class LuckPermsHook implements ChestShopHook {
         ConfigurationSection lpLimit = config.getShopLimitLuckPerms();
         Validate.notNull(user, "LuckPerms user cannot be null!");
         String currGroup = user.getPrimaryGroup();
-
         if (lpLimit.contains(currGroup)) {
             playerData.setLastRank(currGroup);
             playerData.setMaxShop(lpLimit.getInt(currGroup + ".limit"));

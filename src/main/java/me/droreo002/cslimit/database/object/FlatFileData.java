@@ -50,6 +50,7 @@ public class FlatFileData extends FlatFileDatabase implements DatabaseWrapper {
     public void savePlayerData(PlayerData playerData) {
         if (playerData.getChanges().isEmpty()) return;
         DataCache objectData = getDataCache(playerData.getPlayerUUID().toString());
+        if (objectData == null) return;
         FileConfiguration config = objectData.getConfig();
 
         for (DataProperty property : playerData.getChanges()) {
@@ -101,6 +102,7 @@ public class FlatFileData extends FlatFileDatabase implements DatabaseWrapper {
 
     @Override
     public void load(UUID key) {
+        if (this.playerDataList.stream().filter(playerData -> playerData.getPlayerUUID().equals(key)).findAny().orElse(null) != null) return;
         createData(key.toString(), true, createResult -> {
             DataCache objectData = getDataCache(key.toString());
             FileConfiguration config = objectData.getConfig();
