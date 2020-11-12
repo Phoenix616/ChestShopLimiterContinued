@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 public final class LangManager extends CustomConfiguration {
 
-    private static final String LATEST_VERSION = "1.0";
+    private static final String LATEST_VERSION = "1.1";
 
     // Object could be 2 things. List and String
     private final Map<LangPath, Object> values = new HashMap<>();

@@ -47,18 +47,18 @@ public class MigrateCommand extends CommandArg {
                 Map<File, FileConfiguration> configMap = getOldDatas(commandSender);
                 if (configMap == null) return;
                 Debug.info("Successfully loaded and updated &e" + configMap.size() + " &fold datas!. Now trying to migrate old &eYAML &fdatabase into the new &e" + wrp.getType() + "&f database type!", true, Debug.LogType.BOTH);
-                List<PlayerData> datas = new ArrayList<>();
-                for (Map.Entry ent : configMap.entrySet()) {
-                    FileConfiguration config = (FileConfiguration) ent.getValue();
-                    File file = (File) ent.getKey();
+                List<PlayerData> playerData = new ArrayList<>();
+                for (Map.Entry<File, FileConfiguration> ent : configMap.entrySet()) {
+                    FileConfiguration config = ent.getValue();
+                    File file = ent.getKey();
                     PlayerData pd = PlayerData.fromOldYaml(config);
                     if (pd == null) {
                         Debug.info("Failed to load into PlayerData object &7(&e" + file.getAbsolutePath() + "&7)", true, Debug.LogType.BOTH);
                         continue;
                     }
-                    datas.add(pd);
+                    playerData.add(pd);
                 }
-                datas.forEach(wrp::migrate);
+                playerData.forEach(wrp::migrate);
                 Debug.info("&fAll data has been migrated successfully!", true, Debug.LogType.BOTH);
             } else {
                 sendMessage(commandSender, "Unknown sub command");

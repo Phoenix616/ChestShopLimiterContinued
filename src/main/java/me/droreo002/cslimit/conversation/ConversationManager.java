@@ -54,20 +54,8 @@ public final class ConversationManager implements ConversationAbandonedListener 
         Conversation conversation;
         switch (type) {
             case CHANGE_MAX_SHOP:
-                conversation = conversationFactory
-                        .withFirstPrompt(new CIntegerConversation(plugin))
-                        .buildConversation(player);
-                break;
             case CHANGE_CURRENT_SHOP:
-                conversation = conversationFactory
-                        .withFirstPrompt(new CIntegerConversation(plugin))
-                        .buildConversation(player);
-                break;
             case ADD_MAX_SHOP:
-                conversation = conversationFactory
-                        .withFirstPrompt(new CIntegerConversation(plugin))
-                        .buildConversation(player);
-                break;
             case ADD_CURRENT_SHOP:
                 conversation = conversationFactory
                         .withFirstPrompt(new CIntegerConversation(plugin))
@@ -76,8 +64,8 @@ public final class ConversationManager implements ConversationAbandonedListener 
             default:
                 return;
         }
-        if (!isOnConversation(player)) conversations.add(conversation);
-        for (Map.Entry ent : sessionData.entrySet()) {
+        if (!isInConversation(player)) conversations.add(conversation);
+        for (Map.Entry<?, ?> ent : sessionData.entrySet()) {
             SessionDataKey key = (SessionDataKey) ent.getKey();
             conversation.getContext().setSessionData(key, ent.getValue());
         }
@@ -90,7 +78,7 @@ public final class ConversationManager implements ConversationAbandonedListener 
      * @param player : The player to check
      * @return true if available, false otherwise
      */
-    public boolean isOnConversation(Player player) {
+    public boolean isInConversation(Player player) {
         for (Conversation s : conversations) {
             if (s.getContext().getForWhom().equals(player)) return true;
         }
@@ -103,13 +91,13 @@ public final class ConversationManager implements ConversationAbandonedListener 
      * @param player : The player
      */
     public void remove(Player player) {
-        if (!isOnConversation(player)) return;
-        List<Conversation> conver = new ArrayList<>();
-        for (Conversation con : conversations) {
+        if (!isInConversation(player)) return;
+        List<Conversation> conversations = new ArrayList<>();
+        for (Conversation con : this.conversations) {
             if (con.getContext().getForWhom().equals(player)) continue;
-            conver.add(con);
+            conversations.add(con);
         }
-        conversations.clear();
-        conversations.addAll(conver);
+        this.conversations.clear();
+        this.conversations.addAll(conversations);
     }
 }

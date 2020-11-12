@@ -1,7 +1,7 @@
 # Lang file, please only edit the text. Do not edit anything more!
 # if you don't understand what is the message mean and when it fill fired. Please read carefully!
 # btw it will automatically add the csl prefix. Go to config.yml if you want to change it
-ConfigVersion: '1.0'
+ConfigVersion: '1.1'
 Normal:
   # Fired when config file reloaded
   config-reloaded: 'Reloaded the config.yml file!'
@@ -47,7 +47,7 @@ TextEditor:
     add-curr-shop: 'Now editing &e%target%&f''s &fcurrent shop created. Type an integer into the chat box to specify the value that will get added'
   error:
     # Fired when executor inputted a invalid integer
-    not-integer: 'Invalid integer!, please redo it again!'
+    not-integer: 'Invalid integer!'
     # Fired when the shop created amount is greater than shop limit
     shop-created-greater: 'Shop created amount cannot be greater than the &eShopLimit &famount!'
   success:
@@ -84,6 +84,12 @@ Error:
     command-save-data: 'Invalid usage!. Please use /csl save-data <name>'
     # Fired when the command usage is invalid at /csl status
     command-status: 'Invalid usage!. Please use /csl status'
+    # Fired when the command usage is invalid at /csl edit
+    command-edit: 'Invalid usage!. Please use /csl edit <add|set> <max-shop|shop-count> <player> <count>'
+    # Fired when the command usage is invalid at /csl set max-shop
+    command-edit-max: 'Invalid usage!. Please use /csl edit <add|set> max-shop <player> <count>'
+    # Fired when the command usage is invalid at /csl set shop-count
+    command-edit-count: 'Invalid usage!. Please use /csl edit <add|set> shop-count <player> <count>'
   # Fired when LuckPerms cannot load user data
   cannot-load-data: 'There''s an error with luckperms!. Please contact server admin for help!'
   # Fired when the targeted player is never player on the server

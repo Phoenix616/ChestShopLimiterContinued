@@ -15,6 +15,7 @@ import me.droreo002.oreocore.utils.item.helper.ItemMetaType;
 import me.droreo002.oreocore.utils.item.helper.TextPlaceholder;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -41,69 +42,50 @@ public class EditorInventory extends OreoInventory {
         template.applyListener("1", new ButtonListener() {
 
             @Override
-            public ClickType getClickType() {
-                return ClickType.LEFT;
+            public @NotNull ClickType[] getAllowedClickType() {
+                return new ClickType[] {ClickType.LEFT, ClickType.RIGHT};
             }
 
             @Override
             public void onClick(ButtonClickEvent inventoryClickEvent) {
-                Map<SessionDataKey, Object> sessionData = new HashMap<>();
-                sessionData.put(SessionDataKey.CONVERSATION_TYPE, ConversationType.CHANGE_MAX_SHOP);
-                sessionData.put(SessionDataKey.PLAYER_DATA, data);
+                if (inventoryClickEvent.getClick() == ClickType.LEFT) {
+                    Map<SessionDataKey, Object> sessionData = new HashMap<>();
+                    sessionData.put(SessionDataKey.CONVERSATION_TYPE, ConversationType.CHANGE_MAX_SHOP);
+                    sessionData.put(SessionDataKey.PLAYER_DATA, data);
 
-                plugin.getConversationManager().sendConversation(opener, ConversationType.CHANGE_MAX_SHOP, sessionData);
-                closeInventory(opener);
-            }
-        });
-        template.applyListener("1", new ButtonListener() {
+                    plugin.getConversationManager().sendConversation(opener, ConversationType.CHANGE_MAX_SHOP, sessionData);
+                } else {
+                    Map<SessionDataKey, Object> sessionData = new HashMap<>();
+                    sessionData.put(SessionDataKey.CONVERSATION_TYPE, ConversationType.ADD_MAX_SHOP);
+                    sessionData.put(SessionDataKey.PLAYER_DATA, data);
 
-            @Override
-            public ClickType getClickType() {
-                return ClickType.RIGHT;
-            }
-
-            @Override
-            public void onClick(ButtonClickEvent inventoryClickEvent) {
-                Map<SessionDataKey, Object> sessionData = new HashMap<>();
-                sessionData.put(SessionDataKey.CONVERSATION_TYPE, ConversationType.ADD_MAX_SHOP);
-                sessionData.put(SessionDataKey.PLAYER_DATA, data);
-
-                plugin.getConversationManager().sendConversation(opener, ConversationType.ADD_MAX_SHOP, sessionData);
-                closeInventory(opener);
-            }
-        });
-
-        template.applyListener("2", new ButtonListener() {
-
-            @Override
-            public ClickType getClickType() {
-                return ClickType.LEFT;
-            }
-
-            @Override
-            public void onClick(ButtonClickEvent inventoryClickEvent) {
-                Map<SessionDataKey, Object> sessionData = new HashMap<>();
-                sessionData.put(SessionDataKey.CONVERSATION_TYPE, ConversationType.CHANGE_CURRENT_SHOP);
-                sessionData.put(SessionDataKey.PLAYER_DATA, data);
-
-                plugin.getConversationManager().sendConversation(opener, ConversationType.CHANGE_CURRENT_SHOP, sessionData);
+                    plugin.getConversationManager().sendConversation(opener, ConversationType.ADD_MAX_SHOP, sessionData);
+                }
                 closeInventory(opener);
             }
         });
         template.applyListener("2", new ButtonListener() {
 
             @Override
-            public ClickType getClickType() {
-                return ClickType.RIGHT;
+            public @NotNull ClickType[] getAllowedClickType() {
+                return new ClickType[] {ClickType.LEFT, ClickType.RIGHT};
             }
 
             @Override
             public void onClick(ButtonClickEvent inventoryClickEvent) {
-                Map<SessionDataKey, Object> sessionData = new HashMap<>();
-                sessionData.put(SessionDataKey.CONVERSATION_TYPE, ConversationType.ADD_CURRENT_SHOP);
-                sessionData.put(SessionDataKey.PLAYER_DATA, data);
+                if (inventoryClickEvent.getClick() == ClickType.LEFT) {
+                    Map<SessionDataKey, Object> sessionData = new HashMap<>();
+                    sessionData.put(SessionDataKey.CONVERSATION_TYPE, ConversationType.CHANGE_CURRENT_SHOP);
+                    sessionData.put(SessionDataKey.PLAYER_DATA, data);
 
-                plugin.getConversationManager().sendConversation(opener, ConversationType.ADD_CURRENT_SHOP, sessionData);
+                    plugin.getConversationManager().sendConversation(opener, ConversationType.CHANGE_CURRENT_SHOP, sessionData);
+                } else {
+                    Map<SessionDataKey, Object> sessionData = new HashMap<>();
+                    sessionData.put(SessionDataKey.CONVERSATION_TYPE, ConversationType.ADD_CURRENT_SHOP);
+                    sessionData.put(SessionDataKey.PLAYER_DATA, data);
+
+                    plugin.getConversationManager().sendConversation(opener, ConversationType.ADD_CURRENT_SHOP, sessionData);
+                }
                 closeInventory(opener);
             }
         });

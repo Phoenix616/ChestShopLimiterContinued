@@ -3,6 +3,7 @@ package me.droreo002.cslimit.commands;
 import lombok.Getter;
 import me.droreo002.cslimit.ChestShopLimiter;
 import me.droreo002.cslimit.commands.console.MigrateCommand;
+import me.droreo002.cslimit.commands.player.EditorCommand;
 import me.droreo002.cslimit.commands.player.MenuCommand;
 import me.droreo002.cslimit.commands.player.StatusCommand;
 import me.droreo002.cslimit.commands.universal.CheckCommand;
@@ -56,6 +57,7 @@ public class ChestShopLimiterCommand extends CustomCommand {
         addArgument(new MenuCommand(this, plugin));
         addArgument(new MigrateCommand(this, plugin));
         addArgument(new UpdateFileCommand(this, plugin));
+        addArgument(new EditorCommand(this, plugin));
         //addArgument(new DebugCommand(this, plugin));
 
         /*
