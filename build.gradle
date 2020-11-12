@@ -40,7 +40,7 @@ dependencies {
     compileOnly 'com.earth2me:essentials:2.15.0.52'
     compileOnly 'me.clip:placeholderapi:2.9.2'
     compileOnly 'org.projectlombok:lombok:1.18.4'
-    compileOnly 'me.droreo002:OreoCore:16.1'
+    compileOnly 'me.droreo002:OreoCore:16.2'
     compileOnly 'com.Acrobot:ChestShop:1.0'
     
     annotationProcessor 'org.projectlombok:lombok:1.18.4'
