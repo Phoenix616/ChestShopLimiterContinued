@@ -3,44 +3,36 @@ plugins {
     id 'java'
 }
 
-apply plugin: 'java'
-apply plugin: 'com.github.johnrengelman.shadow'
-apply plugin: 'maven-publish'
-
 import org.apache.tools.ant.filters.ReplaceTokens
 
 repositories {
     mavenLocal()
     mavenCentral()
+
+    maven {
+        url = 'https://repo.aikar.co/content/groups/aikar/'
+    }
+
     maven {
         url = 'http://repo.extendedclip.com/content/repositories/placeholderapi/'
     }
 
     maven {
-        url = 'https://hub.spigotmc.org/nexus/content/groups/public/'
-    }
-
-    maven {
-        url = 'https://oss.sonatype.org/content/groups/public/'
-    }
-
-    maven {
-        url = 'https://repo1.maven.org/maven2/me/lucko/luckperms/luckperms-api/'
-    }
-
-    maven {
-        url = 'http://repo.maven.apache.org/maven2'
+        url = 'https://repo.essentialsx.net/releases/'
     }
 }
 
 dependencies {
-    compileOnly 'org.spigotmc:spigot-api:1.15-R0.1-SNAPSHOT'
-    compileOnly 'net.luckperms:api:5.0'
-    compileOnly 'com.Zrips:CMI:1.0'
-    compileOnly 'com.earth2me:essentials:2.15.0.52'
+    compileOnly 'org.jetbrains:annotations:16.0.2'
+    compileOnly 'org.spigotmc:spigot-api:1.16.4-R0.1-SNAPSHOT'
+    compileOnly 'net.luckperms:api:5.2'
+    compileOnly 'net.ess3:EssentialsX:2.18.2'
     compileOnly 'me.clip:placeholderapi:2.9.2'
     compileOnly 'org.projectlombok:lombok:1.18.4'
+
+    // Local repository
     compileOnly 'me.droreo002:OreoCore:16.2'
+    compileOnly 'com.Zrips:CMI:1.0'
     compileOnly 'com.Acrobot:ChestShop:1.0'
     
     annotationProcessor 'org.projectlombok:lombok:1.18.4'
@@ -50,18 +42,12 @@ def pluginName = project.name
 def spigotDirectory = "Spigot 1.16"
 
 group = 'me.droreo002'
-version = '6.6'
+version = '6.7'
 targetCompatibility = '1.8'
 
 shadowJar {
     archiveFileName = pluginName + '-' + project.version + '.jar'
-    destinationDirectory = file("C:\\Users\\Anom\\Desktop\\" + spigotDirectory + "\\plugins")
-
-    mergeServiceFiles()
-    dependencies {
-        include(dependency('co.aikar:.*'))
-        include(dependency('com.zaxxer:.*'))
-    }
+    destinationDirectory = file("I:\\Workspace\\" + spigotDirectory + "\\plugins")
 }
 
 tasks.withType(JavaCompile) {
@@ -72,13 +58,5 @@ processResources {
     from(sourceSets.main.resources.srcDirs) {
         include '**/*.yml'
         filter(ReplaceTokens, tokens: [version: project.version])
-    }
-}
-
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from components.java
-        }
     }
 }

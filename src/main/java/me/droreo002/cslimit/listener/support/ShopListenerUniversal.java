@@ -72,7 +72,9 @@ public class ShopListenerUniversal implements Listener {
                 pl = new TextPlaceholder(ItemMetaType.NONE, "%created%", String.valueOf(created)).add(ItemMetaType.NONE, "%max%", String.valueOf(limit)); // Update
 
                 player.sendMessage(lang.getLang(LangPath.NORMAL_SHOP_CREATED, pl, true));
-                data.setLastShopLocation(LocationUtils.toString(shopLoc));
+                if (shopLoc != null) {
+                    data.setLastShopLocation(LocationUtils.toString(shopLoc));
+                }
 
                 api.saveData(data);
             }

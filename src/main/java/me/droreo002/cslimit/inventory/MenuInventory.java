@@ -17,7 +17,7 @@ public class MenuInventory extends OreoInventory {
     public MenuInventory(InventoryTemplates templates, ChestShopLimiter plugin) {
         super(templates.getMainMenuTemplate());
         final CSLConfig config = plugin.getCslConfig();
-        final InventoryTemplate template = templates.getMainMenuTemplate();
+        final InventoryTemplate template = templates.getMainMenuTemplate().clone();
         GUIButton exitButton = template.getGUIButtons("C").get(0);
 
         setSoundOnClick(config.getMainMenuClickSound());
@@ -29,11 +29,11 @@ public class MenuInventory extends OreoInventory {
             Player player = (Player) inventoryClickEvent.getWhoClicked();
             closeInventory(player);
 
-            ThreadingUtils.makeChain().asyncFirst(() -> new SelectorInventory(templates.getPlayerSelectorTemplate(), plugin,
+            ThreadingUtils.makeChain().asyncFirst(() -> new SelectorInventory(templates.getPlayerSelectorTemplate().clone(), plugin,
                 (e, item, targetPlayer) -> {
                     if (item.getType().equals(XMaterial.PLAYER_HEAD.getMaterial())) {
                         closeInventory(player);
-                        ThreadingUtils.makeChain().asyncFirst(() -> new EditorInventory(player, targetPlayer, plugin, templates.getEditorInventoryTemplate()))
+                        ThreadingUtils.makeChain().asyncFirst(() -> new EditorInventory(player, targetPlayer, plugin, templates.getEditorInventoryTemplate().clone()))
                                 .asyncLast(input -> input.open(player)).execute();
                     }
                 }
