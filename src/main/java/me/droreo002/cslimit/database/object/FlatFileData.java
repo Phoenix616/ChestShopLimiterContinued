@@ -5,9 +5,9 @@ import me.droreo002.cslimit.ChestShopLimiter;
 import me.droreo002.cslimit.config.CSLConfig;
 import me.droreo002.cslimit.database.DatabaseWrapper;
 import me.droreo002.cslimit.manager.logger.Debug;
+import me.droreo002.cslimit.utils.PlayerUtils;
 import me.droreo002.oreocore.database.DatabaseType;
 import me.droreo002.oreocore.database.FlatFileDatabase;
-import me.droreo002.oreocore.utils.entity.PlayerUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.io.File;

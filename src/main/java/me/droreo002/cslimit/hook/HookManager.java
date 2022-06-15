@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import me.droreo002.cslimit.ChestShopLimiter;
 import me.droreo002.cslimit.config.CSLConfig;
-import me.droreo002.cslimit.hook.models.CMIHook;
 import me.droreo002.cslimit.hook.models.EssentialsHook;
 import me.droreo002.cslimit.hook.models.LuckPermsHook;
 import me.droreo002.cslimit.hook.models.PlaceholderAPIHook;
@@ -51,19 +50,9 @@ public class HookManager {
                 setEssentials(true);
             }
         }
-        if (config.isEnableCMIHook()) {
-            if (!isEssentials()) {
-                Debug.info(" &fTrying to hook into &bCMI", false, Debug.LogType.BOTH);
-                if (registerHook("CMI", new CMIHook())) {
-                    setCMI(true);
-                }
-            } else {
-                Debug.info(" &fNot hooking to &cCMI &fbecause we're already hooking to &aEssentials", false, Debug.LogType.BOTH);
-            }
-        }
         // Just in case
-        if (!isCMI && !isEssentials) {
-            Debug.error(" &cCMI or Essentials is not installed!, it's recommended to install one of them!", false, Debug.LogType.BOTH);
+        if (!isEssentials) {
+            Debug.error(" &cEssentials is not installed!, it's recommended to install one of them!", false, Debug.LogType.BOTH);
         }
         if (config.isEnableLuckPermsHook()) {
             Debug.info(" &fTrying to hook into &aLuckperms", false, Debug.LogType.BOTH);

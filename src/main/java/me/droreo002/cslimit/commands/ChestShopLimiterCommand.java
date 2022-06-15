@@ -78,15 +78,7 @@ public class ChestShopLimiterCommand extends CustomCommand {
     @Override
     public void execute(CommandSender commandSender, String[] strings) {
         Debug.info("Command csl or chestshoplimiter has been executed by " + commandSender.getName(), false, Debug.LogType.FILE);
-        TextBuilder textBuilder = new TextBuilder();
-        textBuilder
-                .addHoverEvent("&b✿ ChestShopLimiter &7| ", HoverEvent.Action.SHOW_TEXT, LicenseManager.getBuyerInformation())
-                .addText("&fMade with love by &cDrOreo002");
-        if (commandSender instanceof Player) {
-            textBuilder.send((Player) commandSender);
-        } else {
-            sendMessage(commandSender, "&b✿ ChestShopLimiter &7| &fMade with love by &cDrOreo002 &7[License status: " + LicenseManager.getBuyerInformation() + "&7]");
-        }
+        sendMessage(commandSender, "&b✿ ChestShopLimiter &7| &fMade with love by &cDrOreo002 &7| &fContinued by &cPhoenix616");
         successSound(commandSender);
     }
 

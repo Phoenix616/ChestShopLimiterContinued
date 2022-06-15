@@ -17,9 +17,6 @@ import me.droreo002.cslimit.manager.logger.LogFile;
 import me.droreo002.cslimit.metrics.Metrics;
 import me.droreo002.cslimit.api.ChestShopLimiterHandler;
 import me.droreo002.cslimit.utils.CommonUtils;
-import me.droreo002.oreocore.DependedPluginProperties;
-import me.droreo002.oreocore.OreoCore;
-import me.droreo002.oreocore.utils.bridge.ServerUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -57,8 +54,8 @@ public class ChestShopLimiter extends JavaPlugin {
         inventoryTemplates = new InventoryTemplates(this);
         Debug.info("&fStarting the plugin...", true, Debug.LogType.BOTH);
 
-        if (ServerUtils.getPlugin("ChestShop") == null) {
-            Debug.error("ChestShop is not installed!. Disabling plugin...", true, Debug.LogType.BOTH);
+        if (!getServer().getPluginManager().isPluginEnabled("ChestShop")) {
+            Debug.error("ChestShop is not enabled!. Disabling plugin...", true, Debug.LogType.BOTH);
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
@@ -72,11 +69,6 @@ public class ChestShopLimiter extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new PlayerConnectionListener(this), this);
         Bukkit.getPluginManager().registerEvents(new ShopListenerUniversal(this), this);
 
-        OreoCore.getInstance().dependPlugin(this, DependedPluginProperties.builder()
-                .privatePlugin(false)
-                .premiumPlugin(true)
-                .enableLogging(false)
-                .build());
         printInformation();
     }
 
@@ -116,19 +108,18 @@ public class ChestShopLimiter extends JavaPlugin {
         command.getArgs().forEach(arg ->  Debug.info("     &fSub-Command with the id of &e" + arg.getTrigger() + " &fhas been registered!", false, Debug.LogType.BOTH));
         Debug.info("&fRegisteting &eTabCompleters...", false, Debug.LogType.BOTH);
         command.getTabComplete().forEach(s -> Debug.info("     &fTab completer with the id of &e" + s + " &fhas been registered!", false, Debug.LogType.BOTH));
-        if (cslConfig.isUseBstats()) {
+        if (cslConfig.isUseBstats()) { // disable for now
             Debug.info("&fConnecting to &bBSTATS", false, Debug.LogType.BOTH);
             if (cslConfig.getConfig().getBoolean("use-bstats")) {
                 Debug.info("&fPlugin has been connected to &bBSTATS &fserver", false, Debug.LogType.BOTH);
                 met = new Metrics(this);
-                met.addCustomChart(new Metrics.SimplePie("plugintype", () -> "Premium"));
+                met.addCustomChart(new Metrics.SimplePie("plugintype", () -> "Continued"));
             } else {
                 Debug.info("&bBSTATS&f seems to be disabled. Now disconnecting from the server...",false, Debug.LogType.BOTH);
                 met = null;
             }
         }
         Debug.info("&fSuccess!. We're now running on version " + Bukkit.getBukkitVersion() + " &7(&bServer&7) &fand " + getDescription().getVersion() + " &7(&bPlugin&7)", false, Debug.LogType.BOTH);
-        Debug.info(LicenseManager.getBuyerInformation(), false, Debug.LogType.BOTH);
 
         System.out.println(" ");
         Debug.info("&8&m-----------------------&7 [ &aChestShopLimiter &7] &8&m-----------------------", false, Debug.LogType.BOTH);

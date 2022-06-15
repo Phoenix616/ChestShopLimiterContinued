@@ -1,9 +1,9 @@
 name: ChestShopLimiter
-version: @version@
+version: ${minecraft.plugin.version}
 main: me.droreo002.cslimit.ChestShopLimiter
 api-version: 1.13
 depend: [ChestShop, OreoCore]
-softdepend: [LuckPerms, Essentials, CMI]
+softdepend: [LuckPerms, Essentials]
 
 commands:
   chestshoplimiter:

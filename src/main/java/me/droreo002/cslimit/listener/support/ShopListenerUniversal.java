@@ -1,8 +1,10 @@
 package me.droreo002.cslimit.listener.support;
 
+import com.Acrobot.ChestShop.ChestShop;
 import com.Acrobot.ChestShop.Events.PreShopCreationEvent;
 import com.Acrobot.ChestShop.Events.ShopDestroyedEvent;
 import com.Acrobot.ChestShop.Signs.ChestShopSign;
+import com.Acrobot.ChestShop.Utils.uBlock;
 import me.droreo002.cslimit.ChestShopLimiter;
 import me.droreo002.cslimit.api.ChestShopAPI;
 import me.droreo002.cslimit.api.events.ShopMaxAmountReachedEvent;
@@ -11,13 +13,11 @@ import me.droreo002.cslimit.database.object.PlayerData;
 import me.droreo002.cslimit.lang.LangManager;
 import me.droreo002.cslimit.lang.LangPath;
 import me.droreo002.cslimit.manager.logger.Debug;
-import me.droreo002.oreocore.utils.bridge.ServerUtils;
-import me.droreo002.oreocore.utils.item.complex.XMaterial;
 import me.droreo002.oreocore.utils.item.helper.ItemMetaType;
 import me.droreo002.oreocore.utils.item.helper.TextPlaceholder;
-import me.droreo002.oreocore.utils.world.BlockUtils;
 import me.droreo002.oreocore.utils.world.LocationUtils;
 import org.bukkit.Location;
+import org.bukkit.block.Container;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -42,7 +42,6 @@ public class ShopListenerUniversal implements Listener {
             Player player = e.getPlayer();
             String[] line = e.getSignLines();
             UUID uuid = player.getUniqueId();
-            Location shopLoc = BlockUtils.getFacedLocation(e.getSign().getBlock(), XMaterial.CHEST.getMaterial(), true);
             // Ignore if the shop created is admin shop
             if (ChestShopSign.isAdminShop(line[0])) return;
             if (player.hasPermission("csl.limit.unlimited")) return;
@@ -58,7 +57,7 @@ public class ShopListenerUniversal implements Listener {
 
             if (created >= limit) {
                 ShopMaxAmountReachedEvent event = new ShopMaxAmountReachedEvent(player, data);
-                ServerUtils.callEvent(event);
+                ChestShop.callEvent(event);
 
                 if (!event.isCancelled()) {
                     if (config.isTMaxShopReachedEnable()) config.getTMaxShopReached().send(player);
@@ -72,8 +71,9 @@ public class ShopListenerUniversal implements Listener {
                 pl = new TextPlaceholder(ItemMetaType.NONE, "%created%", String.valueOf(created)).add(ItemMetaType.NONE, "%max%", String.valueOf(limit)); // Update
 
                 player.sendMessage(lang.getLang(LangPath.NORMAL_SHOP_CREATED, pl, true));
-                if (shopLoc != null) {
-                    data.setLastShopLocation(LocationUtils.toString(shopLoc));
+                Container container = uBlock.findConnectedContainer(e.getSign());
+                if (container != null) {
+                    data.setLastShopLocation(LocationUtils.toString(container.getLocation()));
                 }
 
                 api.saveData(data);
@@ -109,11 +109,9 @@ public class ShopListenerUniversal implements Listener {
             This will remove the last shop created data
              */
             Location lastShop = LocationUtils.toLocation(data.getLastShopLocation());
-            Location currentShopLocation = BlockUtils.getFacedLocation(e.getSign().getBlock(), XMaterial.CHEST.getMaterial(), true);
-            if (currentShopLocation == null) currentShopLocation = BlockUtils.getFacedLocation(e.getSign().getBlock(), XMaterial.TRAPPED_CHEST.getMaterial(), true);
-            if (currentShopLocation == null) currentShopLocation = BlockUtils.getFacedLocation(e.getSign().getBlock(), XMaterial.ENDER_CHEST.getMaterial(), true);
-            if (currentShopLocation != null) {
-                if (currentShopLocation.equals(lastShop)) {
+            Container container = uBlock.findConnectedContainer(e.getSign());
+            if (container != null) {
+                if (container.getLocation().equals(lastShop)) {
                     data.setLastShopLocation("empty");
                 }
             }
